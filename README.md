@@ -14,3 +14,4 @@ Environment setup
     * Create dev database - `CREATE DATABASE letsgraduate_dev;`
     * Create user - `GRANT ALL PRIVILEGES ON letsgraduate_dev.* TO 'dev'@'localhost' IDENTIFIED BY 'dev';`
 
+[![Build Status](https://travis-ci.org/ehaydenr/LetsGraduate.svg?branch=master)](https://travis-ci.org/ehaydenr/LetsGraduate)
