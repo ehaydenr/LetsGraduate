@@ -1,8 +1,6 @@
 var url_sch = "http://courses.illinois.edu/cisapp/explorer/schedule/";
 var url_cat = "http://courses.illinois.edu/cisapp/explorer/catalog/";
 var request = require('request');
-var early  = require("earley-node").early;
-var grammar = GrammerFromFile("req.cfg");
 
 var xml2js= require('xml2js');
 var xpath = require("xml2js-xpath");	
