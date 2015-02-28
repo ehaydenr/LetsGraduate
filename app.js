@@ -27,7 +27,7 @@ app.use('/', router);
 // Middleware
 router.use(function (req, res, next) {
   console.log(req.url);
-  console.log(oauth2Client);
+  //console.log(oauth2Client);
   next();
 });
 
@@ -75,11 +75,69 @@ router.get('/oauth2callback', function (req, res) {
   });
 });
 
+router.get('/profile', function (req, res) {
+  plus.people.get({ userId: 'me', auth: oauth2Client }, function(err, profile) {
+    if (err) {
+      console.log('An error occured', err);
+      res.send(401);
+      return;
+    }
+
+    var query = 'SELECT Class.* FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
+    connection.query(query, [profile.id], function (err, rows, fields) {
+      if(err){
+        console.log(err);
+        res.send(500);
+        return;
+      }
+
+      res.render('profile', {"profile": profile, "rows": rows});
+    });
+
+
+  });
+});
+
+router.get('/updateClass', function (req, res) {
+  // retrieve user profile
+  var id = req.query.id;
+  var action = req.query.action; // Either delete or insert 
+
+  if(action != 'insert' && action != 'delete'){
+    res.send(500);
+    return;
+  }
+
+  plus.people.get({ userId: 'me', auth: oauth2Client }, function(err, profile) {
+    if (err) {
+      console.log('An error occured', err);
+      res.send(401);
+      return;
+    }
+    // Run update
+    var query_insert = 'INSERT INTO UserClass VALUES (?, ?);'; // userid, class_id
+    var query_delete = 'DELETE FROM UserClass WHERE google_id = ? AND class_id = ?;';
+    var query = action == 'delete' ? query_delete : query_insert;
+    connection.query(query, [profile.id, id], function(err, rows, fields) {
+      if(err){
+        console.log(err);
+        res.send(500);
+        return;
+      }
+
+      res.send(200);
+    });
+  });
+});
+
 router.get('/class', function (req, res){
   // Testing with premade json
   var data = require('./public/test_class.json');
   getClassById(req.query.id, function(err, data){
-    if(err) res.send(500);
+    if(err) {
+      res.send(500);
+      return;
+    }
 
     res.render('class', data);
   });
