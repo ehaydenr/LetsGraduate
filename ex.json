@@ -1,0 +1,421 @@
+[
+{
+	"dep": "MATH",
+	"num": 220,
+	"req": ""
+},
+{	
+	"dep": "MATH",
+	"num": 221,
+	"req": ""
+},
+{
+	"dep": "MATH",
+	"num": 231,
+	"req": {
+		"operation": "+",
+		"terms": ["MATH220", "MATH221"]
+	}
+},
+{
+	"dep": "MATH",
+	"num": 241,
+	"req": "MATH231"
+},
+{	
+	"dep": "MATH",
+	"num": 213,
+	"req": {
+		"operation": "+",
+		"terms": ["MATH220","MATH221"]
+	}
+},
+{
+	"dep": "RHET",
+	"num": 105,
+	"req": ""
+},
+{
+	"dep": "PHYS",
+	"num": 211,
+	"req": ""
+},
+{
+	"dep": "PHYS",
+	"num": 212,
+	"req": "PHYS211"
+},
+{
+	"dep": "PHYS",
+	"num": 213,
+	"req": "PHYS212"
+},
+{	
+	"dep": "PHYS",
+	"num": 214,
+	"req": "PHYS212"
+},
+{	
+	"dep": "CS",
+	"num": 101,
+	"req": {
+		"operation": "+",
+		"terms": ["MATH220", "MATH221"]
+	}
+},
+{	
+	"dep": "CS",
+	"num": 100,
+	"req": ""
+},
+{	
+	"dep": "CS",
+	"num": 102,
+	"req": ""
+},
+{	
+	"dep": "CS",
+	"num": 103,
+	"req": ""
+},
+{	
+	"dep": "CS",
+	"num": 105,
+	"req": ""
+},
+{	
+	"dep": "CS", 
+	"num": 125,
+	"req": ""
+},
+{	
+	"dep": "CS",
+	"num": 173,
+	"req": {
+		"operation": "*",
+		"terms": [{
+			"operation": "+",
+			"terms": ["CS125", "CS101", "ECE190"]
+		},
+		{
+			"operation": "+",
+			"terms": ["MATH220", "MATH221"]
+		}]
+	}
+},
+{	
+	"dep": "CS",
+	"num": 225,
+	"req": {
+		"operation": "*",
+		"terms":[{
+			"operation": "+",
+			"terms": ["CS125", "ECE190"]
+		},
+		{
+			"operation": "+",
+			"terms": ["CS173", "MATH213"]
+		}]
+	}
+
+},
+{	
+	"dep": "CS",
+	"num": 233,
+	"req": {
+		"operation": "+",
+		"terms":[{
+			"operation": "*",
+			"terms": ["CS125", "CS173"]
+		},
+		{
+			"operation": "c",
+			"terms": ["CS225"]
+		}]
+	}
+},
+{	
+	"dep": "CS",
+	"num": 241,
+	"req":{
+		"operation": "+",
+		"terms": [{
+			"operation": "+",
+			"terms": ["CS225"]
+		},
+		{
+			"operation": "c",
+			"terms": ["CS233"]
+		}]
+	}
+},
+{
+	"dep": "CS",
+	"num": 242,
+	"req": "CS 241"
+},
+{
+	"dep": "CS",
+	"num": 210,
+	"req": "CS225"
+},
+{
+	"dep": "CS",
+	"num": 357,
+	"req": {
+		"operation": "*",
+		"terms": [{
+			"operation": "+",
+			"terms": ["CS225", "MATH415"]
+		},
+		{
+			"operation": "+",
+			"terms": ["MATH241"]
+		}]
+	}
+},
+{	
+	"dep": "CS",
+	"num": 374,
+	"req": "CS225"
+},
+{
+	"dep": "CS",
+	"num": 410,
+	"req": "CS225"
+},
+{
+	"dep": "CS",
+	"num": 411,
+	"req": "CS225"
+},
+{
+	"dep": "CS",
+	"num": 412,
+	"req": "CS225"
+},
+{
+	"dep": "CS",
+	"num": 413,
+	"req": ""
+},
+{
+	"dep": "CS",
+	"num": 414,
+	"req": "CS241"
+},
+{
+	"dep": "CS",
+	"num": 418,
+	"req": {
+		"operation": "*",
+		"terms": [{
+			"operation": "+",
+			"terms": ["CS225"]
+		},
+		{
+			"operation": "+",
+			"terms": ["MATH225", "MATH415"]
+		},
+		{
+			"operation": "+",
+			"terms": ["MATH241"]
+		}]
+	}
+},
+{
+	"dep": "CS",
+	"num": 419,
+	"req": "CS418"
+},
+{
+	"dep": "CS",
+	"num": 420,
+	"req": "CS225"
+},
+{
+	"dep": "CS",
+	"num": 421,
+	"req": {
+		"operation": "*",
+		"terms": ["CS233", "CS374"]
+	}
+},
+{
+	"dep": "CS",
+	"num": 422,
+	"req": "CS421"
+},
+{
+	"dep": "CS",
+	"num": 423,
+	"req": "CS241"
+},
+{
+	"dep": "CS",
+	"num": 424,
+	"req": "CS241"
+},
+{
+	"dep": "CS",
+	"num": 425,
+	"req": "CS241"
+},
+{
+	"dep": "CS",
+	"num": 426,
+	"req": "CS421"
+},
+{
+	"dep": "CS",
+	"num": 427,
+	"req": {
+		"operation": "*",
+		"terms": ["CS225", "CS374"]
+	}
+},
+{
+	"dep": "CS",
+	"num": 428,
+	"req": "CS427"
+},
+{
+	"dep": "CS",
+	"num": 429,
+	"req": "CS427"
+},
+{
+	"dep": "CS",
+	"num": 431,
+	"req": "CS241"
+},
+{
+	"dep": "CS",
+	"num": 433,
+	"req": "CS233"	
+},
+{
+	"dep": "CS",
+	"num": 438,
+	"req": {
+		"operation": "*",
+		"terms": ["CS241", "MATH461"]
+	}
+},
+{
+	"dep": "CS",
+	"num": 440,
+	"req": "CS225"
+},
+{
+	"dep": "CS",
+	"num": 446,
+	"req": "CS225"
+},
+{
+	"dep": "CS",
+	"num": 450,
+	"req": {
+		"operation": "*",
+		"terms":[{
+			"operation": "+",
+			"terms": ["CS101", "CS125"]
+		},
+		{
+			"operation": "+",
+			"terms": ["CS357", "MATH415"]
+		},
+		{
+			"operation": "+",
+			"terms": ["MATH285"]
+		}]
+
+	}
+},
+{
+	"dep": "CS",
+	"num": 460,
+	"req": "CS461"
+},
+{
+	"dep": "CS",
+	"num": 461,
+	"req": "CS241"
+},
+{
+	"dep": "CS",
+	"num": 463,
+	"req": "CS461"
+},
+{
+	"dep": "CS",
+	"num": 465,
+	"req": "CS225"
+},
+{
+	"dep": "CS",
+	"num": 466,
+	"req": "CS225"
+},
+{
+	"dep": "CS",
+	"num": 467,
+	"req": "CS225"
+},
+{
+	"dep": "CS",
+	"num": 475,
+	"req": "CS374"
+},
+{
+	"dep": "CS",
+	"num": 476,
+	"req": {
+		"operation": "*",
+		"terms": ["CS225", "CS374"]
+	}
+},
+{
+	"dep": "CS",
+	"num": 478,
+	"req": {
+		"operation": "*",
+		"terms": ["CS225", "CS374"]
+	}
+},
+{
+	"dep": "CS",
+	"num": 481,
+	"req": ""
+},
+{
+	"dep": "CS",
+	"num": 482,
+	"req": ""
+},
+{
+	"dep": "CS",
+	"num": 483,
+	"req": ""
+},
+{
+	"dep": "CS",
+	"num": 484,
+	"req": "CS241"
+},
+{
+	"dep": "CS",
+	"num": 492,
+	"req": ""
+},
+{
+	"dep": "CS",
+	"num": 493,
+	"req": "CS492"
+},
+{
+	"dep": "CS",
+	"num": 494,
+	"req": "CS492"
+}
+]
