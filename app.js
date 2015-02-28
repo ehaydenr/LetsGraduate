@@ -1,3 +1,12 @@
+/* OAUTH */
+var google = require('googleapis');
+var OAuth2 = google.auth.OAuth2;
+var CLIENT_ID = '430770259727-sbqrr3cpm8prhmf6v23l5objsq6rv7lg.apps.googleusercontent.com';
+var CLIENT_SECRET = 'Ziyd-uSWZ0sFme87w4cGzbKJ';
+var REDIRECT_URL = 'http://localhost:3000/oauth2callback';
+var oauth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
+var plus = google.plus('v1');
+
 var express = require('express');
 var courseparse = require('./courseparse.js');
 var app = express();
@@ -7,8 +16,20 @@ var path = require('path');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+var url = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: 'https://www.googleapis.com/auth/plus.me'
+});
+
 // Router
 app.use('/', router);
+
+// Middleware
+router.use(function (req, res, next) {
+  console.log(req.url);
+  console.log(oauth2Client);
+  next();
+});
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -32,7 +53,26 @@ connection.connect(function(err){
 });
 
 router.get('/', function (req, res) {
-  res.render("index");
+
+  // retrieve user profile
+  plus.people.get({ userId: 'me', auth: oauth2Client }, function(err, profile) {
+    if (err) {
+      console.log('An error occured', err);
+      res.render('index', {"url":url});
+      return;
+    }
+    res.render("index", {"url":url, "profile": profile});
+  });
+
+});
+
+router.get('/oauth2callback', function (req, res) {
+  var code = req.query.code;
+  oauth2Client.getToken(code, function (err, tokens) {
+    oauth2Client.setCredentials(tokens);
+    console.log(oauth2Client);
+    res.redirect('/');
+  });
 });
 
 router.get('/class', function (req, res){
