@@ -1,12 +1,8 @@
 html
-  h1 #{title}
+  h1 #{department}#{number} - #{title}
   hr
   p Description:
   p #{description}
   hr
-  p CRN - #{number}
+  p CRN - TODO
   hr
-  ul
-    each id, class_name in prerequisites
-      li #{class_name}: #[a(href="/class?id=#{id}") link]
-
