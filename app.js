@@ -1,17 +1,31 @@
 var request = require('request');
-var express = require('express');
-var app = express();
-var parseString = require('xml2js').parseString;
 var url_sch = "http://courses.illinois.edu/cisapp/explorer/schedule/";
 var url_cou = "http://courses.illinois.edu/cisapp/explorer/courses/";
-	/* MySQL Setup */
-	var mysql      = require('mysql');
-	var connection = mysql.createConnection({
-		host     : 'localhost',
-		database : 'letsgraduate_dev',
-		user     : 'dev',
-		password : 'dev'
-	});
+	
+var parseString = require('xml2js').parseString;
+var express = require('express');
+var app = express();
+var router = express.Router();
+var path = require('path');
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+// Router
+app.use('/', router);
+
+// Static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+/* MySQL Setup */
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  database : 'letsgraduate_dev',
+  user     : 'dev',
+  password : 'dev'
+});
 
 /* MySQL test connection */
 connection.connect(function(err){
@@ -33,9 +47,15 @@ connection.query('SHOW DATABASES;', function(err, rows) {
 
 });
 
-app.get('/', function (req, res) {
-	res.send('Hello World!')
-})
+router.get('/', function (req, res) {
+  res.render("index");
+});
+
+router.get('/class', function (req, res){
+  // Testing with premade json
+  var data = require('./public/test_class.json');
+  res.render('class', data);
+});
 
 var server = app.listen(3000, function () {
 
@@ -44,7 +64,7 @@ var server = app.listen(3000, function () {
 
 	console.log('Example app listening at http://%s:%s', host, port)
 
-})
+});
 
 app.get('/populate', function(req, res){
 	get_departments_hash("2015", "summer");
@@ -62,9 +82,9 @@ function get_departments_hash(year, sem){
 	console.log('dima');
 	var ret = {};
 	var url = url_sch+year+"/"+sem+".xml"; 
-/*	request(url , function(error, response, body){
-		doc = JSON.dw(eval("(" + body + ")")); 
-	});*/
+parseString(xml, function (err, result) {
+	    console.dir(result);
+});
 	return 5;
 
 }
