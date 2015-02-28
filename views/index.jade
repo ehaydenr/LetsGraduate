@@ -1,1 +1,8 @@
+head
+  script(src="/index.js")
 p Hello World
+
+if profile
+  p #{profile.displayName} - #{profile.id}
+else
+  a(href= url)= "Get permissions"

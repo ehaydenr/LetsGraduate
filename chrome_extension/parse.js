@@ -5,10 +5,52 @@ console.log(department);
 var college = span_collection[5].innerText.trim();
 console.log(college);
 
-var required_courses = $('span#item0 span');
-var foreign_lang_req = $('span#item5 span');
-var taken_courses = $('span#item12 span');
-var hours_req = $('span#item7')[0].innerText;
+/* Figure out where data is */
+var fields = {"required_courses":null, "foreign_lang_req":null, "taken_courses":null, "hours_req":null};
+var spans = $("pre").children('span');
+var relevant = [].slice.call(spans).filter(function (el, index, arr) { 
+  return el.className != 'spacer';
+});
+
+//console.log(relevant);
+
+var current_field;
+for(var i = 0; i < relevant.length; ++i){
+  var str = relevant[i].innerText;
+  if(str === undefined) continue;
+
+  if(str.search(/.*REQUIRED\sCOURSES/) != -1){
+    current_field = 'required_courses';
+    console.log(current_field);
+  }else if(str.search(/.*UNIVERSITY\sFOREIGN\sLANGUAGE\sREQUIREMENT/) != -1){
+    current_field = 'foreign_lang_req';
+    console.log(current_field);
+  }else if(str.search(/.*MINIMUM\sOF\s128\sHOURS\sREQUIRED.*/) != -1){
+    current_field = 'hours_req';
+    console.log(current_field);
+  }else if(str.search(/.*SUMMARY\sOF\sCOURSES\sTAKEN.*/) != -1){
+    current_field = 'taken_courses';
+    console.log(current_field);
+  }
+
+  if(relevant[i].id){
+    console.log(relevant[i].id);
+  }
+
+  if(current_field && relevant[i].id){
+    fields[current_field] = relevant[i].id;
+    current_field = null; // Make sure we only get the first item id after text
+  }
+
+}
+
+console.log(fields);
+
+var required_courses = $('span#' + fields.required_courses + ' span');
+var foreign_lang_req = $('span#' + fields.foreign_lang_req+ ' span');
+var taken_courses = $('span#' + fields.taken_courses+ ' span');
+var hours_req = $('span#' + fields.hours_req)[0].innerText;
+console.log(hours_req);
 
 var summary = {};
 var required_data = {};
