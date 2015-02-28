@@ -47,6 +47,12 @@ router.get('/', function (req, res) {
   res.render("index");
 });
 
+router.get('/class', function (req, res){
+  // Testing with premade json
+  var data = require('./public/test_class.json');
+  res.render('class', data);
+});
+
 var server = app.listen(3000, function () {
 
   var host = server.address().address

@@ -1,0 +1,11 @@
+{
+  "id": 1,
+  "department": "Computer Science",
+  "number": 6254,
+  "title": "Intro to Hackathons",
+  "description": "Hackathon stuff y'know?",
+  "prerequisites": {
+    "CS125": 3,
+    "CS225": 5
+  }
+}
