@@ -53,6 +53,11 @@ router.get('/class', function (req, res){
   res.render('class', data);
 });
 
+router.get('/requirement', function(req, res){
+  var data = require('./public/test_requirement.json');
+  res.render('requirement', data);
+});
+
 var server = app.listen(3000, function () {
 
   var host = server.address().address
