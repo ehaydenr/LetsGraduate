@@ -44,4 +44,5 @@ for(var i = 0; i < table_rows.length; ++i){
 }
 
 console.log(data);
+data;
 

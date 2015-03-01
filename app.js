@@ -7,14 +7,23 @@ var REDIRECT_URL = 'http://localhost:3000/oauth2callback';
 var oauth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 var plus = google.plus('v1');
 
+var bodyParser = require('body-parser')
+
 var express = require('express');
 var courseparse = require('./courseparse.js');
 var app = express();
 var router = express.Router();
 var path = require('path');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 var url = oauth2Client.generateAuthUrl({
     access_type: 'offline',
@@ -96,6 +105,14 @@ router.get('/profile', function (req, res) {
 
 
   });
+});
+
+router.post('/import', function (req, res) {
+  console.log(req.body);
+  var id = req.body.id;
+  var data = JSON.parse(req.body.data);
+  //console.log(data);
+  res.send(200);
 });
 
 router.get('/updateClass', function (req, res) {
