@@ -19,7 +19,7 @@ connection.connect(function(err){
 
 var data;
 
-var query = 'SELECT department, number, title, description FROM Class;';
+var query = 'SELECT * FROM Class;';
 
 connection.query(query, function (err, rows, fields) {
   if(err){

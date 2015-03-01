@@ -1,6 +1,29 @@
-h1 #{profile.displayName} - #{profile.id}
+html()
+  head
+    link(rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css")
+    script(src="//code.jquery.com/jquery-1.10.2.js")
+    script(src="//code.jquery.com/ui/1.11.3/jquery-ui.js")
+    script(src="/profile.js")
+    link(href='/profile.css', rel='stylesheet')
 
-ul
-  each val in rows
-    li #{val.department}#{val.number} - #{val.title}
-      p #{val.description}
+  body()
+    div.name #{profile.displayName} - #{profile.id}
+    hr
+
+    div.contain
+      div.classes_taken
+        ul
+          each val in rows
+            li #{val.department}#{val.number} - #{val.title} #[a(href="javascript:deleteClass(#{val.id})") delete]
+              p #{val.description}
+      hr
+      div.class_picker
+        div.ui-widget
+          label(for="courses") Courses: 
+          input#courses
+          input#id_holder(type="hidden")
+        div.class_display
+          div.class_name
+          div.description
+          div#add.btn.rect Add Class!
+
