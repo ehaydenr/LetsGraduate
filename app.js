@@ -108,10 +108,18 @@ router.get('/profile', function (req, res) {
 });
 
 router.post('/import', function (req, res) {
-  console.log(req.body);
+  //console.log(req.body);
   var id = req.body.id;
-  var data = JSON.parse(req.body.data);
-  //console.log(data);
+  console.log(req.body.data);
+  var obj = JSON.parse(req.body.data)[0];
+  var classes = [];
+  for(var type in obj){
+    for(var entry in obj[type]){
+      var tuple = obj[type][entry];
+      classes.push(tuple.subject + tuple.number);
+    }
+  }
+  console.log(classes);
   res.send(200);
 });
 

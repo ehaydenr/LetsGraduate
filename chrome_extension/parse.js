@@ -32,7 +32,7 @@ for(var i = 0; i < table_rows.length; ++i){
     // Looking at table data
     if(current_field == 'insti_credit' && children.length == 9){
       data.insti_credit.push({"subject": children[0].innerText, "number": children[1].innerText});
-    }else if(current_field == 'trans_credit' && children.length == 7){
+    }else if(current_field == 'trans_credit' && children.length == 7 && children[1].innerText != "Attempt Hours"){
       data.trans_credit.push({"subject": children[0].innerText, "number": children[1].innerText});
     }else if(current_field == 'trans_credit'){
       //console.log(children);
