@@ -49,7 +49,8 @@ var connection = mysql.createConnection({
   host     : 'localhost',
   database : 'letsgraduate_dev',
   user     : 'dev',
-  password : 'dev'
+  password : 'dev',
+  multipleStatements: true
 });
 
 /* MySQL test connection */
@@ -110,17 +111,31 @@ router.get('/profile', function (req, res) {
 router.post('/import', function (req, res) {
   //console.log(req.body);
   var id = req.body.id;
-  console.log(req.body.data);
   var obj = JSON.parse(req.body.data)[0];
-  var classes = [];
+  var assoc = [];
+  var query = '';
+  var sql = "INSERT INTO UserClass (google_id, class_id) SELECT ?, Class.id FROM Class WHERE department = ? AND number = ?;";
   for(var type in obj){
     for(var entry in obj[type]){
       var tuple = obj[type][entry];
-      classes.push(tuple.subject + tuple.number);
+      assoc.push([id, tuple.subject, tuple.number]);
+      query += mysql.format(sql, [id, tuple.subject, tuple.number]);
     }
   }
-  console.log(classes);
-  res.send(200);
+  //INSERT INTO UserClass (google_id, class_id)
+  //  SELECT 12341234, Class.id
+  //      FROM Class WHERE department = 'CS' AND number = '125';
+  console.log(query);
+  var ret = connection.query(query, function (err){
+    if(err){
+      console.log(err);
+      res.send(500);
+      return;
+    }
+    console.log("Succesful import!");
+    res.send(200);
+  });
+  console.log(ret.sql);
 });
 
 router.get('/updateClass', function (req, res) {
