@@ -1,13 +1,22 @@
 var url_sch = "http://courses.illinois.edu/cisapp/explorer/schedule/";
 var url_cat = "http://courses.illinois.edu/cisapp/explorer/catalog/";
 var request = require('request');
-
+var require_tree = require('./ex.json');
 var xml2js= require('xml2js');
 var xpath = require("xml2js-xpath");	
-
+var mysql= require('mysql');
 var values = [];
 var prereq = [];
+var connection = mysql.createConnection({
+	host 	: 'localhost',
+	database: 'letsgraduate_dev',
+	user	: 'dev',
+	password: 'dev'
+});
+var added = [];
+var added_req_id = []; 
 
+var dump = [];
 module.exports.get_departments_hash = function get_departments_hash(year, sem, callback){
 	var url = url_cat+year+"/"+sem+".xml"; 
 	request(url,function(error, response, body){
@@ -44,4 +53,93 @@ module.exports.concat_query = function concat_query(dep, num, course_name, desc)
 	values.push(insert);
 }
 
+function find_by_name(dump, dep, num){
+	for(var i =0; i < dump.length; i++){
+		if(dump[i].department == dep){
+			if(dump[i].number== num){
+				return dump[i];
+			}
+		}
+	}
+}
+function get_all(){
+	var query = "SELECT * FROM Class;";
+	connection.query(query, function(err, dump){
+		var query1 = "INSERT INTO Requirement (child_id_1, child_id_2, class_id, group_id, both_and, concurrent, occurence, description) VALUES ?";
+		var reqs = []; 
+		for(var i = require_tree.length-1;i >=0; i--){
+			itter = require_tree[i];
+			if(itter.req){
+				continue;
+			}
+			//console.log(itter.dep);
+			//console.log(itter.num);
+			var row = find_by_name(dump, itter.dep, itter.num);
+//			if((typeof itter.req).localeCompare('string') && itter.req.localeCompare('')==0){
+				//console.log(row.id);
+				var insert = [0,0,row.id,0,0,0,0, ""];
+				//console.log(insert);
+				added.push(itter.dep+itter.num);
+				reqs.push(insert);
+				require_tree.splice(i, 1);
+//			}
+		}
+		connection.query(query1, [reqs], function(err){
+			if(err){
+				console.error('error querying: ' + err.stack);
+			}
+			
+			connection.query("SELECT LAST_INSERT_ID();", function(err, info){
+				var x = info[0]['LAST_INSERT_ID()'];
+				console.log(x);
+				for(var i = x; i<= added.length; i++){
+					added_req_id.push(i);
+				}
+				process_req(dump, require_tree, added, function(){
+					console.log("Done processing");
+					
+				});
+			});
+		});
+	});
+
+}
+
+function process_req(dump, require_tree, added, callback){
+	var query = "SELECT * FROM Requirement;";
+	var query1 = "INSERT INTO Requirement (child_id_1, child_id_2, class_id, group_id, both_and, concurrent, occurence, description) VALUES ?";
+	connection.query(query, function(err, inserted){
+		reqs = [];
+		//console.log(inserted);
+		for(var i = require_tree.length-1; i >=0; i--){
+			itter = require_tree[i];
+			var a = ((typeof itter.req).localeCompare('string')==0);
+			var b = ((added.indexOf(itter.req)!= -1));
+			if(a && b){
+				var req_id;
+				for(var j = 0; j<added.length; j++){
+					if(added[j].localeCompare(itter.req)==0){
+						req_id = added_req_id[j];
+					}
+					
+				}
+				var insert = [req_id, 0, itter.id, 0, 0, 0, 0, itter.dep+itter.num]
+				reqs.push(insert);
+				//console.log(req_id);	
+			
+				require_tree.splice(i, 1); } } //console.log(reqs);
+		connection.query(query1, [reqs], function(err){
+			if(err){
+				//console.error('error querying: ' + err.stack);
+			}
+			if(require_tree.length != 0)
+				process_req(dump, require_tree,added,  callback);
+			else
+				callback();
+		});
+	});
+}
+
+get_all();
 module.exports.values = values;
+
