@@ -14,7 +14,8 @@
 	"num": 231,
 	"req": {
 		"operation": "+",
-		"terms": ["MATH220", "MATH221"]
+		"term1": "MATH220",
+		"term2": "MATH221"
 	}
 },
 {
@@ -27,7 +28,8 @@
 	"num": 213,
 	"req": {
 		"operation": "+",
-		"terms": ["MATH220","MATH221"]
+		"term1": "MATH220",
+		"term2": "MATH221"
 	}
 },
 {
@@ -60,7 +62,8 @@
 	"num": 101,
 	"req": {
 		"operation": "+",
-		"terms": ["MATH220", "MATH221"]
+		"term1": "MATH220",
+		"term2": "MATH221"
 	}
 },
 {	
@@ -93,14 +96,16 @@
 	"num": 173,
 	"req": {
 		"operation": "*",
-		"terms": [{
+		"term1": {
 			"operation": "+",
-			"terms": ["CS125", "CS101", "ECE190"]
+			"term1": "CS125",
+			"term2": "CS101"
 		},
-		{
+		"term2": {
 			"operation": "+",
-			"terms": ["MATH220", "MATH221"]
-		}]
+			"term1": "MATH220",
+			"term2": "MATH221"
+		}
 	}
 },
 {	
@@ -108,14 +113,16 @@
 	"num": 225,
 	"req": {
 		"operation": "*",
-		"terms":[{
+		"term1":{
 			"operation": "+",
-			"terms": ["CS125", "ECE190"]
+			"term1": "CS125",
+			"term2": "ECE190"
 		},
-		{
+		"term2": {
 			"operation": "+",
-			"terms": ["CS173", "MATH213"]
-		}]
+			"term1": "CS173", 
+			"term2": "MATH213"
+		}
 	}
 
 },
@@ -124,14 +131,16 @@
 	"num": 233,
 	"req": {
 		"operation": "+",
-		"terms":[{
+		"term1":{
 			"operation": "*",
-			"terms": ["CS125", "CS173"]
+			"term1": "CS125", 
+			"term2": "CS173"
 		},
-		{
+		"term2": {
 			"operation": "c",
-			"terms": ["CS225"]
-		}]
+			"term1": "CS225",
+			"term2": ""
+		}	
 	}
 },
 {	
@@ -139,14 +148,16 @@
 	"num": 241,
 	"req":{
 		"operation": "+",
-		"terms": [{
+		"term1": {
 			"operation": "+",
-			"terms": ["CS225"]
+			"term1": "CS225",
+			"term2": ""
 		},
-		{
+		"term2": {
 			"operation": "c",
-			"terms": ["CS233"]
-		}]
+			"term1": "CS233",
+			"term2": ""
+		}
 	}
 },
 {
@@ -164,14 +175,16 @@
 	"num": 357,
 	"req": {
 		"operation": "*",
-		"terms": [{
+		"term1": {
 			"operation": "+",
-			"terms": ["CS225", "MATH415"]
+			"term1": "CS225", 
+			"term2": "MATH415"
 		},
-		{
+		"term2": {
 			"operation": "+",
-			"terms": ["MATH241"]
-		}]
+			"term1": "MATH241",
+			"term2" : ""
+		}
 	}
 },
 {	
@@ -209,18 +222,26 @@
 	"num": 418,
 	"req": {
 		"operation": "*",
-		"terms": [{
+		"term1": {
 			"operation": "+",
-			"terms": ["CS225"]
+			"term1": "CS225",
+			"term2": ""
 		},
-		{
-			"operation": "+",
-			"terms": ["MATH225", "MATH415"]
-		},
-		{
-			"operation": "+",
-			"terms": ["MATH241"]
-		}]
+		"term2:":{
+			"operation": "*",
+			"term1":{
+				"operation": "+",
+				"term1": "MATH225", 
+				"term2": "MATH415"
+			},
+			"term2": {
+				"operation": "+",
+				"term1": "MATH241",
+				"term2": ""
+			}
+			
+		}
+		
 	}
 },
 {
@@ -238,7 +259,8 @@
 	"num": 421,
 	"req": {
 		"operation": "*",
-		"terms": ["CS233", "CS374"]
+		"term1": "CS233",
+		"term2": "CS374"
 	}
 },
 {
@@ -271,7 +293,8 @@
 	"num": 427,
 	"req": {
 		"operation": "*",
-		"terms": ["CS225", "CS374"]
+		"term1": "CS225",
+		"term2": "CS374"
 	}
 },
 {
@@ -299,7 +322,8 @@
 	"num": 438,
 	"req": {
 		"operation": "*",
-		"terms": ["CS241", "MATH461"]
+		"term1": "CS241",
+		"term2": "MATH461"
 	}
 },
 {
@@ -317,19 +341,26 @@
 	"num": 450,
 	"req": {
 		"operation": "*",
-		"terms":[{
+		"term1":{
 			"operation": "+",
-			"terms": ["CS101", "CS125"]
+			"term1": "CS101", 
+			"term2": "CS125"
 		},
-		{
-			"operation": "+",
-			"terms": ["CS357", "MATH415"]
-		},
-		{
-			"operation": "+",
-			"terms": ["MATH285"]
-		}]
+		"term2": {
+			"operation": "*",
+			"term1": {
+				"operation": "+",
+				"term1": "CS357",
+				"term2": "MATH415"
+			},
+			"term2": {
+				"operation": "+",
+				"term1": "MATH285",
+				"term2": ""
 
+			}
+		}
+			
 	}
 },
 {
@@ -372,7 +403,8 @@
 	"num": 476,
 	"req": {
 		"operation": "*",
-		"terms": ["CS225", "CS374"]
+		"term1": "CS225",
+		"term2": "CS374"
 	}
 },
 {
@@ -380,7 +412,8 @@
 	"num": 478,
 	"req": {
 		"operation": "*",
-		"terms": ["CS225", "CS374"]
+		"term1": "CS225",
+		"term2": "CS374"
 	}
 },
 {
