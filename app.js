@@ -1,16 +1,6 @@
-/* OAUTH */
-var google = require('googleapis');
-var OAuth2 = google.auth.OAuth2;
-var CLIENT_ID = '430770259727-sbqrr3cpm8prhmf6v23l5objsq6rv7lg.apps.googleusercontent.com';
-var CLIENT_SECRET = 'Ziyd-uSWZ0sFme87w4cGzbKJ';
-var REDIRECT_URL = 'http://localhost:3000/oauth2callback';
-var oauth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
-var plus = google.plus('v1');
-
 var bodyParser = require('body-parser')
-
+var auth = require('./local_modules/auth.js');
 var express = require('express');
-var courseparse = require('./courseparse.js');
 var app = express();
 var router = express.Router();
 var path = require('path');
@@ -25,18 +15,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-var url = oauth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: 'https://www.googleapis.com/auth/plus.me'
-});
-
 // Router
 app.use('/', router);
+
 
 // Middleware
 router.use(function (req, res, next) {
   console.log(req.url);
-  //console.log(oauth2Client);
   next();
 });
 
@@ -62,27 +47,26 @@ connection.connect(function(err){
 	console.log('connected as id ' + connection.threadId);
 });
 
+router.get('/oauth2callback', function (req, res) {
+  var code = req.query.code;
+  auth.oauth2Client.getToken(code, function (err, tokens) {
+    auth.oauth2Client.setCredentials(tokens);
+    res.redirect('/');
+  });
+});
+
 router.get('/', function (req, res) {
 
   // retrieve user profile
-  plus.people.get({ userId: 'me', auth: oauth2Client }, function(err, profile) {
-    if (err) {
-      console.log('An error occured', err);
-      res.render('index', {"url":url});
+  auth.getProfile(function(err, profile){
+    if(err){
+      console.log(err);
+      res.render('index', {"url":auth.url});
       return;
     }
-    res.render("index", {"url":url, "profile": profile});
+    res.render("index", {"url":auth.url, "profile": profile});
   });
 
-});
-
-router.get('/oauth2callback', function (req, res) {
-  var code = req.query.code;
-  oauth2Client.getToken(code, function (err, tokens) {
-    oauth2Client.setCredentials(tokens);
-    console.log(oauth2Client);
-    res.redirect('/');
-  });
 });
 
 router.get('/profile', function (req, res) {
@@ -203,34 +187,6 @@ function getClassById(id, callback){
     callback(err, rows[0]);
 	});
 }
-
-router.get('/populate', function(req, res){
-	year = "2015";
-	sem = "spring";
-	courseparse.get_departments_hash(year, sem, function(matches1){
-		for(var i = 0; i <matches1.length; i++){
-			var dep = matches1[i].$.id;
-			courseparse.get_courses_hash(year,sem, dep, function(retdep, matches2){
-				for(var j = 0; j < matches2.length; j++){
-					var num = matches2[j].$.id;
-					var course_name = matches2[j]._;
-					courseparse.get_desc(year, sem, retdep ,num,course_name, function(retnum,retname, matches3){
-						courseparse.concat_query(retdep, retnum, retname, matches3);
-            console.log(matches3);
-					});
-				}		
-			}); 
-		}
-		res.send(200);
-	});
-});
-
-router.get('/store', function(req, res){
-	call_query(function(){
-    console.log("Finished Calling Query");
-  });	
-	res.send(200);
-});
 
 function call_query(callback){
 	var query = "INSERT INTO Class (department, number, title, description) VALUES ?";
