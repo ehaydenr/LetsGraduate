@@ -4,7 +4,8 @@ var request = require('request');
 var require_tree = require('../cs_requirements.json');
 var xml2js= require('xml2js');
 var xpath = require("xml2js-xpath");	
-var mysql= require('mysql');
+var mysql = require('mysql');
+var async = require('async');
 var values = [];
 var prereq = [];
 var connection = mysql.createConnection({
@@ -30,7 +31,6 @@ function get_departments_hash(year, sem, callback){
 function get_courses_hash(year, sem, dep, callback){
 	var url = url_cat+year+"/"+sem+"/"+dep+".xml";
 	request(url, function(error, response, body){
-		console.log("orl\n");
 		xml2js.parseString(body, function(err, result){
 			var matches = xpath.find(result, "//course");
 			callback(dep, matches);
@@ -51,6 +51,7 @@ function get_desc(year, sem, dep, num,course_name, callback){
 
 function concat_query(dep, num, course_name, desc){
 	insert = [dep, num, course_name,desc];
+	console.log(dep+num);
 	values.push(insert);
 }
 
@@ -144,41 +145,31 @@ function process_req(dump, require_tree, added, callback){
 		}
 	});
 }
-populate_classes("2015", "spring", function(){
+populate_classes("2015", "spring"),
+store_classes()
+function store_classes(){
+	console.log("start:"+values);;
 	var query = "INSERT INTO Class (department, number, title, description) VALUES ?";
 	connection.query(query, [values], function(err){
 		if(err){
 			console.log("inserting error: " + err.stack);
 		}
 	});
-});
-function populate_classes(year, sem, callback){
+}
+function populate_classes(year, sem){
 	get_departments_hash(year, sem, function(matches1){
-		var counter = matches1.length;
-		console.log("starting: " + counter);
 		for(var i = 0; i < matches1.length; i++){
 			var dep = matches1[i].$.id;
-			console.log(dep);
 			get_courses_hash(year, sem, dep, function(retdep, matches2){
 				for(var j = 0; j < matches2.length; j++){
-					
 					var num = matches2[j].$.id;
 					var course_name = matches2[j]._;
-					console.log(dep+" - "+num);
 					get_desc(year, sem, retdep, num, course_name, function(retnum, retname, matches3){
 						concat_query(retdep, retnum, retname, matches3);
-						if(j== matches2.length-1){
-							console.log("new count: " + --counter);
-						}
 					});
 				}
 			});
 		}
-		while(counter){
-
-		}
-		callback();
 	});
-
 }
 
