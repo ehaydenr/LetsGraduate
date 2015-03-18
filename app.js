@@ -1,32 +1,46 @@
-var bodyParser = require('body-parser')
-var auth = require('./local_modules/auth.js');
-var express = require('express');
-var app = express();
-var router = express.Router();
+// Modules
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var everyauth = require('everyauth');
+var session = require('express-session');
 var path = require('path');
+var express = require('express');
+
+// Local Modules
+var Auth = require('./local_modules/auth.js');
+var auth = new Auth(everyauth);
+
+// Router Def
+var router = express.Router();
+
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
 
-// parse application/json
-app.use(bodyParser.json())
-
-// Router
-app.use('/', router);
-
+app.use(express.static(path.join(__dirname, 'public')))
+  .use(bodyParser())
+  .use(bodyParser.urlencoded({extended: false}))
+  .use(bodyParser.json())
+  .use(cookieParser())
+  .use(session({secret: 'dev'}))
+  .use(everyauth.middleware())
+  .use('/', router);
 
 // Middleware
 router.use(function (req, res, next) {
   console.log(req.url);
-  next();
-});
+  if(req.session && req.session.auth && req.session.auth.loggedIn){
+    next();
+  }else if(req.url == '/login'){
+    next();
+  }else{
+    res.redirect('/login');
+  }
 
-// Static files
-app.use(express.static(path.join(__dirname, 'public')));
+});
 
 /* MySQL Setup */
 var mysql      = require('mysql');
@@ -47,52 +61,44 @@ connection.connect(function(err){
 	console.log('connected as id ' + connection.threadId);
 });
 
-router.get('/oauth2callback', function (req, res) {
-  var code = req.query.code;
-  auth.oauth2Client.getToken(code, function (err, tokens) {
-    auth.oauth2Client.setCredentials(tokens);
-    res.redirect('/');
-  });
+router.get('/', function (req, res) {
+  if(req.session && req.session.auth && req.session.auth.loggedIn){
+    res.render('home');
+    return;
+  }
+  res.render('login');
 });
 
-router.get('/', function (req, res) {
+router.get('/login', function(req, res){
+  if(req.session && req.session.auth && req.session.auth.loggedIn){
+    res.redirect('/');
+  }else{
+    res.render('login');
+  }
+});
 
-  // retrieve user profile
-  auth.getProfile(function(err, profile){
-    if(err){
-      console.log(err);
-      res.render('index', {"url":auth.url});
-      return;
-    }
-    res.render("index", {"url":auth.url, "profile": profile});
-  });
-
+router.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/login');
 });
 
 router.get('/profile', function (req, res) {
-  auth.getProfile(function (err, profile){
-    if (err) {
-      console.log('An error occured', err);
-      res.send(401);
+  var query = 'SELECT Class.* FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
+  console.log("Looking up for: " + req.user.google.id);
+  connection.query(query, [req.user.google.id], function (err, rows, fields) {
+    if(err){
+      console.log(err);
+      res.send(500);
       return;
     }
+    console.log(req.user.google);
 
-    var query = 'SELECT Class.* FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
-    connection.query(query, [profile.id], function (err, rows, fields) {
-      if(err){
-        console.log(err);
-        res.send(500);
-        return;
-      }
-
-      res.render('profile', {"profile": profile, "rows": rows});
-    });
+    res.render('profile', {"rows": rows, "user" : req.user.google});
   });
 });
 
 router.post('/import', function (req, res) {
-  //console.log(req.body);
-  var id = req.body.id;
+  var id = req.user.google.id;
   var obj = JSON.parse(req.body.data)[0];
   var assoc = [];
   var query = '';
@@ -104,10 +110,6 @@ router.post('/import', function (req, res) {
       query += mysql.format(sql, [id, tuple.subject, tuple.number]);
     }
   }
-  //INSERT INTO UserClass (google_id, class_id)
-  //  SELECT 12341234, Class.id
-  //      FROM Class WHERE department = 'CS' AND number = '125';
-  console.log(query);
   var ret = connection.query(query, function (err){
     if(err){
       console.log(err);
@@ -122,7 +124,8 @@ router.post('/import', function (req, res) {
 
 router.get('/updateClass', function (req, res) {
   // retrieve user profile
-  var id = req.query.id;
+  var classid = req.query.classid;
+  var userid = req.user.google.id;
   var action = req.query.action; // Either delete or insert 
 
   if(action != 'insert' && action != 'delete'){
@@ -130,25 +133,18 @@ router.get('/updateClass', function (req, res) {
     return;
   }
 
-  auth.getProfile(function(err, profile) {
-    if (err) {
-      console.log('An error occured', err);
-      res.send(401);
+  // Run update
+  var query_insert = 'INSERT INTO UserClass VALUES (?, ?);'; // userid, class_id
+  var query_delete = 'DELETE FROM UserClass WHERE google_id = ? AND class_id = ?;';
+  var query = action == 'delete' ? query_delete : query_insert;
+  connection.query(query, [userid, classid], function(err, rows, fields) {
+    if(err){
+      console.log(err);
+      res.send(500);
       return;
     }
-    // Run update
-    var query_insert = 'INSERT INTO UserClass VALUES (?, ?);'; // userid, class_id
-    var query_delete = 'DELETE FROM UserClass WHERE google_id = ? AND class_id = ?;';
-    var query = action == 'delete' ? query_delete : query_insert;
-    connection.query(query, [profile.id, id], function(err, rows, fields) {
-      if(err){
-        console.log(err);
-        res.send(500);
-        return;
-      }
 
-      res.send(200);
-    });
+    res.send(200);
   });
 });
 
