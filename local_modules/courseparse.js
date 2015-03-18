@@ -1,7 +1,7 @@
 var url_sch = "http://courses.illinois.edu/cisapp/explorer/schedule/";
 var url_cat = "http://courses.illinois.edu/cisapp/explorer/catalog/";
 var request = require('request');
-var require_tree = require('./ex.json');
+var require_tree = require('../cs_requirements.json');
 var xml2js= require('xml2js');
 var xpath = require("xml2js-xpath");	
 var mysql= require('mysql');
@@ -15,12 +15,9 @@ var connection = mysql.createConnection({
 });
 var added = [];
 var added_req_id = []; 
-var dump = [];
 
-/*
- * given a year and semester, will retrieve all departments and pass them to the callback
- */
-module.exports.get_departments_hash = function get_departments_hash(year, sem, callback){
+var dump = [];
+function get_departments_hash(year, sem, callback){
 	var url = url_cat+year+"/"+sem+".xml"; 
 	request(url,function(error, response, body){
 		xml2js.parseString(body, function (err, result) {
@@ -30,9 +27,10 @@ module.exports.get_departments_hash = function get_departments_hash(year, sem, c
 	});
 }
 
-module.exports.get_courses_hash = function get_courses_hash(year, sem, dep, callback){
+function get_courses_hash(year, sem, dep, callback){
 	var url = url_cat+year+"/"+sem+"/"+dep+".xml";
 	request(url, function(error, response, body){
+		console.log("orl\n");
 		xml2js.parseString(body, function(err, result){
 			var matches = xpath.find(result, "//course");
 			callback(dep, matches);
@@ -40,7 +38,7 @@ module.exports.get_courses_hash = function get_courses_hash(year, sem, dep, call
 	});
 }
 
-module.exports.get_desc = function get_desc(year, sem, dep, num,course_name, callback){
+function get_desc(year, sem, dep, num,course_name, callback){
 	var url = url_cat+year+"/"+sem+"/"+dep+"/"+num+".xml";
 	request(url, function(error, response, body){
 		xml2js.parseString(body, function(err, result){
@@ -51,7 +49,7 @@ module.exports.get_desc = function get_desc(year, sem, dep, num,course_name, cal
 
 }
 
-module.exports.concat_query = function concat_query(dep, num, course_name, desc){
+function concat_query(dep, num, course_name, desc){
 	insert = [dep, num, course_name,desc];
 	values.push(insert);
 }
@@ -146,42 +144,41 @@ function process_req(dump, require_tree, added, callback){
 		}
 	});
 }
-
-function populate_class(year, sem, callback){
+populate_classes("2015", "spring", function(){
+	var query = "INSERT INTO Class (department, number, title, description) VALUES ?";
+	connection.query(query, [values], function(err){
+		if(err){
+			console.log("inserting error: " + err.stack);
+		}
+	});
+});
+function populate_classes(year, sem, callback){
 	get_departments_hash(year, sem, function(matches1){
-		var counter = mathces.length;
-		for(var i = 0; i < matches.length; i++){
+		var counter = matches1.length;
+		console.log("starting: " + counter);
+		for(var i = 0; i < matches1.length; i++){
 			var dep = matches1[i].$.id;
-			get_courses_hash(year, sem, dep, function(retdep, matches){
+			console.log(dep);
+			get_courses_hash(year, sem, dep, function(retdep, matches2){
 				for(var j = 0; j < matches2.length; j++){
+					
 					var num = matches2[j].$.id;
 					var course_name = matches2[j]._;
+					console.log(dep+" - "+num);
 					get_desc(year, sem, retdep, num, course_name, function(retnum, retname, matches3){
 						concat_query(retdep, retnum, retname, matches3);
-						if(j = matches2.length-1){
-							counter--;
+						if(j== matches2.length-1){
+							console.log("new count: " + --counter);
 						}
 					});
-
 				}
 			});
 		}
 		while(counter){
-			
-		}
-		callback()
 
-	});
-}
-populate_class("2015", "spring", function(){
-	var query = "INSERT INTO Class (department, number, title, description) VALUES ?";
-	cinnection.query(query, [courseparse.values], function(err){
-		if(err){
-			console.log("error querying: " + err.stack);
 		}
+		callback();
 	});
-});
-/*
-get_all();
-module.exports.values = values;
-*/
+
+}
+
