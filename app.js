@@ -130,7 +130,7 @@ router.get('/updateClass', function (req, res) {
     return;
   }
 
-  plus.people.get({ userId: 'me', auth: oauth2Client }, function(err, profile) {
+  auth.getProfile(function(err, profile) {
     if (err) {
       console.log('An error occured', err);
       res.send(401);
