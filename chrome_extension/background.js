@@ -10,7 +10,7 @@ chrome.browserAction.onClicked.addListener( function(request, sender, sendRespon
       $.get( url, function( data ) {
         var id = data.user_id;
         url = "http://localhost:3000/import";
-        $.post( url, { "id": id, "data": JSON.stringify(result) })
+        $.post( url, { "id": id, "data": JSON.stringify(result) }, "json")
         .done(function( data ) {
           console.log(data);
         });
