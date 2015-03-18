@@ -70,7 +70,7 @@ router.get('/', function (req, res) {
 });
 
 router.get('/profile', function (req, res) {
-  plus.people.get({ userId: 'me', auth: oauth2Client }, function(err, profile) {
+  auth.getProfile(function (err, profile){
     if (err) {
       console.log('An error occured', err);
       res.send(401);
@@ -87,8 +87,6 @@ router.get('/profile', function (req, res) {
 
       res.render('profile', {"profile": profile, "rows": rows});
     });
-
-
   });
 });
 
