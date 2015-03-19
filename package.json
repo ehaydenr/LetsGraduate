@@ -12,13 +12,15 @@
     "jade": "^1.9.2",
     "mysql": "^2.5.5",
     "nodeunit": "^0.9.0",
+    "progress": "^1.1.8",
     "promise": "^6.1.0",
     "request": "^2.53.0",
     "xml2js": "^0.4.5",
     "xml2js-xpath": "^0.4.4"
   },
   "scripts": {
-    "test": "nodeunit ./tests/example.js"
+    "test": "nodeunit ./tests/example.js",
+    "populatedb": "node ./scripts/scrape_classes.js"
   },
   "repository": {
     "type": "git",
