@@ -17,6 +17,7 @@ Environment Setup
 Database Setup
 --------------
 * Create dev database with user - `mysql -u root -p < db/createdb.sql`
-* Load Schema - `mysql -u root -p < db/schema.sql`
+* Load Schema - `mysql -u root -p letsgraduate_dev < db/schema.sql`
+* Populate Database - `npm run populatedb`
 
 [![Build Status](https://travis-ci.org/ehaydenr/LetsGraduate.svg?branch=master)](https://travis-ci.org/ehaydenr/LetsGraduate)
