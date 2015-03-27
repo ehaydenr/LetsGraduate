@@ -69,18 +69,17 @@ function get_desc(year, sem, dep, number, title){
         xml2js.parseString(body, function(err, result){
           var matches = xpath.find(result, "//description");
           if(err || matches.length == 0){
-            rej("Rejecting description for: year: " + year + " semester: " + sem + " number: " + number + " title: " + title);
-            resolve(null);
-          }else{
-            resolve({
-              year: year,
-              semester: sem,
-              department: dep,
-              number: number, 
-              title: title,
-              description: matches[0]
-            });
+            rej("Rejecting description for: year: " + year + " semester: " + sem + " department: " + dep + " number: " + number + " title: " + title);
+            matches = [null];
           }
+          resolve({
+            year: year,
+            semester: sem,
+            department: dep,
+            number: number, 
+            title: title,
+            description: matches[0]
+          });
         });
       }
     });
