@@ -2,7 +2,8 @@ var url_sch = "http://courses.illinois.edu/cisapp/explorer/schedule/";
 var url_cat = "http://courses.illinois.edu/cisapp/explorer/catalog/";
 var request = require('request');
 var Promise = require('promise');
-
+var x = require('XMLHttpRequest').XMLHttpRequest;
+var xhr = new x()
 var xml2js= require('xml2js');
 var xpath = require("xml2js-xpath");	
 
@@ -136,10 +137,39 @@ function getData(year, sem){
     }, rej);
   });
 }
+function getNumCourses(year, sem){
+	var count = 0;	
+//	console.log(year);
+//	console.log(sem);
+	var url = url_cat+year+"/"+sem+".xml";
+	xhr.open('GET', url, false);
+	xhr.send(null);
+	if(xhr.status==200){
+		xml2js.parseString(xhr.responseText, function(err, result){
+			var matches = xpath.find(result, "//subject");
+			for(var i = 0; i < matches.length; i++){
+				code = matches[i].$.id;
+				var url2 = url_cat+year+"/"+sem+"/"+code+".xml?mode=cascade";
+				xhr.open('GET', url2, false);
+				xhr.send(null);
+				if(xhr.status==200){
+					xml2js.parseString(xhr.responseText, function(err, result){
+						var matches2 = xpath.find(result, "//cascadingCourse");
+						count+=matches2.length;
+						console.log(count);
+					});
+				}
+			}
+		});
+	}
+	console.log(count);
+	return count;
+}
 
+var numCourses = getNumCourses("2015", "spring");
 var ProgressBar = require('progress');
 
-var bar = new ProgressBar(':bar', { total: 8142}); // Hard coded the nuber of classes
+var bar = new ProgressBar(':bar', { total: numCourses}); // Hard coded the nuber of classes
 var timer = setInterval(function () {
   if (bar.complete) {
     console.log('\ncomplete\n');
