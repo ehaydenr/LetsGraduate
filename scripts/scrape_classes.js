@@ -149,14 +149,14 @@ function getNumCourses(year, sem){
 			var matches = xpath.find(result, "//subject");
 			for(var i = 0; i < matches.length; i++){
 				code = matches[i].$.id;
-				var url2 = url_cat+year+"/"+sem+"/"+code+".xml?mode=cascade";
+				var url2 = url_cat+year+"/"+sem+"/"+code+".xml";
 				xhr.open('GET', url2, false);
 				xhr.send(null);
 				if(xhr.status==200){
 					xml2js.parseString(xhr.responseText, function(err, result){
-						var matches2 = xpath.find(result, "//cascadingCourse");
+						var matches2 = xpath.find(result, "//course");
 						count+=matches2.length;
-						console.log(count);
+						//console.log(count);
 					});
 				}
 			}
