@@ -1,0 +1,117 @@
+if (req == ""){
+	
+	INSERT INTO Requirment(child_id_1, child_id_2, class_id, group_id, both_and, concurrent)  
+	VALUES 				  (NULL, 	   NULL, 	   class_id, NULL, 	   NULL, 	 NULL);
+
+	class_id =  
+		SELECT id 
+		FROM Class
+		WHERE department = obj.dep AND number = obj.num;
+}
+
+if(req typeof String){
+	
+	INSERT INTO Requirement(child_id_1, child_id_2, class_id, group_id, both_and, concurrent)
+	VALUES 				   (child_id_1, NULL      , NULL,	  NULL,     NULL,     NULL);
+
+	child_id_1 = 
+		SELECT id
+		FROM Requirement
+		WHERE class_id = (
+			SELECT id 
+			FROM Class
+			WHERE department|number = obj.req
+		);
+}
+
+if(req typeof Object && req.term1 typeof String){
+	
+	INSERT INTO Requirement(child_id_1, child_id_2. class_id, group_id, both_and, concurrent)
+	VALUES 				   (child_id_1, child_id_2, NULL,     NULL,     both_and, NULL);
+
+	both_and = (obj.req.operation == "+");
+	
+	child_id_1 = 
+		SELECT id
+		FROM Requirement 
+		WHERE class_id = (
+			SELECT id
+			FROM Class
+			WHERE department|number = obj.req.term1;
+		);
+
+	child_id_2 = 
+		SELECT id
+		FROM Requirement
+		WHERE class_id = (
+			SELECT id
+			FROM Class
+			WHERE department|number = obj.req.term2;
+		);
+}
+
+
+if(req typeof Object && req.term1 typeof Object && req.term1.term1 typeof String &&
+	req.term typeof Object && req.term2.term typeof String){
+
+	INSERT INTO Requirement(child_id_1, child_id_2, class_id, group_id, both_and, concurrent)
+	VALUES 				   (child_id_1, child_id_2, NULL,     NULL,     both_and, NULL)
+	
+	both_and = (obj.req.operation == "+");
+
+	class_id_1 = 
+		SELECT id
+		FROM Requirement
+		WHERE child_id_1 = (
+			SELECT id
+			FROM Requirement
+			WHERE class_id = (
+				SELECT id
+				FROM Class
+				WHERE department|number = obj.req.term1.term1
+			)
+		) 
+		AND child_id_2 = (
+			SELECT id
+			FROM Requirement
+			WHERE class_id = (
+				SELECT id
+				FROM Class
+				WHERE department|number = obj.req.term1.term2
+			)
+		);
+
+	class_id_2 = 
+		SELECT id 
+		FROM Requirement
+		WHERE child_id_1 = (
+			SELECT id
+			FROM Requirement 
+			WHERE class_id = (
+				SELECT id
+				FROM Class
+				WHERE department|number = obj.req.term2.term1
+			)
+		)
+		AND child_id_2 = (
+			SELECT id
+			FROM Requirement
+			WHERE class_id = (
+				SELECT id
+				FROM Class
+				WHERE department|number = obj.req.term2.term2
+			)
+		);
+
+}
+
+if(req typeof Object && req.term1 typeof Object && req.term1.term1 typeof String &&
+	req.term2 typeof Object && req.term2.term1 typeof Object && req.term2.term1.term1 typeof Object){
+	
+
+	...
+
+
+
+}
+
