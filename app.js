@@ -91,7 +91,6 @@ router.get('/profile', function (req, res) {
       res.send(500);
       return;
     }
-    console.log(req.user.google);
 
     res.render('profile', {"rows": rows, "user" : req.user.google});
   });
