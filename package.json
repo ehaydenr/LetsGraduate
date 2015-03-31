@@ -16,7 +16,8 @@
     "promise": "^6.1.0",
     "request": "^2.53.0",
     "xml2js": "^0.4.5",
-    "xml2js-xpath": "^0.4.4"
+    "xml2js-xpath": "^0.4.4",
+    "xmlhttprequest": "^1.7.0"
   },
   "scripts": {
     "test": "nodeunit ./tests/example.js",
