@@ -17,7 +17,7 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 
 app.use(express.static(path.join(__dirname, 'public')))
@@ -31,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Middleware
 router.use(function (req, res, next) {
+	
   console.log(req.url);
   if(req.session && req.session.auth && req.session.auth.loggedIn){
     next();
@@ -40,6 +41,7 @@ router.use(function (req, res, next) {
     res.redirect('/login');
   }
 
+	next();
 });
 
 /* MySQL Setup */
@@ -62,6 +64,7 @@ connection.connect(function(err){
 });
 
 router.get('/', function (req, res) {
+
   if(req.session && req.session.auth && req.session.auth.loggedIn){
     res.render('home');
     return;
@@ -96,6 +99,27 @@ router.get('/profile', function (req, res) {
     res.render('profile', {"rows": rows, "user" : req.user.google});
   });
 });
+
+
+
+//Begining of Webpage rendering
+
+router.get('/overview', function (req, res) {
+	var data = require('./cs_requirements.json');
+   res.render('Webpages/Overview', {"data":data});
+   console.log(data);
+});
+
+
+
+router.get('/councillor', function (req, res) {
+   res.render('Webpages/Councillor');
+});
+
+
+
+
+//End of WebPage rendering
 
 router.post('/import', function (req, res) {
   var id = req.user.google.id;
@@ -160,6 +184,9 @@ router.get('/class', function (req, res){
     res.render('class', data);
   });
 });
+
+
+
 
 router.get('/requirement', function(req, res){
   var data = require('./public/test_requirement.json');

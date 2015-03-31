@@ -1,0 +1,148 @@
+
+@font-face {
+   font-family: myFirstFont;
+   src: url('../fonts/light.ttf');
+}
+
+@font-face {
+   font-family: regVu;
+   src: url('../fonts/reg.ttf');
+}
+
+@font-face {
+   font-family: condy;
+   src: url('../fonts/condy.ttf');
+}
+
+#credits{
+	font-size: 20px;
+	font-family: myFirstFont;
+	color: #7988A2 !important;
+}
+p.level_disp{
+	font-size: 14px;
+	font-family: regVu;
+	color: #7988A2 !important;
+}
+p.filter{
+	font-size: 20px;
+	font-family: myFirstFont;
+	color: #788594 !important;
+}
+p.major_title{
+	font-size: 21px;
+	font-family: condy;
+	color: #00604C !important;
+	padding-bottom: 0px;
+	padding-top: 0px;
+}
+
+p.green_box_text{
+	font-size: 20px;
+	font-family: myFirstFont;
+	color: #6F8F56 !important;
+}
+
+p.red_box_text{
+	font-size: 20px;
+	font-family: myFirstFont;
+	color: #B70000 !important;
+}
+
+p.blue_box_text{
+	font-size: 20px;
+	font-family: myFirstFont;
+	color: #03899E !important;
+}
+
+p.yellow_box_text{
+	font-size: 20px;
+	font-family: myFirstFont;
+	color: #B08900 !important;
+}
+
+
+img.major_icon{
+ width: 70%;
+ height: 70%;
+ padding-top: 15px;
+ 
+}
+
+
+
+
+   
+ #screen { display:block; margin:0 auto; background-color:#F0F; }
+      
+  
+  .fpsmeter {
+        
+	padding: 0;
+       
+	 margin: 0;
+        
+	width: 100%;
+      
+	  text-align: center;
+    
+  }
+  
+  .fpsmeter p {
+     
+	   margin-top: 0px;
+ 
+           margin-bottom: 0px;
+  
+  }
+
+  .info-text{
+	font-size: 14px;
+	font-family: regVu;
+	color: #7988A2 !important;
+  }
+ 
+ canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 80%;
+	height:80%;
+}
+
+
+/*stuff for the dropdown menus*/
+.onclick-menu {
+    position: relative;
+    display: inline-block;
+}
+.onclick-menu:before {
+    /*content: "click me!";*/
+}
+
+.onclick-menu:focus {
+    /* clicking on label should toggle the menu */
+    border-style: none;
+    border-color: none;
+    outline: none;
+    pointer-events: none;
+}
+.onclick-menu:focus .onclick-menu-content {
+    /*  opacity is 1 in opened state (see below) */
+    opacity: 1;
+    display: block;
+
+    /* don't let pointer-events affect descendant elements */
+    pointer-events: auto;
+}
+.onclick-menu-content {
+    position: relative;
+    z-index: 1;
+
+    /* use opacity to fake immediate toggle */
+    opacity: 0;
+    display: none;
+    transition: display 5s;
+}
