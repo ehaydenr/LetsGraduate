@@ -1,3 +1,4 @@
+var server_url = "http://localhost:3000";
 chrome.browserAction.onClicked.addListener( function(request, sender, sendResponse) {
   chrome.tabs.executeScript(null, { // defaults to the current tab
     file: "parse.js", // script to inject into page and run in sandbox
@@ -9,7 +10,7 @@ chrome.browserAction.onClicked.addListener( function(request, sender, sendRespon
       var url = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token;
       $.get( url, function( data ) {
         var id = data.user_id;
-        url = "http://localhost:3000/import";
+        url = server_url + "/import";
         $.post( url, { "id": id, "data": JSON.stringify(result) }, "json")
         .done(function( data ) {
           console.log(data);

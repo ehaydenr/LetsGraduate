@@ -7,6 +7,8 @@ var xhr = new x()
 var xml2js= require('xml2js');
 var xpath = require("xml2js-xpath");	
 
+var DEPT_LIMIT = Number.MAX_VALUE;
+
 /* MySQL Setup */
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
@@ -69,16 +71,25 @@ function get_desc(year, sem, dep, number, title){
       }else{
         xml2js.parseString(body, function(err, result){
           var matches = xpath.find(result, "//description");
+          var creditHoursMatches = xpath.find(result, "//creditHours");
+          var creditHours = 0;
           if(err || matches.length == 0){
             rej("Rejecting description for: year: " + year + " semester: " + sem + " department: " + dep + " number: " + number + " title: " + title);
             matches = [null];
           }
+
+          if(creditHoursMatches.length > 0){
+            creditHours = creditHoursMatches[0];
+            creditHours = creditHours.split(' ')[0];
+          }
+
           resolve({
             year: year,
             semester: sem,
             department: dep,
             number: number, 
             title: title,
+            creditHours: creditHours,
             description: matches[0]
           });
         });
@@ -96,7 +107,7 @@ function getData(year, sem){
     get_departments(year, sem).then(function (res) {
       var course_promises = [];
       var departments = res.departments;
-      for(var i = 0; i < departments.length; ++i){
+      for(var i = 0; i < departments.length && i < DEPT_LIMIT; ++i){
         var dep = departments[i].$.id;
         var course_promise = get_courses(year, sem, dep);
         course_promises.push(course_promise);
@@ -115,11 +126,11 @@ function getData(year, sem){
         }
         console.log(desc_promises.length + " classes");
         Promise.all(desc_promises).then(function (res){
-          var query = 'INSERT INTO Class (department, number, title, description) VALUES ?;';
+          var query = 'INSERT INTO Class (department, number, title, creditHours, description) VALUES ?;';
           var args = [];
           for(var i = 0; i < res.length; ++i){
             if(res[i] == null) continue; // Ignore failures
-            var arg_entry = [res[i].department, res[i].number, res[i].title, res[i].description];
+            var arg_entry = [res[i].department, res[i].number, res[i].title, res[i].creditHours, res[i].description];
             args.push(arg_entry);
           }
           connection.query(query, [args], function(err, rows, fields){
@@ -147,7 +158,7 @@ function getNumCourses(year, sem){
 	if(xhr.status==200){
 		xml2js.parseString(xhr.responseText, function(err, result){
 			var matches = xpath.find(result, "//subject");
-			for(var i = 0; i < matches.length; i++){
+			for(var i = 0; i < matches.length && i < DEPT_LIMIT; i++){
 				code = matches[i].$.id;
 				var url2 = url_cat+year+"/"+sem+"/"+code+".xml";
 				xhr.open('GET', url2, false);
@@ -169,7 +180,7 @@ function getNumCourses(year, sem){
 var numCourses = getNumCourses("2015", "spring");
 var ProgressBar = require('progress');
 
-var bar = new ProgressBar(':bar', { total: numCourses}); // Hard coded the nuber of classes
+var bar = new ProgressBar(':bar', { total: numCourses}); 
 var timer = setInterval(function () {
   if (bar.complete) {
     console.log('\ncomplete\n');
