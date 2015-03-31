@@ -124,9 +124,11 @@ router.post('/import', function (req, res) {
 
 router.get('/updateClass', function (req, res) {
   // retrieve user profile
-  var classid = req.query.classid;
+  var classid = req.query.id;
   var userid = req.user.google.id;
   var action = req.query.action; // Either delete or insert 
+  console.log(req.query);
+
 
   if(action != 'insert' && action != 'delete'){
     res.send(500);
@@ -137,6 +139,9 @@ router.get('/updateClass', function (req, res) {
   var query_insert = 'INSERT INTO UserClass VALUES (?, ?);'; // userid, class_id
   var query_delete = 'DELETE FROM UserClass WHERE google_id = ? AND class_id = ?;';
   var query = action == 'delete' ? query_delete : query_insert;
+  console.log(query);
+  console.log(userid);
+  console.log(classid);
   connection.query(query, [userid, classid], function(err, rows, fields) {
     if(err){
       console.log(err);
