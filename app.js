@@ -1,4 +1,4 @@
-var GOOGLE_ID = 103656544627788232499;
+var GOOGLE_ID = "103656544627788232499";
 // Modules
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -37,12 +37,13 @@ router.use(function (req, res, next) {
   if(req.session && req.session.auth && req.session.auth.loggedIn){
     next();
   }else if(req.url == '/login'){
-    next();
+     next();
   }else{
     res.redirect('/login');
   }
 
-	next();
+	//next();
+  
 });
 
 /* MySQL Setup */
@@ -68,21 +69,19 @@ router.get('/', function (req, res) {
 
 
   if(req.session && req.session.auth && req.session.auth.loggedIn){
-    res.render('WebPages/Overview');
+
+    res.redirect('overview');
     return;
   }
-  res.render('WebPages/Login');
+    res.render('WebPages/Login');
 });
 
 router.get('/login', function(req, res){
   if(req.session && req.session.auth && req.session.auth.loggedIn){
-    res.redirect('WebPages/Overview');
+    res.redirect('overview');
   }else{
     res.render('WebPages/Login');
   }
-
-
-
 });
 
 router.get('/logout', function(req, res){
@@ -109,9 +108,27 @@ router.get('/profile', function (req, res) {
 //Begining of Webpage rendering
 
 router.get('/overview', function (req, res) {
-	var data = require('./cs_requirements.json');
-   res.render('WebPages/Overview', {"data":data});
-   console.log(data);
+  console.log("on Overview");
+  var id = GOOGLE_ID; //later change to 'req.user.google.id';
+
+  var query = 'SELECT Class.* FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
+  console.log("Looking up for: " + id);
+  connection.query(query, [id], function (err, rows, fields) {
+    console.log("queried");
+    if(err){
+      console.log(err);
+      res.send(500);
+      return;
+    }
+    console.log(rows);
+    res.render('WebPages/Overview', {"rows": rows});
+    console.log("rendered");
+  });
+
+
+	// var data = require('./cs_requirements.json');
+  // res.render('WebPages/Overview', {"data":data});
+  // console.log(data);
 });
 
 
@@ -119,8 +136,6 @@ router.get('/overview', function (req, res) {
 router.get('/councillor', function (req, res) {
    res.render('WebPages/Councillor');
 });
-
-
 
 
 //End of WebPage rendering
