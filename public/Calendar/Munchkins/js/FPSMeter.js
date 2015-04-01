@@ -37,7 +37,7 @@ FPSMeter.prototype.update = function (elapsed)
 		avg += o;
 	});
 	avg /= this.fpsArray.length;
-	//this.fpst[0].textContent = "This calendar looks like ass. Will fix, also will add g-maps + fix suggested classes ";
+	this.fpst[0].textContent = "This calendar looks like ass. Will fix, also will add g-maps + fix suggested classes ";
 	//this.fpst[1].textContent = "avg: " + avg.toFixed(3) + " fps: " + (1/avg).toFixed(0);
 	//this.fpst[2].textContent = "current: " + elapsed.toFixed(3);
 	//this.FramesPerSec =  (1/avg).toFixed(0);
