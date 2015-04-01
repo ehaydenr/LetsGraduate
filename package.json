@@ -21,7 +21,8 @@
   },
   "scripts": {
     "test": "nodeunit ./tests/example.js",
-    "populatedb": "node ./scripts/scrape_classes.js"
+    "populatedb": "node ./scripts/scrape_classes.js",
+    "generateclassdata": "node ./scripts/generate_class_listing.js"
   },
   "repository": {
     "type": "git",

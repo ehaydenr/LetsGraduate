@@ -31,7 +31,7 @@ connection.query(query, function (err, rows, fields) {
   connection.end();
 
   // Write data to file
-  fs.writeFile("../public/class.json", JSON.stringify(rows), function(err) {
+  fs.writeFile("./public/class.json", JSON.stringify(rows), function(err) {
     if(err) {
       console.log(err);
     } else {

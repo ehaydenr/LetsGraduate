@@ -19,6 +19,7 @@ Database Setup
 * Create dev database with user - `mysql -u root -p < db/createdb.sql`
 * Load Schema - `mysql -u root -p letsgraduate_dev < db/schema.sql`
 * Populate Database - `npm run populatedb`
+* Generate Class JSON - `npm run generateclassdata`
 * WARNING - The populatedb script doesn't seem to work on newer versions of nodejs. It works on v0.10.35.
 
 [![Build Status](https://travis-ci.org/ehaydenr/LetsGraduate.svg?branch=master)](https://travis-ci.org/ehaydenr/LetsGraduate)
