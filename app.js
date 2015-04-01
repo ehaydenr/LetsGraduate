@@ -1,3 +1,4 @@
+var GOOGLE_ID = 103656544627788232499;
 // Modules
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -64,6 +65,7 @@ connection.connect(function(err){
 });
 
 router.get('/', function (req, res) {
+
 
   if(req.session && req.session.auth && req.session.auth.loggedIn){
     res.render('WebPages/Overview');
