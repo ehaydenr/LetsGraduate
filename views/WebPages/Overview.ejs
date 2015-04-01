@@ -397,9 +397,9 @@
 								</div>
 								<br>
 						<!-- CONTENT GOES HERE -->
-
+						<% var creds=0; for(var i=0; i<rows.length;i++){ creds+=parseInt(rows[i].creditHours)}%>
 						<p id="credits">
-						&nbsp;&nbsp;&nbsp;&nbsp;Credits: 102/120
+						&nbsp;&nbsp;&nbsp;&nbsp;Credits: <%=creds%>/120
 						</p>
 						 <div align = "center">
 						
@@ -410,9 +410,15 @@
 							</p>
 							
 							
+
+							<%for(var i=0; i<rows.length;i++){%>
+								<%if(rows[i].number<200){%>
+									
+							
 							<!--greenBox-->
-							<span style="cursor:pointer">
-							<div class="alert alert-block alert-success">										
+							<span style='cursor:pointer' title="<%=rows[i].description%>">
+							
+							<div class="alert alert-block alert-success" alt="kekles">										
 										<div tabindex="0" class="onclick-menu">
 										<div align="center">
 											 <table>
@@ -421,7 +427,7 @@
 											</td><td cellpadding="2">
 											
 												<p class="green_box_text">
-													CS100
+													<%=rows[i].department+rows[i].number%>
 												</p>
 												</td>
 
@@ -434,38 +440,8 @@
 								</div>
 								</span>
 							<!--endOfGreenBox-->
-							
+							<%}}%>
 
-
-				
-
-
-							<!--greenBox-->
-							
-							<div class="alert alert-block alert-success">
-							  <div class="col-md-1">
-									<i class="ace-icon fa fa-check green"></i>
-							</div>
-							
-									<p class="green_box_text">
-									CS125
-									</p>
-								
-								</div>
-								
-							<!--endOfGreenBox-->
-							
-							
-							<!--greenBox-->
-							<div class="alert alert-block alert-success">
-							  <div class="col-md-1">
-									<i class="ace-icon fa fa-check green"></i>
-							</div>
-									<p class="green_box_text">
-									CS173
-									</p>
-								</div>
-							<!--endOfGreenBox-->
 							
 						  </div>
 						  <div class="col-md-3">
@@ -474,73 +450,45 @@
 							</p>
 							
 							
-							<!--redBox-->
-							<div class="alert alert-block alert-danger">
-							  <div class="col-md-1">
-									<i class="ace-icon fa fa-close red"></i>
-							</div>
-									<p class="red_box_text">
-									CS210
-									</p>
-								</div>
-							<!--endOfRedBox-->
+
+							<%for(var i=0; i<rows.length;i++){%>
+								<%if(rows[i].number>199 && rows[i].number<300){%>
+									
 							
 							<!--greenBox-->
-							<div class="alert alert-block alert-success">
-							  <div class="col-md-1">
-									<i class="ace-icon fa fa-check green"></i>
-							</div>
-									<p class="green_box_text">
-									CS225
-									</p>
+							<span style='cursor:pointer' title="<%=rows[i].description%>">
+							
+							<div class="alert alert-block alert-success" alt="kekles">										
+										<div tabindex="0" class="onclick-menu">
+										<div align="center">
+											 <table>
+											 <td cellpadding="2">
+											<i class="ace-icon fa fa-check green"></i>
+											</td><td cellpadding="2">
+											
+												<p class="green_box_text">
+													<%=rows[i].department+rows[i].number%>
+												</p>
+												</td>
+
+												</table>
+												</div>
+											<div class="onclick-menu-content">
+											Extra information about the class.
+											</div>
+										</div>
 								</div>
+								</span>
 							<!--endOfGreenBox-->
+							<%}}%>
+
+
+
+
 							
 							
-							<!--greenBox-->
-							<div class="alert alert-block alert-success">
-							  <div class="col-md-1">
-									<i class="ace-icon fa fa-check green"></i>
-							</div>
-									<p class="green_box_text">
-									CS233
-									</p>
-								</div>
-							<!--endOfGreenBox-->
 							
-							<!--greenBox-->
-							<div class="alert alert-block alert-success">
-							  <div class="col-md-1">
-									<i class="ace-icon fa fa-check green"></i>
-							</div>
-									<p class="green_box_text">
-									CS241
-									</p>
-								</div>
-							<!--endOfGreenBox-->
-							
-							<!--greenBox-->
-							<div class="alert alert-block alert-success">
-							  <div class="col-md-1">
-									<i class="ace-icon fa fa-check green"></i>
-							</div>
-									<p class="green_box_text">
-									CS242
-									</p>
-								</div>
-							<!--endOfGreenBox-->
-							
-							
-							<!--blueBox-->
-							<div class="alert alert-block alert-info">
-							  <div class="col-md-1">
-									<i class="ace-icon fa fa-circle blue"></i>
-							</div>
-									<p class="blue_box_text">
-									CS242
-									</p>
-								</div>
-							<!--endOfBlueBox-->
+				
 							
 							
 						  </div>
@@ -550,27 +498,42 @@
 							</p>
 							
 							
-							<!--redBox-->
-							<div class="alert alert-block alert-danger">
-							  <div class="col-md-1">
-									<i class="ace-icon fa fa-close red"></i>
-							</div>
-									<p class="red_box_text">
-									CS357
-									</p>
-								</div>
-							<!--endOfRedBox-->
+
+							<%for(var i=0; i<rows.length;i++){%>
+								<%if(rows[i].number>299 && rows[i].number<400){%>
+									
 							
-							<!--redBox-->
-							<div class="alert alert-block alert-danger">
-							  <div class="col-md-1">
-									<i class="ace-icon fa fa-close red"></i>
-							</div>
-									<p class="red_box_text">
-									CS374
-									</p>
+							<!--greenBox-->
+							<span style='cursor:pointer' title="<%=rows[i].description%>">
+							
+							<div class="alert alert-block alert-success" alt="kekles">										
+										<div tabindex="0" class="onclick-menu">
+										<div align="center">
+											 <table>
+											 <td cellpadding="2">
+											<i class="ace-icon fa fa-check green"></i>
+											</td><td cellpadding="2">
+											
+												<p class="green_box_text">
+													<%=rows[i].department+rows[i].number%>
+												</p>
+												</td>
+
+												</table>
+												</div>
+											<div class="onclick-menu-content">
+											Extra information about the class.
+											</div>
+										</div>
 								</div>
-							<!--endOfRedBox-->
+								</span>
+							<!--endOfGreenBox-->
+							<%}}%>
+
+
+							
+							
+							
 							
 						  </div>
 						  <div class="col-md-3">
@@ -578,41 +541,46 @@
 								400 Level
 							</p>
 							
-								<!--yellowBox-->
-							<div class="alert alert-block alert-warning">
-							  <div class="col-md-1">
-									<i class="ace-icon fa fa-stop yellow"></i>
-							</div>
-									<p class="yellow_box_text">
-									CS411
-									</p>
+								<%for(var i=0; i<rows.length;i++){%>
+								<%if(rows[i].number>399){%>
+									
+							
+							<!--greenBox-->
+							<span style='cursor:pointer' title="<%=rows[i].description%>">
+							
+							<div class="alert alert-block alert-success" alt="kekles">										
+										<div tabindex="0" class="onclick-menu">
+										<div align="center">
+											 <table>
+											 <td cellpadding="2">
+											<i class="ace-icon fa fa-check green"></i>
+											</td><td cellpadding="2">
+											
+												<p class="green_box_text">
+													<%=rows[i].department+rows[i].number%>
+												</p>
+												</td>
+
+												</table>
+												</div>
+											<div class="onclick-menu-content">
+											Extra information about the class.
+											</div>
+										</div>
 								</div>
-							<!--endOfYellowBox-->
+								</span>
+							<!--endOfGreenBox-->
+							<%}}%>
+
+
+								
 							
 							
 							
-								<!--yellowBox-->
-							<div class="alert alert-block alert-warning">
-							  <div class="col-md-1">
-									<i class="ace-icon fa fa-stop yellow"></i>
-							</div>
-									<p class="yellow_box_text">
-									CS440
-									</p>
-								</div>
-							<!--endOfYellowBox-->
 							
+								
 							
-							<!--redBox-->
-							<div class="alert alert-block alert-danger">
-							  <div class="col-md-1">
-									<i class="ace-icon fa fa-close red"></i>
-							</div>
-									<p class="red_box_text">
-									2 more 400 level classes
-									</p>
-								</div>
-							<!--endOfRedBox-->
+						
 							
 						  </div>
 						  </div>
@@ -623,7 +591,7 @@
 								Filter:
 							</p>
 							<button class="btn btn-success">
-										<i class="ace-icon fa fa-check light-gray"></i>
+										
 								CS Classes
 							</button>
 							
@@ -646,7 +614,71 @@
 						
 						</div>
 						<div align = 'center'>
+
+							  <div class="col-md-3">
+							 		
+							
+										<div class="alert alert-block alert-success">										
+										<div tabindex="0" class="onclick-menu">
+										<div align="center">
+											 <table>
+											 <td cellpadding="2">
+											<i class="ace-icon fa fa-check green"></i>
+											</td><td cellpadding="2">
+											
+												<p class="green_box_text">
+													CS125
+												</p>
+												</td>
+
+												</table>
+												</div>
+											</div>
+										</div>
+						
+							  </div>
+
+							  <div class="col-md-3">
+							  	<!--blueBox-->
+							<div class="alert alert-block alert-info">
+							  <div class="col-md-1">
+									<i class="ace-icon fa fa-circle blue"></i>
+							</div>
+									<p class="blue_box_text">
+									CS242
+									</p>
+								</div>
+							<!--endOfBlueBox-->
+							  </div>
+							  <div class="col-md-3">
+									<!--redBox-->
+									<div class="alert alert-block alert-danger">
+									  <div class="col-md-1">
+											<i class="ace-icon fa fa-close red"></i>
+									</div>
+											<p class="red_box_text">
+											CS374
+											</p>
+										</div>
+							<!--endOfRedBox-->
+							  </div>
+							  <div class="col-md-3">
+							  		<!--yellowBox-->
+								<div class="alert alert-block alert-warning">
+								  <div class="col-md-1">
+										<i class="ace-icon fa fa-stop yellow"></i>
+								</div>
+										<p class="yellow_box_text">
+										CS411
+										</p>
+									</div>
+							<!--endOfYellowBox-->
+							  </div></div>
+							  </try{ace.settings.check('breadcrumbs'></script></div>
+							  <br>
+							  <div align="center">
 						<font color='gray'>Green boxes are required classes that you already completed.</font> <br>
+
 						<font color='gray'>Red boxes are required uncompleted classes.</font> <br>
 						<font color='gray'>Blue boxes are additional non-required classes you've taken. </font><br>
 						<font color='gray'>Yellow Boxes are what you are currently taking.</font>
