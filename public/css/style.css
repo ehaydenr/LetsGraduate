@@ -69,8 +69,29 @@ img.major_icon{
  
 }
 
-.login-background
 
+.login-background{
+  min-height: 100%;
+  min-width: 100%;
+  background-image: url("../images/background.png");
+  background-repeat: no-repeat;
+  background-position: center 0;
+  position: absolute;
+  z-index: -1;
+  text-align: center;
+}
+
+p.login-title{
+  font-size: 40px;
+  font-family: myFirstFont;
+  color: #ffffff !important;
+}
+
+p.login-subtitle{
+  font-size: 20px;
+  font-family: myFirstFont;
+  color: #ffffff !important;
+}
 
 
    

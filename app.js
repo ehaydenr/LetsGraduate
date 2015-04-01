@@ -110,14 +110,14 @@ router.get('/profile', function (req, res) {
 
 router.get('/overview', function (req, res) {
 	var data = require('./cs_requirements.json');
-   res.render('Webpages/Overview', {"data":data});
+   res.render('WebPages/Overview', {"data":data});
    console.log(data);
 });
 
 
 
 router.get('/councillor', function (req, res) {
-   res.render('Webpages/Councillor');
+   res.render('WebPages/Councillor');
 });
 
 
