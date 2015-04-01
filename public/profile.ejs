@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Profile</title>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js" ></script>
+    <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js" ></script>
+    <script src="/profile.js" ></script>
+    <link href='/profile.css', rel='stylesheet'>
+</head>
+<body>
+<div class="name">
+	<%= user.name + "-" + user.id%>
+</div>
+<hr>
+<div class="contain">
+	<div class="classes_taken">
+		<ul>
+			<%for(var j = 0; j<rows.length; j++){%>
+
+			<%}%>
+			
+		</ul>
+	</div>
+	<hr>
+	<div class="class_picker">
+		<div class="ui-widget">
+			<label for="courses">
+				Courses:
+			</label>
+			<input id="courses">
+			<input id="id_holder" type="hidden">
+		</div>
+		<div class="class_display">
+			<div class="class_name"></div>
+			<div class="description"></div>
+			<div id="add" class="btn rect">ADD Class!</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

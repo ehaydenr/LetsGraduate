@@ -66,18 +66,21 @@ connection.connect(function(err){
 router.get('/', function (req, res) {
 
   if(req.session && req.session.auth && req.session.auth.loggedIn){
-    res.render('home');
+    res.render('Webpages/Overview');
     return;
   }
-  res.render('login');
+  res.render('Webpages/Login');
 });
 
 router.get('/login', function(req, res){
   if(req.session && req.session.auth && req.session.auth.loggedIn){
-    res.redirect('/');
+    res.redirect('Webpages/Overview');
   }else{
-    res.render('login');
+    res.render('Webpages/Login');
   }
+
+
+
 });
 
 router.get('/logout', function(req, res){

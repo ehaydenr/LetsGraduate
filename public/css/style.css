@@ -19,6 +19,19 @@
 	font-family: myFirstFont;
 	color: #7988A2 !important;
 }
+
+p.login-title{
+	font-size: 40px;
+	font-family: myFirstFont;
+	color: #ffffff !important;
+}
+
+p.login-subtitle{
+	font-size: 20px;
+	font-family: myFirstFont;
+	color: #ffffff !important;
+}
+
 p.level_disp{
 	font-size: 14px;
 	font-family: regVu;
@@ -112,37 +125,13 @@ img.major_icon{
 	height:80%;
 }
 
-
-/*stuff for the dropdown menus*/
-.onclick-menu {
-    position: relative;
-    display: inline-block;
-}
-.onclick-menu:before {
-    /*content: "click me!";*/
-}
-
-.onclick-menu:focus {
-    /* clicking on label should toggle the menu */
-    border-style: none;
-    border-color: none;
-    outline: none;
-    pointer-events: none;
-}
-.onclick-menu:focus .onclick-menu-content {
-    /*  opacity is 1 in opened state (see below) */
-    opacity: 1;
-    display: block;
-
-    /* don't let pointer-events affect descendant elements */
-    pointer-events: auto;
-}
-.onclick-menu-content {
-    position: relative;
-    z-index: 1;
-
-    /* use opacity to fake immediate toggle */
-    opacity: 0;
-    display: none;
-    transition: display 5s;
+.login-background{
+	min-height: 100%;
+	min-width: 100%;
+	background-image: url("../images/background.png");
+	background-repeat: no-repeat;
+	background-position: center 0;
+	position: absolute;
+	z-index: -1;
+	text-align: center;
 }

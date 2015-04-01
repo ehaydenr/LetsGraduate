@@ -1,5 +1,7 @@
 var server_url = "http://localhost:3000";
+console.log("background loaded");
 chrome.browserAction.onClicked.addListener( function(request, sender, sendResponse) {
+  console.log("clicked");
   chrome.tabs.executeScript(null, { // defaults to the current tab
     file: "parse.js", // script to inject into page and run in sandbox
     allFrames: true // This injects script into iframes in the page and doesn't work before 4.0.266.0.
