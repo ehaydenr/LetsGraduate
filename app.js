@@ -66,17 +66,17 @@ connection.connect(function(err){
 router.get('/', function (req, res) {
 
   if(req.session && req.session.auth && req.session.auth.loggedIn){
-    res.render('Webpages/Overview');
+    res.render('WebPages/Overview');
     return;
   }
-  res.render('Webpages/Login');
+  res.render('WebPages/Login');
 });
 
 router.get('/login', function(req, res){
   if(req.session && req.session.auth && req.session.auth.loggedIn){
-    res.redirect('Webpages/Overview');
+    res.redirect('WebPages/Overview');
   }else{
-    res.render('Webpages/Login');
+    res.render('WebPages/Login');
   }
 
 
