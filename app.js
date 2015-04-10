@@ -1,4 +1,3 @@
-var GOOGLE_ID = "103656544627788232499";
 // Modules
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -109,20 +108,20 @@ router.get('/profile', function (req, res) {
 
 router.get('/overview', function (req, res) {
   console.log("on Overview");
-  var id = GOOGLE_ID; //later change to 'req.user.google.id';
+  var id = req.user.google.id; //GOOGLE_ID; //later change to 'req.user.google.id';
 
   var query = 'SELECT Class.* FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
   console.log("Looking up for: " + id);
   connection.query(query, [id], function (err, rows, fields) {
-    console.log("queried");
+    //console.log("queried");
     if(err){
       console.log(err);
       res.send(500);
       return;
     }
-    console.log(rows);
+    //console.log(rows);
     res.render('WebPages/Overview', {"rows": rows});
-    console.log("rendered");
+    //console.log("rendered");
   });
 
 
