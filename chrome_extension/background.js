@@ -18,6 +18,9 @@ chrome.browserAction.onClicked.addListener( function(request, sender, sendRespon
         $.post( url, { "id": id, "data": JSON.stringify(result) }, "json")
         .done(function( data ) {
           //console.log(data);
+          chrome.identity.removeCachedAuthToken({token: token}, function(){
+            console.log("Removed from cache");
+          });
         });
       });
     });
