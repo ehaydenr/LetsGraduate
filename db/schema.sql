@@ -111,7 +111,8 @@ DROP TABLE IF EXISTS `UserClass`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `UserClass` (
   `google_id` char(22) DEFAULT NULL,
-  `class_id` int(11) DEFAULT NULL
+  `class_id` int(11) DEFAULT NULL,
+  `hours` varchar(8) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -124,4 +125,4 @@ CREATE TABLE `UserClass` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-31 15:20:58
+-- Dump completed on 2015-04-11 17:10:13

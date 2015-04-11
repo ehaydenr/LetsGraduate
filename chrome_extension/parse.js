@@ -31,13 +31,13 @@ for(var i = 0; i < table_rows.length; ++i){
   }else{
     // Looking at table data
     if(current_field == 'insti_credit' && children.length == 9){
-      data.insti_credit.push({"subject": children[0].innerText, "number": children[1].innerText});
+      data.insti_credit.push({"subject": children[0].innerText, "number": children[1].innerText, "hours": children[5].innerText.replace(/(\r\n|\n|\r)/gm,"")});
     }else if(current_field == 'trans_credit' && children.length == 7 && children[1].innerText != "Attempt Hours"){
-      data.trans_credit.push({"subject": children[0].innerText, "number": children[1].innerText});
+      data.trans_credit.push({"subject": children[0].innerText, "number": children[1].innerText, "hours": children[4].innerText.replace(/(\r\n|\n|\r)/gm,"")});
     }else if(current_field == 'trans_credit'){
       //console.log(children);
     }else if(current_field == 'crses_progress' && children.length == 5){
-      data.crses_progress.push({"subject": children[0].innerHTML, "number": children[1].innerHTML});
+      data.crses_progress.push({"subject": children[0].innerHTML, "number": children[1].innerHTML, "hours": children[4].innerText.replace(/(\r\n|\n|\r)/gm,"")});
     }
   }
 

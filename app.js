@@ -110,7 +110,7 @@ router.get('/overview', function (req, res) {
   console.log("on Overview");
   var id = req.user.google.id; //GOOGLE_ID; //later change to 'req.user.google.id';
 
-  var query = 'SELECT Class.* FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
+  var query = 'SELECT Class.*, hours FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
   console.log("Looking up for: " + id);
   connection.query(query, [id], function (err, rows, fields) {
     //console.log("queried");
@@ -142,14 +142,12 @@ router.get('/councillor', function (req, res) {
 router.post('/import', function (req, res) {
   var id = req.user.google.id;
   var obj = JSON.parse(req.body.data)[0];
-  var assoc = [];
   var query = '';
-  var sql = "INSERT INTO UserClass (google_id, class_id) SELECT ?, Class.id FROM Class WHERE department = ? AND number = ?;";
+  var sql = "INSERT INTO UserClass (google_id, class_id, hours) SELECT ?, Class.id, ? FROM Class WHERE department = ? AND number = ?;";
   for(var type in obj){
     for(var entry in obj[type]){
       var tuple = obj[type][entry];
-      assoc.push([id, tuple.subject, tuple.number]);
-      query += mysql.format(sql, [id, tuple.subject, tuple.number]);
+      query += mysql.format(sql, [id, tuple.hours, tuple.subject, tuple.number]);
     }
   }
   var ret = connection.query(query, function (err){

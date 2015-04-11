@@ -1,3 +1,4 @@
+//var server_url = "http://letsgraduate.tk:3000";
 var server_url = "http://localhost:3000";
 console.log("background loaded");
 chrome.browserAction.onClicked.addListener( function(request, sender, sendResponse) {
