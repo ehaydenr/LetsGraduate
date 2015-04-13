@@ -1,0 +1,12 @@
+<html>
+	<h1>Requirement ID: <%=id%></h1>
+	<br>
+	<ul>
+		<li>Child id 1: <a href=<%="/requirement?id=" + child_id_1%>> <%=child_id_1%></a></li>
+		<li>Child id 2: <a href=<%="/requirement?id=" + child_id_2%>> <%=child_id_2%></a></li>
+		<li>Group id: <a href=<%="/group?id=" + group_id%>> <%=group_id%></a></li>
+		<li>AND: <%=and%></li>
+		<li>Concurrent: <%= concurrent%></li>
+		<li>Occurence: <%=occurence%></li>
+	</ul>
+</html>

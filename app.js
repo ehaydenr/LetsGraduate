@@ -17,7 +17,7 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 
 app.use(express.static(path.join(__dirname, 'public')))
@@ -31,15 +31,18 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Middleware
 router.use(function (req, res, next) {
+	
   console.log(req.url);
   if(req.session && req.session.auth && req.session.auth.loggedIn){
     next();
   }else if(req.url == '/login'){
-    next();
+     next();
   }else{
     res.redirect('/login');
   }
 
+	//next();
+  
 });
 
 /* MySQL Setup */
@@ -62,18 +65,21 @@ connection.connect(function(err){
 });
 
 router.get('/', function (req, res) {
+
+
   if(req.session && req.session.auth && req.session.auth.loggedIn){
-    res.render('home');
+
+    res.redirect('overview');
     return;
   }
-  res.render('login');
+    res.render('WebPages/Login');
 });
 
 router.get('/login', function(req, res){
   if(req.session && req.session.auth && req.session.auth.loggedIn){
-    res.redirect('/');
+    res.redirect('overview');
   }else{
-    res.render('login');
+    res.render('WebPages/Login');
   }
 });
 
@@ -96,17 +102,52 @@ router.get('/profile', function (req, res) {
   });
 });
 
+
+
+//Begining of Webpage rendering
+
+router.get('/overview', function (req, res) {
+  console.log("on Overview");
+  var id = req.user.google.id; //GOOGLE_ID; //later change to 'req.user.google.id';
+
+  var query = 'SELECT Class.*, hours FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
+  console.log("Looking up for: " + id);
+  connection.query(query, [id], function (err, rows, fields) {
+    //console.log("queried");
+    if(err){
+      console.log(err);
+      res.send(500);
+      return;
+    }
+    //console.log(rows);
+    res.render('WebPages/Overview', {"rows": rows});
+    //console.log("rendered");
+  });
+
+
+	// var data = require('./cs_requirements.json');
+  // res.render('WebPages/Overview', {"data":data});
+  // console.log(data);
+});
+
+
+
+router.get('/councillor', function (req, res) {
+   res.render('WebPages/Councillor');
+});
+
+
+//End of WebPage rendering
+
 router.post('/import', function (req, res) {
   var id = req.user.google.id;
   var obj = JSON.parse(req.body.data)[0];
-  var assoc = [];
   var query = '';
-  var sql = "INSERT INTO UserClass (google_id, class_id) SELECT ?, Class.id FROM Class WHERE department = ? AND number = ?;";
+  var sql = "INSERT INTO UserClass (google_id, class_id, hours) SELECT ?, Class.id, ? FROM Class WHERE department = ? AND number = ?;";
   for(var type in obj){
     for(var entry in obj[type]){
       var tuple = obj[type][entry];
-      assoc.push([id, tuple.subject, tuple.number]);
-      query += mysql.format(sql, [id, tuple.subject, tuple.number]);
+      query += mysql.format(sql, [id, tuple.hours, tuple.subject, tuple.number]);
     }
   }
   var ret = connection.query(query, function (err){
@@ -164,6 +205,9 @@ router.get('/class', function (req, res){
     res.render('class', data);
   });
 });
+
+
+
 
 router.get('/requirement', function(req, res){
   var data = require('./public/test_requirement.json');
