@@ -14,27 +14,27 @@
 	},
 	{
 		"type":"C", 
-		"department":"chem",
+		"department":"CHEM",
 		"number":102
 	},
 	{
 		"type":"C", 
-		"department":"chem",
+		"department":"CHEM",
 		"number":103
 	},
 	{
 		"type":"C", 
-		"department":"eng",
+		"department":"ENG",
 		"number":100
 	},
 	{
 		"type":"C", 
-		"department":"phys",
+		"department":"PHYS",
 		"number":211
 	},
 	{
 		"type":"C", 
-		"department":"phys",
+		"department":"PHYS",
 		"number":212
 	},
 	{
@@ -44,12 +44,12 @@
 		"reqs":[
 		{
 				"type":"C", 
-				"department":"phys",
+				"department":"PHYS",
 				"number":213
 			},
 			{
 				"type":"C", 
-				"department":"phys",
+				"department":"PHYS",
 				"number":214
 			}
 			]
@@ -64,12 +64,12 @@
 			"reqs":[
 			{
 					"type":"C", 
-					"department":"cs",
+					"department":"CS",
 					"number":427
 				},
 				{
 					"type":"C", 
-					"department":"cs",
+					"department":"CS",
 					"number":429
 				}
 				]
@@ -79,36 +79,36 @@
 				"reqs":[
 				{
 					"type":"C", 
-					"department":"cs",
+					"department":"CS",
 					"number":492
 				},
 				{
 					"type":"C", 
-					"department":"cs",
+					"department":"CS",
 					"number":493
 				}
 				]
 			},
 			{
 			"type":"C", 
-			"department":"cs",
+			"department":"CS",
 			"number":499
 		}
 		]
 	},
 	{
 		"type":"C", 
-		"department":"math",
+		"department":"MATH",
 		"number":221
 	},
 	{
 		"type":"C", 
-		"department":"math",
+		"department":"MATH",
 		"number":231
 	},
 	{
 		"type":"C", 
-		"department":"math",
+		"department":"MATH",
 		"number":241
 	},
 	
@@ -119,74 +119,74 @@
 		"reqs":[
 		{
 			"type":"C", 
-			"department":"math",
+			"department":"MATH",
 			"number":415
 		},
 		{
 			"type":"C", 
-			"department":"math",
+			"department":"MATH",
 			"number":416
 		},
 		{
 			"type":"C", 
-			"department":"math",
+			"department":"MATH",
 			"number":426
 		}
 		]
 	},
 	{
 		"type":"C", 
-		"department":"cs",
+		"department":"CS",
 		"number":125
 	},
 	{
 		"type":"C", 
-		"department":"cs",
+		"department":"CS",
 		"number":173
 	},
 	{
 		"type":"C", 
-		"department":"cs",
+		"department":"CS",
 		"number":210
 	},
 	{
 		"type":"C", 
-		"department":"cs",
+		"department":"CS",
 		"number":225
 	},
 	{
 		"type":"C", 
-		"department":"cs",
+		"department":"CS",
 		"number":233
 	},
 	{
 		"type":"C", 
-		"department":"cs",
+		"department":"CS",
 		"number":241
 	},
 	{
 		"type":"C", 
-		"department":"cs",
+		"department":"CS",
 		"number":210
 	},
 	{
 		"type":"C", 
-		"department":"cs",
+		"department":"CS",
 		"number":242
 	},
 	{
 		"type":"C", 
-		"department":"cs",
+		"department":"CS",
 		"number":357
 	},
 	{
 		"type":"C", 
-		"department":"cs",
+		"department":"CS",
 		"number":374
 	},
 	{
 		"type":"C", 
-		"department":"cs",
+		"department":"CS",
 		"number":421
 	},
 	{
@@ -201,17 +201,17 @@
 			[
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":422
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":426
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":427
 			},
 			{
@@ -219,24 +219,24 @@
 				"reqs":[
 				{
 					"type":"C", 
-					"department":"cs",
+					"department":"CS",
 					"number":428
 				},
 				{
 					"type":"C", 
-					"department":"cs",
+					"department":"CS",
 					"number":429
 				}
 				]
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":476
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":477
 			},
 			{
@@ -244,24 +244,24 @@
 				"reqs":[
 				{
 					"type":"C", 
-					"department":"cs",
+					"department":"CS",
 					"number":492
 				},
 				{
 					"type":"C", 
-					"department":"cs",
+					"department":"CS",
 					"number":493
 				},
 				{
 					"type":"C", 
-					"department":"cs",
+					"department":"CS",
 					"number":494
 				}
 				]
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":498
 			}
 			]
@@ -273,37 +273,37 @@
 			[
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":413
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":473
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":475
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":476
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":477
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":481
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":482
 			}
 			]
@@ -316,57 +316,57 @@
 			[
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":410
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":411
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":412
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":414
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":440
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":443
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":445
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":446
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":447
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":466
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":467
 			}
 			]
@@ -378,42 +378,42 @@
 			[
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":416
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":460
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":461
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":463
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":465
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":467
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":498
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":490
 			}
 			]
@@ -425,32 +425,32 @@
 			[
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":414
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":418
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":419
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":465
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":467
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":498
 			}
 			]
@@ -462,42 +462,42 @@
 			[
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":419
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":450
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":457
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":466
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":482
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":483
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":484
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":498
 			}
 			]
@@ -509,62 +509,62 @@
 			[
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":423
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":424
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":425
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":431
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":436
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":438
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":439
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":460
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":461
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":463
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":483
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":484
 			}
 			]
@@ -576,37 +576,37 @@
 			[
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":423
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":424
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":426
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":431
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":433
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":484
 			},
 			{
 				"type":"C", 
-				"department":"cs",
+				"department":"CS",
 				"number":498
 			}
 			]

@@ -34,7 +34,7 @@
 		<!-- ace settings handler -->
 		<script src="js/ace-extra.js"></script>
 		
-		<%function notSatisfied(dep,num){ return true; }%>
+		
 		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 
 		<!--[if lte IE 8]>
@@ -398,8 +398,24 @@
 								</div>
 								<br>
 						<!-- CONTENT GOES HERE -->
+						<% function notSatisfied(classes,dep,num){  %>
+						<%	if(classes.indexOf(dep+num)>-1){  		%>
+						<%		return false;						%>
+						<%	}										%>
+						<%  return true;				    		%>
+						<%											%>
+						<%}                                 		%>
 
 
+						<% function notSatisfiedOf(classes,list){ 			%>
+						<%	for(var i=0; i<list.length; i++){				%>
+						<%		if(classes.indexOf(list[i])>-1){  			%>
+						<%			return false;							%>
+						<%		}											%>
+						<%	}												%>
+						<%  return true;				    				%>
+						<%													%>
+						<%}                                 				%>
 
 
 						<% var creds=0; for(var i=0; i<rows.length;i++){ creds+=parseInt(rows[i].hours)}%>
@@ -449,7 +465,7 @@
 							<%}}%>
 
 							<%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
-								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number<200 && notSatisfied(reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
+								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number<200 && notSatisfied(classes, reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
 
 
 									<!--redBox-->
@@ -526,7 +542,7 @@
 							<%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
 
 								<!-- CLASS C -->
-								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number<300 && reqs["grad_reqs"][i].number>199 && notSatisfied(reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
+								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number<300 && reqs["grad_reqs"][i].number>199 && notSatisfied(classes,reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
 
 
 									<!--redBox-->
@@ -661,7 +677,7 @@
 
 
 								<%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
-								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number<400 && reqs["grad_reqs"][i].number>299 && notSatisfied(reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
+								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number<400 && reqs["grad_reqs"][i].number>299 && notSatisfied(classes,reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
 
 
 									<!--redBox-->
@@ -744,7 +760,7 @@
 								
 							
 								<%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
-								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number>399 && notSatisfied(reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
+								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number>399 && notSatisfied(classes, reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
 
 
 									<!--redBox-->
@@ -780,8 +796,16 @@
 
 
 
-								<!-- CLASS OR level 200 -->
+								<!-- CLASS OR level 400 -->
 								<%if(reqs["grad_reqs"][i].type=="OR" && reqs["grad_reqs"][i].number==400){%>
+								<%		var sub_classes = new Array();									  %>
+								<% 		for(var q=0; q<reqs["grad_reqs"][i]["reqs"].length;q++){          %> 
+								<%		if(reqs["grad_reqs"][i]["reqs"][q].type=="C"){         		      %> 
+								<%			sub_classes[q]=reqs["grad_reqs"][i]["reqs"][q].department+                  reqs["grad_reqs"][i]["reqs"][q].number;				%>
+								<%		}																  %>
+								<%	}																	  %>
+								<%	if(notSatisfiedOf(classes,sub_classes)){                              %> 
+
 
 									<!--redBox-->
 									<span style='cursor:pointer' title="desc comming soon">
@@ -810,18 +834,26 @@
 															<%if(reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].type=="OR"){%>
 
 																<table width='100%'>
-																<td width='100%' bgcolor="#C78987"><div align="center">
+
+																
 																	<%for(var l=0; l<reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length; l++){%>
+																	<%if(notSatisfied(classes,reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].department,reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].number)){%>
+																	<tr width='100%' bgcolor="#C78987"><div align="center">
+																	<%}else{%>
+																		<tr width='100%' bgcolor="black"><div align="center">
+																	<%}%>	
+
 																		<p class="red_box_text_smaller">
 																		<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].number%>
 																		</p>
 																		<%if (l< reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length -1){%>
 																		<p> or </p>
 																		<%}%>
+																		</div>
+																		</td>
 																	<%}%>
 
-																</div>
-																</td>
+																
 																</table>
 															<%}else{%>
 
@@ -865,6 +897,8 @@
 									</div>
 									</span>
 									<!--endOfRedBox-->
+									<%}%>
+
 								<%}%>
 
 

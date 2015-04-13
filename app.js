@@ -1,3 +1,4 @@
+var GOOGLE_ID = "";
 // Modules
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -120,8 +121,13 @@ router.get('/overview', function (req, res) {
       res.send(500);
       return;
     }
-    //console.log(rows);
-    res.render('WebPages/Overview', {"rows": rows, "reqs": reqs});
+    var classes = new Array();
+    for(var i=0; i<rows.length;i++){
+    	classes[i]=rows[i].department+rows[i].number;
+
+    }
+
+    res.render('WebPages/Overview', {"rows": rows, "reqs": reqs, "classes": classes});
     //console.log("rendered");
   });
 
