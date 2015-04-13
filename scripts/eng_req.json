@@ -1,0 +1,84 @@
+[
+{
+	"dep": "MATH",
+	"num": 220,
+	"req": ""
+},
+{	
+	"dep": "MATH",
+	"num": 221,
+	"req": ""
+},
+{
+	"dep": "MATH",
+	"num": 225,
+	"req": {
+		"operation": "+",
+		"term1": "MATH220",
+		"term2": "MATH221"
+	}
+},
+{
+	"dep": "MATH",
+	"num": 231,
+	"req": {
+		"operation": "+",
+		"term1": "MATH220",
+		"term2": "MATH221"
+	}
+},
+{
+	"dep": "MATH",
+	"num": 241,
+	"req": "MATH231"
+},
+{	
+	"dep": "MATH",
+	"num": 213,
+	"req": {
+		"operation": "+",
+		"term1": "MATH220",
+		"term2": "MATH221"
+	}
+},
+{
+	"dep": "MATH",
+	"num": 415,
+	"req": "MATH241"
+},
+{
+	"dep": "MATH",
+	"num": 285,
+	"req": "MATH241"
+},
+{
+	"dep": "MATH",
+	"num": 461,
+	"req": "MATH241"
+},
+{
+	"dep": "RHET",
+	"num": 105,
+	"req": ""
+},
+{
+	"dep": "PHYS",
+	"num": 211,
+	"req": ""
+},
+{
+	"dep": "PHYS",
+	"num": 212,
+	"req": "PHYS211"
+},
+{
+	"dep": "PHYS",
+	"num": 213,
+	"req": "PHYS212"
+},
+{	
+	"dep": "PHYS",
+	"num": 214,
+	"req": "PHYS212"
+}
+]
