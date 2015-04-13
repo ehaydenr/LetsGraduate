@@ -49,6 +49,18 @@ p.red_box_text{
 	color: #B70000 !important;
 }
 
+p.red_box_text_small{
+  font-size: 16px;
+  font-family: myFirstFont;
+  color: #770000 !important;
+}
+
+p.red_box_text_smaller{
+  font-size: 14px;
+  font-family: myFirstFont;
+  color: #770000 !important;
+}
+
 p.blue_box_text{
 	font-size: 20px;
 	font-family: myFirstFont;

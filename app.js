@@ -112,6 +112,7 @@ router.get('/overview', function (req, res) {
 
   var query = 'SELECT Class.*, hours FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
   console.log("Looking up for: " + id);
+  var reqs = require('./public/json/grad_reqs.json');
   connection.query(query, [id], function (err, rows, fields) {
     //console.log("queried");
     if(err){
@@ -120,7 +121,7 @@ router.get('/overview', function (req, res) {
       return;
     }
     //console.log(rows);
-    res.render('WebPages/Overview', {"rows": rows});
+    res.render('WebPages/Overview', {"rows": rows, "reqs": reqs});
     //console.log("rendered");
   });
 
