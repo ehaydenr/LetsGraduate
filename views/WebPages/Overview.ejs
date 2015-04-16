@@ -835,24 +835,23 @@
 
 																<table width='100%'>
 
+																<td width='100%' bgcolor="#C78987"><div align="center">
+
 																
 																	<%for(var l=0; l<reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length; l++){%>
-																	<%if(notSatisfied(classes,reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].department,reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].number)){%>
-																	<tr width='100%' bgcolor="#C78987"><div align="center">
-																	<%}else{%>
-																		<tr width='100%' bgcolor="black"><div align="center">
-																	<%}%>	
-
+																	
+																		
 																		<p class="red_box_text_smaller">
 																		<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].number%>
 																		</p>
-																		<%if (l< reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length -1){%>
+																		<%if (l < reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length -1){%>
 																		<p> or </p>
 																		<%}%>
-																		</div>
-																		</td>
+																		
+																		
 																	<%}%>
-
+																	</div>
+																	</td>
 																
 																</table>
 															<%}else{%>
