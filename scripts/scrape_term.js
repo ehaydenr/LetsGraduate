@@ -43,6 +43,7 @@ function pop_terms_15(){
 		if(err){
 			console.log("ERROR: "+err.stack);
 		}
+    connection.destroy();
 
 	});
 }
