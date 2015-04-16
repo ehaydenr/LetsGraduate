@@ -425,18 +425,17 @@
 						 <div align = "center">
 						
 						<div class = "col-md-10">
-						  <div class="col-md-3">
-
-						  	<p class="level_disp">
-								100 Level
-							</p>
-
 						  
-								
 
-							<%for(var i=0; i<rows.length;i++){%>
-								<%if(rows[i].number<200){%>
+							 <div class="col-md-3">
+							<p class="level_disp">
+								300 Level
+							</p>
+							
+								<%for(var i=0; i<rows.length;i++){%>
+								<%if(rows[i].number>99 && rows[i].number<200){%>
 									
+							
 							<!--greenBox-->
 							<span style='cursor:pointer' title="<%=rows[i].description%>">
 							
@@ -463,11 +462,8 @@
 								</span>
 							<!--endOfGreenBox-->
 							<%}}%>
-
-							<%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
-								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number<200 && notSatisfied(classes, reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
-
-
+								<%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
+								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number>99 && reqs["grad_reqs"][i].number<200 && notSatisfied(classes, reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
 									<!--redBox-->
 									<span style='cursor:pointer' title="desc comming soon">
 									<div class="alert alert-block alert-danger" alt="kekles">										
@@ -492,22 +488,121 @@
 									</div>
 									</span>
 									<!--endOfRedBox-->
+								<%}%>
+								<!-- CLASS OR level 100 -->
+								<%if(reqs["grad_reqs"][i].type=="OR" && reqs["grad_reqs"][i].number==100){%>
+								<%		var sub_classes = new Array();									  %>
+								<% 		for(var q=0; q<reqs["grad_reqs"][i]["reqs"].length;q++){          %> 
+								<%		if(reqs["grad_reqs"][i]["reqs"][q].type=="C"){         		      %> 
+								<%			sub_classes[q]=reqs["grad_reqs"][i]["reqs"][q].department+                  reqs["grad_reqs"][i]["reqs"][q].number;				%>
+								<%		}																  %>
+								<%	}																	  %>
+								<%	if(notSatisfiedOf(classes,sub_classes)){                              %> 
 
 
+									<!--redBox-->
+									<span style='cursor:pointer' title="desc comming soon">
+									<div class="alert alert-block alert-danger" alt="kekles">				
+										<div tabindex="0" class="onclick-menu">
+										<div align="center">
+											 <table>
+											 <td cellpadding="2">
+											<i class="ace-icon fa fa-close red"></i>
+											</td><td cellpadding="2">
+											<div align="center">
+												
+												<b>
+													<%=reqs["grad_reqs"][i].genName%>
+												</b>
+
+												<%for(var j=0; j<reqs["grad_reqs"][i]["reqs"].length ;j++){%>
+
+													<%if(reqs["grad_reqs"][i]["reqs"][j].type=="AND"){%>
+														
+														<table width='100%'>
+														<td width='100%' bgcolor="#D99D9B"><div align="center">
+															
+														<%for(var k=0; k<reqs["grad_reqs"][i]["reqs"][j]["reqs"].length; k++){%>
+
+															<%if(reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].type=="OR"){%>
+
+																<table width='100%'>
+
+																<td width='100%' bgcolor="#C78987"><div align="center">
+
+																
+																	<%for(var l=0; l<reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length; l++){%>
+																	
+																		
+																		<p class="red_box_text_smaller">
+																		<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].number%>
+																		</p>
+																		<%if (l < reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length -1){%>
+																		<p> or </p>
+																		<%}%>
+																		
+																		
+																	<%}%>
+																	</div>
+																	</td>
+																
+																</table>
+															<%}else{%>
+
+															<p class="red_box_text_small">
+															<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].number%>
+															</p>
+															<%if (k< reqs["grad_reqs"][i]["reqs"][j]["reqs"].length -1){%>
+															<p> and </p>
+															<%}%>
+															<%}%>
+														<%}%>
+
+															</div>
+														</td>
+														</table>
 
 
+														<%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
+															<p> or </p>
+														<%}%>
+													<%}else{%>
+														<p class="red_box_text">
+														<%=reqs["grad_reqs"][i]["reqs"][j].department+reqs["grad_reqs"][i]["reqs"][j].number%>
+														</p>
+														<%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
+															<p> or </p>
+														<%}%>
+													<%}%>
+												<%}%>
+														
+												
+												</div>
+												</td>
+
+												</table>
+												</div>
+											<div class="onclick-menu-content">
+											Extra information about the classes.
+											</div>
+										</div>
+									</div>
+									</span>
+									<!--endOfRedBox-->
+									<%}%>
 								<%}%>
 							<%}%>	
-							
 						  </div>
-						  <div class="col-md-3">
+
+
+						
+
+						   <div class="col-md-3">
 							<p class="level_disp">
 								200 Level
 							</p>
 							
-							
-
-							<%for(var i=0; i<rows.length;i++){%>
+								<%for(var i=0; i<rows.length;i++){%>
 								<%if(rows[i].number>199 && rows[i].number<300){%>
 									
 							
@@ -537,14 +632,8 @@
 								</span>
 							<!--endOfGreenBox-->
 							<%}}%>
-
-							<!-- 200 level RED BOXES -->
-							<%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
-
-								<!-- CLASS C -->
-								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number<300 && reqs["grad_reqs"][i].number>199 && notSatisfied(classes,reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
-
-
+								<%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
+								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number>199 && reqs["grad_reqs"][i].number<300 && notSatisfied(classes, reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
 									<!--redBox-->
 									<span style='cursor:pointer' title="desc comming soon">
 									<div class="alert alert-block alert-danger" alt="kekles">										
@@ -554,12 +643,10 @@
 											 <td cellpadding="2">
 											<i class="ace-icon fa fa-close red"></i>
 											</td><td cellpadding="2">
-												<div align="center">
+											
 												<p class="red_box_text">
 													<%=reqs["grad_reqs"][i].department+reqs["grad_reqs"][i].number%>
 												</p>
-												
-												</div>
 												</td>
 
 												</table>
@@ -572,12 +659,16 @@
 									</span>
 									<!--endOfRedBox-->
 								<%}%>
-
-								<!--<%=JSON.stringify(reqs["grad_reqs"][i])%>-->
-							
-
-								<!-- CLASS OR level 200 -->
+								<!-- CLASS OR level 400 -->
 								<%if(reqs["grad_reqs"][i].type=="OR" && reqs["grad_reqs"][i].number==200){%>
+								<%		var sub_classes = new Array();									  %>
+								<% 		for(var q=0; q<reqs["grad_reqs"][i]["reqs"].length;q++){          %> 
+								<%		if(reqs["grad_reqs"][i]["reqs"][q].type=="C"){         		      %> 
+								<%			sub_classes[q]=reqs["grad_reqs"][i]["reqs"][q].department+                  reqs["grad_reqs"][i]["reqs"][q].number;				%>
+								<%		}																  %>
+								<%	}																	  %>
+								<%	if(notSatisfiedOf(classes,sub_classes)){                              %> 
+
 
 									<!--redBox-->
 									<span style='cursor:pointer' title="desc comming soon">
@@ -595,11 +686,63 @@
 												</b>
 
 												<%for(var j=0; j<reqs["grad_reqs"][i]["reqs"].length ;j++){%>
-													<p class="red_box_text">
-													<%=reqs["grad_reqs"][i]["reqs"][j].department+reqs["grad_reqs"][i]["reqs"][j].number%>
-													</p>
-													<%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
-														<p> or </p>
+
+													<%if(reqs["grad_reqs"][i]["reqs"][j].type=="AND"){%>
+														
+														<table width='100%'>
+														<td width='100%' bgcolor="#D99D9B"><div align="center">
+															
+														<%for(var k=0; k<reqs["grad_reqs"][i]["reqs"][j]["reqs"].length; k++){%>
+
+															<%if(reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].type=="OR"){%>
+
+																<table width='100%'>
+
+																<td width='100%' bgcolor="#C78987"><div align="center">
+
+																
+																	<%for(var l=0; l<reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length; l++){%>
+																	
+																		
+																		<p class="red_box_text_smaller">
+																		<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].number%>
+																		</p>
+																		<%if (l < reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length -1){%>
+																		<p> or </p>
+																		<%}%>
+																		
+																		
+																	<%}%>
+																	</div>
+																	</td>
+																
+																</table>
+															<%}else{%>
+
+															<p class="red_box_text_small">
+															<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].number%>
+															</p>
+															<%if (k< reqs["grad_reqs"][i]["reqs"][j]["reqs"].length -1){%>
+															<p> and </p>
+															<%}%>
+															<%}%>
+														<%}%>
+
+															</div>
+														</td>
+														</table>
+
+
+														<%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
+															<p> or </p>
+														<%}%>
+													<%}else{%>
+														<p class="red_box_text">
+														<%=reqs["grad_reqs"][i]["reqs"][j].department+reqs["grad_reqs"][i]["reqs"][j].number%>
+														</p>
+														<%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
+															<p> or </p>
+														<%}%>
 													<%}%>
 												<%}%>
 														
@@ -616,33 +759,20 @@
 									</div>
 									</span>
 									<!--endOfRedBox-->
+									<%}%>
 								<%}%>
-
-
 							<%}%>	
-
-
-							
-
-
-
-								
-						
-							
-							
-							
-				
-							
-							
 						  </div>
-						  <div class="col-md-3">
+
+
+
+						  
+						 <div class="col-md-3">
 							<p class="level_disp">
 								300 Level
 							</p>
 							
-							
-
-							<%for(var i=0; i<rows.length;i++){%>
+								<%for(var i=0; i<rows.length;i++){%>
 								<%if(rows[i].number>299 && rows[i].number<400){%>
 									
 							
@@ -672,14 +802,8 @@
 								</span>
 							<!--endOfGreenBox-->
 							<%}}%>
-
-
-
-
 								<%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
-								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number<400 && reqs["grad_reqs"][i].number>299 && notSatisfied(classes,reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
-
-
+								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number>299 && reqs["grad_reqs"][i].number<400 && notSatisfied(classes, reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
 									<!--redBox-->
 									<span style='cursor:pointer' title="desc comming soon">
 									<div class="alert alert-block alert-danger" alt="kekles">										
@@ -704,22 +828,114 @@
 									</div>
 									</span>
 									<!--endOfRedBox-->
+								<%}%>
+								<!-- CLASS OR level 400 -->
+								<%if(reqs["grad_reqs"][i].type=="OR" && reqs["grad_reqs"][i].number==300){%>
+								<%		var sub_classes = new Array();									  %>
+								<% 		for(var q=0; q<reqs["grad_reqs"][i]["reqs"].length;q++){          %> 
+								<%		if(reqs["grad_reqs"][i]["reqs"][q].type=="C"){         		      %> 
+								<%			sub_classes[q]=reqs["grad_reqs"][i]["reqs"][q].department+                  reqs["grad_reqs"][i]["reqs"][q].number;				%>
+								<%		}																  %>
+								<%	}																	  %>
+								<%	if(notSatisfiedOf(classes,sub_classes)){                              %> 
 
 
+									<!--redBox-->
+									<span style='cursor:pointer' title="desc comming soon">
+									<div class="alert alert-block alert-danger" alt="kekles">				
+										<div tabindex="0" class="onclick-menu">
+										<div align="center">
+											 <table>
+											 <td cellpadding="2">
+											<i class="ace-icon fa fa-close red"></i>
+											</td><td cellpadding="2">
+											<div align="center">
+												
+												<b>
+													<%=reqs["grad_reqs"][i].genName%>
+												</b>
+
+												<%for(var j=0; j<reqs["grad_reqs"][i]["reqs"].length ;j++){%>
+
+													<%if(reqs["grad_reqs"][i]["reqs"][j].type=="AND"){%>
+														
+														<table width='100%'>
+														<td width='100%' bgcolor="#D99D9B"><div align="center">
+															
+														<%for(var k=0; k<reqs["grad_reqs"][i]["reqs"][j]["reqs"].length; k++){%>
+
+															<%if(reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].type=="OR"){%>
+
+																<table width='100%'>
+
+																<td width='100%' bgcolor="#C78987"><div align="center">
+
+																
+																	<%for(var l=0; l<reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length; l++){%>
+																	
+																		
+																		<p class="red_box_text_smaller">
+																		<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].number%>
+																		</p>
+																		<%if (l < reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length -1){%>
+																		<p> or </p>
+																		<%}%>
+																		
+																		
+																	<%}%>
+																	</div>
+																	</td>
+																
+																</table>
+															<%}else{%>
+
+															<p class="red_box_text_small">
+															<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].number%>
+															</p>
+															<%if (k< reqs["grad_reqs"][i]["reqs"][j]["reqs"].length -1){%>
+															<p> and </p>
+															<%}%>
+															<%}%>
+														<%}%>
+
+															</div>
+														</td>
+														</table>
 
 
+														<%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
+															<p> or </p>
+														<%}%>
+													<%}else{%>
+														<p class="red_box_text">
+														<%=reqs["grad_reqs"][i]["reqs"][j].department+reqs["grad_reqs"][i]["reqs"][j].number%>
+														</p>
+														<%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
+															<p> or </p>
+														<%}%>
+													<%}%>
+												<%}%>
+														
+												
+												</div>
+												</td>
+
+												</table>
+												</div>
+											<div class="onclick-menu-content">
+											Extra information about the classes.
+											</div>
+										</div>
+									</div>
+									</span>
+									<!--endOfRedBox-->
+									<%}%>
 								<%}%>
 							<%}%>	
-
-							
-							
-
-
-
-
-							
-							
 						  </div>
+
+
+
 						  <div class="col-md-3">
 							<p class="level_disp">
 								400 Level
