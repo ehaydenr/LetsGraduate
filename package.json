@@ -23,7 +23,9 @@
   "scripts": {
     "test": "nodeunit ./tests/example.js",
     "populatedb": "node ./scripts/scrape_classes.js",
-    "generateclassdata": "node ./scripts/generate_class_listing.js"
+    "generateclassdata": "node ./scripts/generate_class_listing.js",
+    "scrapeterms": "node ./scripts/scrape_term.js",
+    "refresh": "/bin/bash ./scripts/refresh.sh"
   },
   "repository": {
     "type": "git",
