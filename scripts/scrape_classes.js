@@ -9,7 +9,7 @@ var xpath = require("xml2js-xpath");
 var ProgressBar = require('progress');
 var fs = require('fs');
 var DEPT_LIMIT = 2//Number.MAX_VALUE;
-var req_array = ['./eng_req.json' ,'./cs_req.json']
+var req_array = ['./scripts/eng_req.json' ,'./scripts/cs_req.json']
 /* MySQL Setup */
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
