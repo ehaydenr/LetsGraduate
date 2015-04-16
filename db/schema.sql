@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.23, for osx10.10 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.22, for osx10.10 (x86_64)
 --
 -- Host: localhost    Database: letsgraduate_dev
 -- ------------------------------------------------------
--- Server version	5.6.23
+-- Server version	5.6.22
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -30,7 +30,7 @@ CREATE TABLE `Class` (
   `creditHours` varchar(45) DEFAULT NULL,
   `description` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8143 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ DROP TABLE IF EXISTS `CourseOffering`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `CourseOffering` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `hours` varchar(45) DEFAULT NULL,
   `course_id` int(11) DEFAULT NULL,
   `semester_id` int(11) DEFAULT NULL,
@@ -99,7 +99,7 @@ CREATE TABLE `Term` (
   `season` varchar(45) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,4 +125,4 @@ CREATE TABLE `UserClass` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-11 17:10:13
+-- Dump completed on 2015-04-15 20:57:38
