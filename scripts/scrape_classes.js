@@ -8,7 +8,7 @@ var xml2js= require('xml2js');
 var xpath = require("xml2js-xpath");	
 var ProgressBar = require('progress');
 var fs = require('fs');
-var DEPT_LIMIT = 2//Number.MAX_VALUE;
+var DEPT_LIMIT =Number.MAX_VALUE;
 var req_array = ['./scripts/eng_req.json' ,'./scripts/cs_req.json']
 /* MySQL Setup */
 var mysql      = require('mysql');
@@ -101,7 +101,7 @@ function get_desc_sch(year, sem, dep, number, title){
 	return new Promise(function (resolve, reject){
 		var url = url_sch+year+"/"+sem+"/"+dep+"/"+number+".xml";
 		request(url, function(error, response, body){
-			bar_corrseOfferings.tick(); // Even if null, still show progress
+			bar_courseOfferings.tick(); // Even if null, still show progress
 			if(error){
 				rej(error);
 				resolve(null);
@@ -184,7 +184,6 @@ function pop_course_offerings(year, sem){
 				var dep = departments[i].$.id;
 				var course_promise = get_courses_sch(year, sem, dep);
 				course_promises.push(course_promise);
-				//console.log("The department is: " + dep);
 			}
 			Promise.all(course_promises).then(function(res){
 				var desc_promises = [];
@@ -200,31 +199,23 @@ function pop_course_offerings(year, sem){
 					
 				}
 				Promise.all(desc_promises).then(function(res){
-										var args = [];
+					var args = [];
 					for(var i = 0; i < res.length; ++i){
 						if(res[i] == null) 
 							continue;
-						console.log("LAYER 0: "+res[i]);	
-						var get_course_id_query = "SELECT id FROM Class WHERE department = '"+res[i].department+"' AND number = '"+res[i].number+"';";
-						//console.log(get_course_id_query);
-						connection.query(get_course_id_query, function(err, course_id){
-							if(err)
-								console.log("ERROR: " + err.stack);
-							console.log("LAYER 1: "+res[i]);	
-
-							var get_term_id_query = "SELECT id FROM Term WHERE year  = '"+year+"' AND season = '"+sem+"';";
-							connection.query(get_term_id_query, function(err, term_id){
-								if(err)
-									console.log("ERROR: "+ err.stack);
-								console.log(res[i]);
-								console.log("LAYER 2: "+res[i]);	
-								var query = 'INSERT INTO CourseOffering (hours, course_id, semester_id) VALUES (;'
-								var arg_entry =[res[i].creditHours,course_id[0].id, term_id[0].id ];
-								args.push(arg_entry);	
-							});
-							
-						});
-						
+						//console.log(res[i]);
+						var term_name = ""
+						if(sem == 'spring') term_name = "SP";
+						else if(sem == "fall") term_name = "FA";
+						else term_name = "SU";
+						term_name = term_name+year[2]+year[3]+"_1";
+						var query = 	"INSERT INTO CourseOffering (hours, course_id, semester_id) "+
+													"SELECT "+res[i].creditHours+", C.id, T.id "+
+													"FROM Class AS C, Term AS T "+
+													"WHERE C.department = '"+res[i].department+"' "+
+													"AND C.number = '"+res[i].number+"' "+
+													"AND T.name= '"+term_name+"';\n";
+						offer_query = offer_query + query;
 					}
 				}, rej);
 			}, rej);
@@ -658,15 +649,13 @@ function insert_CAT4(obj){
 }
 
 function end_req(queries){
-	return;
+	//console.log("\n\n\n\n\n"+queries+"\n\n\n\n")
 	connection.query(queries, function (err, res){
 		if(err) console.log(err);
-		console.log(res);
-		connection.destroy();
 	});
 }
 function populateReqTree(start, queries){
-	if(start == req_array.length) return end_req(queries)
+	if(start == req_array.length) return end_req(queries);
 	fs.readFile(req_array[start],'utf-8', function(err, data){
 		if(err) console.log(err);
 		var txt = JSON.parse(data);
@@ -688,36 +677,45 @@ function populateReqTree(start, queries){
 				console.log(req.req);
 			}
 		}
-		console.log(queries);
 		populateReqTree(start+1, queries);
 
 	});
 }
-
-var req_queries = "TRUNCATE `letsgraduate_dev`.`Requirement`;\n";
-populateReqTree(0, req_queries);
-/*
-var numCourseOfferings = getNumCourseOfferings("2015", "spring");
-var bar_corrseOfferings = new ProgressBar(':bar', {total: numCourseOfferings});
-var timer_offerings = setInterval(function(){
-	if(bar_corrseOfferings.complete){
-		console.log('\ncomplete\n');
-		clearInterval(timer_offerings);
-	}
-}, 100);
-pop_course_offerings("2015", "spring").then(function(res) {
-	console.log("Dima!");
-}. rej);
+var req_queries = ""; 
+var offer_query = "";
+function populateReq(){
+	populateReqTree(0, req_queries);
+}
 
 var numCourses = getNumCourses("2015", "spring"); 
 var bar_courses = new ProgressBar(':bar', { total: numCourses}); 
+var numCourseOfferings = getNumCourseOfferings("2015", "spring");
+var bar_courseOfferings = new ProgressBar(':bar', {total: numCourseOfferings});
+
 var timer_courses = setInterval(function () {
 	if (bar_courses.complete) {
 		console.log('\ncomplete\n');
 		clearInterval(timer_courses);
 	}
 }, 100);
-pop_courses('2015', 'spring').then(function (res) {
-	console.log("Done!");
+
+pop_courses('2015', 'spring').then(function(res){
+	console.log("Done Courses!");
+	var timer_offerings = setInterval(function(){
+		if(bar_courseOfferings.complete){
+			console.log('\ncomplete\n');
+			clearInterval(timer_offerings);
+			connection.query(offer_query, function(err, res){
+				if(err) console.log(err.stack);
+				connection.destroy()
+			});
+
+		}
+	}, 100);
+	pop_course_offerings("2015", "spring").then(function(res) {
+		console.log("Done Course Offerings!");
+			}, rej);
+	populateReq();
 }, rej);
-*/
+
+
