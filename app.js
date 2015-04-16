@@ -6,6 +6,8 @@ var everyauth = require('everyauth');
 var session = require('express-session');
 var path = require('path');
 var express = require('express');
+var parseString = require('xml2js').parseString;
+var http = require('http');
 
 // Local Modules
 var Auth = require('./local_modules/auth.js');
@@ -22,13 +24,13 @@ app.set('view engine', 'ejs');
 
 
 app.use(express.static(path.join(__dirname, 'public')))
-  .use(bodyParser())
-  .use(bodyParser.urlencoded({extended: false}))
-  .use(bodyParser.json())
-  .use(cookieParser())
-  .use(session({secret: 'dev'}))
-  .use(everyauth.middleware())
-  .use('/', router);
+.use(bodyParser())
+.use(bodyParser.urlencoded({extended: false}))
+.use(bodyParser.json())
+.use(cookieParser())
+.use(session({secret: 'dev'}))
+.use(everyauth.middleware())
+.use('/', router);
 
 // Middleware
 router.use(function (req, res, next) {
@@ -37,13 +39,13 @@ router.use(function (req, res, next) {
   if(req.session && req.session.auth && req.session.auth.loggedIn){
     next();
   }else if(req.url == '/login'){
-     next();
-  }else{
-    res.redirect('/login');
-  }
+   next();
+ }else{
+  res.redirect('/login');
+}
 
 	//next();
-  
+
 });
 
 /* MySQL Setup */
@@ -73,7 +75,7 @@ router.get('/', function (req, res) {
     res.redirect('overview');
     return;
   }
-    res.render('WebPages/Login');
+  res.render('WebPages/Login');
 });
 
 router.get('/login', function(req, res){
@@ -101,6 +103,36 @@ router.get('/profile', function (req, res) {
 
     res.render('profile', {"rows": rows, "user" : req.user.google});
   });
+});
+
+//get the building name of a class given its dept and number
+router.get('/class/:dept/:num', function(req, res){
+  var options = {
+    host: 'courses.illinois.edu',
+    path: '/cisapp/explorer/schedule/2015/fall/'+req.params.dept.toUpperCase()+"/"+req.params.num + ".xml"
+  };
+
+  var req = http.get(options, function(res2) {
+    console.log('STATUS: ' + res2.statusCode);
+    console.log('HEADERS: ' + JSON.stringify(res.headers));
+
+    // Buffer the body entirely for processing as a whole.
+    var xml = '';
+    res2.on('data', function(chunk) {
+
+      xml+=chunk;
+
+    }).on('end', function() {
+      console.log("xml");
+      console.log(xml);
+      parseString(xml, function(err, result){
+        console.log(result);
+        res.json(result);
+      })
+    })
+  });
+
+
 });
 
 
@@ -140,7 +172,7 @@ router.get('/overview', function (req, res) {
 
 
 router.get('/councillor', function (req, res) {
-   res.render('WebPages/Councillor');
+ res.render('WebPages/Councillor');
 });
 
 
@@ -230,11 +262,11 @@ var server = app.listen(3000, function () {
 
 function getClassById(id, callback){
   var query = 'SELECT * FROM Class WHERE id = ?;';
-	connection.query(query, [id], function(err, rows, fields) {
+  connection.query(query, [id], function(err, rows, fields) {
     console.log(rows[0]);
 
     callback(err, rows[0]);
-	});
+  });
 }
 
 function call_query(callback){
@@ -244,6 +276,6 @@ function call_query(callback){
 			console.error('error querying: ' + err.stack);
 		}
     callback();
-	});
+  });
 }
 
