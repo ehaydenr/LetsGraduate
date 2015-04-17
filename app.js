@@ -8,6 +8,9 @@ var path = require('path');
 var express = require('express');
 var parseString = require('xml2js').parseString;
 var http = require('http');
+var async = require('async');
+var request = require('request');
+
 
 // Local Modules
 var Auth = require('./local_modules/auth.js');
@@ -35,16 +38,16 @@ app.use(express.static(path.join(__dirname, 'public')))
 // Middleware
 router.use(function (req, res, next) {
 	
-  console.log(req.url);
-  if(req.session && req.session.auth && req.session.auth.loggedIn){
-    next();
-  }else if(req.url == '/login'){
-   next();
- }else{
-  res.redirect('/login');
-}
+//   console.log(req.url);
+//   if(req.session && req.session.auth && req.session.auth.loggedIn){
+//     next();
+//   }else if(req.url == '/login'){
+//    next();
+//  }else{
+//   res.redirect('/login');
+// }
 
-	//next();
+next();
 
 });
 
@@ -123,16 +126,71 @@ router.get('/class/:dept/:num', function(req, res){
       xml+=chunk;
 
     }).on('end', function() {
-      console.log("xml");
-      console.log(xml);
       parseString(xml, function(err, result){
-        console.log(result);
-        res.json(result);
-      })
-    })
-  });
+        // console.log(result);
+        var arr = result["ns2:course"]["sections"][0]["section"];
+        var classes = [];
+        for(var i = 0; i<arr.length; i++){
+          classes.push(arr[i]["$"]["href"]);
+        }
+        var farray = [];
+        for(var i = 0; i< classes.length; i++){
+          farray.push(
+            function(callback) {
+              var res1;
+              var classURL = classes.pop();
+              request(classURL, function(err, response, body) {
 
+                // JSON body
+                if(err) { 
+                  console.log(err); 
+                  callback(true); 
+                  return; 
+                }
 
+                console.log("inside callback");
+                parseString(body, {async:false, trim: true} ,function (err, result1) {
+                  res1 = result1;
+                  callback(false,result1);
+                  });
+              });
+            
+          });
+          }
+           async.parallel(farray,
+          /*
+           * Collate results
+           */
+           function(err, results) {
+            if(err) { 
+              console.log(err); 
+              res.send(500,"Server Error"); 
+              return; 
+            }
+            var finalArray = [];
+
+            for(var i = 0; i<results.length; i++){
+              console.log(results[i]["ns2:section"]["parents"][0]["course"][0]["$"]["id"]);
+              baseOb = results[i]["ns2:section"]["meetings"][0]["meeting"][0];
+              if(baseOb["type"][0]["_"].toLowerCase().indexOf("lecture") != -1){
+                finOb = {};
+                finOb["start"] = baseOb["start"][0];
+                finOb["end"] = baseOb["end"][0];
+                finOb["days"] = baseOb["daysOfTheWeek"][0];
+                finOb["building"] = baseOb["buildingName"][0];
+                finOb["dept"] = results[i]["ns2:section"]["parents"][0]["subject"][0]["$"]["id"];
+                finOb["num"] = results[i]["ns2:section"]["parents"][0]["course"][0]["$"]["id"];
+
+                finalArray.push(finOb);
+              }
+            }
+
+            res.send(finalArray);
+           }
+           );
+        });
+      });
+});
 });
 
 
