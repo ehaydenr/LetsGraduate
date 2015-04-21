@@ -81,6 +81,11 @@ img.major_icon{
  
 }
 
+input.AddClass{
+  margin-right: 22px;
+  margin-left: 22px;
+}
+
 
 .login-background{
   min-height: 100%;

@@ -33,7 +33,7 @@
 
 		<!-- ace settings handler -->
 		<script src="js/ace-extra.js"></script>
-		
+		<script src="/profile.js" ></script>
 		
 		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 
@@ -420,7 +420,9 @@
 
 						<% var creds=0; for(var i=0; i<rows.length;i++){ creds+=parseInt(rows[i].hours)}%>
 						
-						<input type="submit" value="Submit">
+
+						<input type="text" id="AddClass" placeholder="Add Class" class="AddClass">
+						<input type="text" id="RemoveClass" placeholder="Remove Class" class="RemoveClass">
 						<p id="credits">
 						&nbsp;&nbsp;&nbsp;&nbsp;Credits: <%=creds%>/120
 						</p>
@@ -1316,5 +1318,43 @@
 		<!-- ace scripts -->
 		<script src="js/ace-elements.js"></script>
 		<script src="js/ace.js"></script>
+		<script>
+
+				var HttpClient = function() {
+				    this.get = function(aUrl, aCallback) {
+				        var anHttpRequest = new XMLHttpRequest();
+				        anHttpRequest.onreadystatechange = function() { 
+				            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+				                aCallback(anHttpRequest.responseText);
+				        }
+
+				        anHttpRequest.open( "GET", aUrl, true );            
+				        anHttpRequest.send( null );
+				    }
+				}
+
+
+				$("#AddClass").keyup(function(event){
+
+				  if(event.which == 13){
+				   	var id = $('#AddClass').val();
+					$.get( "/updateClass", {"action": "insert", "id": id}, function( data ) {
+      					alert("Sent ID: "+id+"Recieved: "+data);
+    				});
+
+				    }
+				});
+
+				$("#RemoveClass").keyup(function(event){
+				
+				  if(event.which == 13){
+				    	var id = $('#RemoveClass').val();
+						$.get( "/updateClass", {"action": "delete", "id": id}, function( data ) {
+	      					alert("Sent ID: "+id+"Recieved: "+data);
+	    				});
+				    }
+				});
+
+		</script>
 
 <div style="display: none;" class="tooltip top in"><div class="tooltip-inner"></div></div></body></html>
