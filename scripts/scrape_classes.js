@@ -8,7 +8,7 @@ var xml2js= require('xml2js');
 var xpath = require("xml2js-xpath");	
 var ProgressBar = require('progress');
 var fs = require('fs');
-var DEPT_LIMIT =Number.MAX_VALUE;
+var DEPT_LIMIT = Number.MAX_VALUE;
 var req_array = ['./scripts/eng_req.json' ,'./scripts/cs_req.json']
 /* MySQL Setup */
 var mysql      = require('mysql');
@@ -109,6 +109,11 @@ function get_desc_sch(year, sem, dep, number, title){
 				xml2js.parseString(body, function(err, result){
 					var matches = xpath.find(result, "//description");
 					var creditHoursMatches = xpath.find(result, "//creditHours");
+					var crnMatches = xpath.find(result, "//section");
+					var crns = [];
+					for(var i = 0; i < crnMatches.length; i++){
+						crns.push(crnMatches[0].$.id);
+					}
 					var creditHours = 0;
 					if(err || matches.length == 0){
 						rej("Rejecting description for: year: " + year + " semester: " + sem + " department: " + dep + " number: " + number + " title: " + title);
@@ -127,7 +132,8 @@ function get_desc_sch(year, sem, dep, number, title){
 						number: number, 
 						title: title,
 						creditHours: creditHours,
-						description: matches[0]
+						description: matches[0],
+						crns: crns
 					});
 				});
 			}
@@ -171,6 +177,42 @@ function get_desc_cat(year, sem, dep, number, title){
 		});
 	});
 }
+function get_crn_info(year, sem, dep, number, crn){
+	return new Promise(function(resolve, reject){
+		var url = url_sch+year+"/"+sem+"/"+dep+"/"+number+"/"+crn+".xml";
+		request(url, function(error, response, body){
+			if(error){
+				rej(error);
+				resilve(null);
+			}
+			else{
+				xml2js.parseString(body, function(err, result){
+					var nameMatches = xpath.find(result, "//sectionNumber")
+					var name = "";
+					if(typeof nameMatches != "undefined" && typeof nameMatches[0] != "undefined") name = nameMatches[0].trim(); 
+
+					var typeMatches = xpath.find(result, "//type");
+					var type = "";
+					if(typeof typeMatches != "undefined" &&  typeof typeMatches[0] != "undefined") type = typeMatches[0]['_'];
+
+					var locMatches = xpath.find(result, "//buildingName")[0];
+					var loc = "";
+					if(typeof locMatches != "undefined" && locMatches[0] != "undefined") loc = locMatches;
+					resolve({
+						year: year,
+						semester: sem,
+						department: dep,
+						number: number,
+						crn: crn,
+						name: name,
+						type: type,
+						loc: loc
+					});
+				});
+			}
+		});
+	});
+}
 function rej(res){
 	console.log("Error: " + res);
 }
@@ -199,24 +241,32 @@ function pop_course_offerings(year, sem){
 					
 				}
 				Promise.all(desc_promises).then(function(res){
-					var args = [];
+					var offer_query = ""; 
 					for(var i = 0; i < res.length; ++i){
 						if(res[i] == null) 
 							continue;
-						//console.log(res[i]);
 						var term_name = ""
 						if(sem == 'spring') term_name = "SP";
 						else if(sem == "fall") term_name = "FA";
 						else term_name = "SU";
 						term_name = term_name+year[2]+year[3]+"_1";
 						var query = 	"INSERT INTO CourseOffering (hours, course_id, semester_id) "+
-													"SELECT "+res[i].creditHours+", C.id, T.id "+
-													"FROM Class AS C, Term AS T "+
-													"WHERE C.department = '"+res[i].department+"' "+
-													"AND C.number = '"+res[i].number+"' "+
-													"AND T.name= '"+term_name+"';\n";
+										"SELECT "+res[i].creditHours+", C.id, T.id "+
+										"FROM Class AS C, Term AS T "+
+										"WHERE C.department = '"+res[i].department+"' "+
+										"AND C.number = '"+res[i].number+"' "+
+										"AND T.name= '"+term_name+"';\n";
 						offer_query = offer_query + query;
 					}
+					connection.query(offer_query, function(err, rows, fields){
+						if(err) reject(err);
+						else{
+							resolve({
+								rows: rows,
+								fields: fields
+							});
+						}
+					});
 				}, rej);
 			}, rej);
 		}, rej);
@@ -244,7 +294,6 @@ function pop_courses(year, sem){
 						desc_promises.push(desc_promise);
 					}
 				}
-				//console.log(desc_promises.length + " classes");
 				Promise.all(desc_promises).then(function (res){
 					var query = 'INSERT INTO Class (department, number, title, creditHours, description) VALUES ?;';
 					var args = [];
@@ -263,6 +312,75 @@ function pop_courses(year, sem){
 							});
 						}
 					});
+				}, rej);
+			}, rej);
+		}, rej);
+	});
+}
+function pop_crnLocation(year, sem){
+	return new Promise(function(resolve, reject){
+		get_departments_sch(year, sem).then(function(res) {
+			var course_promises = [];
+			var departments = res.departments;
+			for(var i = 0; i < departments.length && i < DEPT_LIMIT; ++i){
+				var dep = departments[i].$.id;
+				var course_promise = get_courses_sch(year, sem, dep);
+				course_promises.push(course_promise);
+			}
+			Promise.all(course_promises).then(function(res){
+				var desc_promises = [];
+				for(var i = 0; i < res.length; ++i){
+					var courses = res[i].courses;
+					var dep = res[i].department;
+					for(var j = 0; j < courses.length; ++j){
+						var number = courses[j].$.id;
+						var title = courses[j]._;
+						var desc_promise = get_desc_sch(year, sem, dep, number, title);
+						desc_promises.push(desc_promise);
+					}
+				}
+				Promise.all(desc_promises).then(function(res){
+					var crn_promises= [];
+					for(var i = 0; i < res.length; ++i){
+						if(res[i] == null) continue;
+						var dep = res[i].department;
+						var num = res[i].number;
+						var crns = res[i].crns;
+						for(var j = 0; j < crns.length; j++){
+							var crn = crns[j];
+							var crn_promise = get_crn_info(year, sem, dep, num, crn);
+							//bar_locations.tick();
+							crn_promises.push(crn_promise);
+						}
+					}
+					Promise.all(crn_promises).then(function(res){
+						for(var i = 0; i <res.length; i++){
+							var section = res[i];
+							var dep = section.department;
+							var num = section.number;
+							var crn = section.crn;
+							var name = section.name;
+							var type = section.type;
+							var loc = section.loc;
+							var query = "INSERT INTO CRNLocation(class_id, crn, name, type, location) "+
+										"SELECT id, '"+crn+"', '"+name+"', '"+type+"', '"+loc+"' "+
+										"FROM Class "+
+										"WHERE department = '"+dep+"' "+
+										"AND number = '"+num+"';\n";
+							loc_queries = loc_queries + query;
+						}
+						connection.query(loc_queries, function(err, rows, fields){
+							if(err) {
+								console.log(err.stack);
+							}
+							else{
+								resolve({
+									rows: rows,
+									fields: fields
+								});
+							}
+						});
+					}, rej);
 				}, rej);
 			}, rej);
 		}, rej);
@@ -649,7 +767,6 @@ function insert_CAT4(obj){
 }
 
 function end_req(queries){
-	//console.log("\n\n\n\n\n"+queries+"\n\n\n\n")
 	connection.query(queries, function (err, res){
 		if(err) console.log(err);
 	});
@@ -681,41 +798,48 @@ function populateReqTree(start, queries){
 
 	});
 }
-var req_queries = ""; 
-var offer_query = "";
-function populateReq(){
-	populateReqTree(0, req_queries);
-}
 
+var loc_queries = "";
+//pop_crnLocation("2015", "spring").then(function(res){
+//	console.log("Done Locations!")	
+//	connection.destroy();
+//});;
+
+
+var req_queries = ""; 
 var numCourses = getNumCourses("2015", "spring"); 
-var bar_courses = new ProgressBar(':bar', { total: numCourses}); 
 var numCourseOfferings = getNumCourseOfferings("2015", "spring");
+var bar_courses = new ProgressBar(':bar', { total: numCourses}); 
 var bar_courseOfferings = new ProgressBar(':bar', {total: numCourseOfferings});
+var bar_locations = new ProgressBar(':bar', {total: numCourseOfferings});
 
 var timer_courses = setInterval(function () {
 	if (bar_courses.complete) {
-		console.log('\ncomplete\n');
+		console.log('complete1');
 		clearInterval(timer_courses);
 	}
 }, 100);
-
 pop_courses('2015', 'spring').then(function(res){
 	console.log("Done Courses!");
 	var timer_offerings = setInterval(function(){
 		if(bar_courseOfferings.complete){
-			console.log('\ncomplete\n');
+			console.log('complete2');
 			clearInterval(timer_offerings);
-			connection.query(offer_query, function(err, res){
-				if(err) console.log(err.stack);
-				connection.destroy()
-			});
-
 		}
 	}, 100);
 	pop_course_offerings("2015", "spring").then(function(res) {
 		console.log("Done Course Offerings!");
-			}, rej);
-	populateReq();
+		populateReqTree(0, req_queries);
+		var timer_location = setInterval(function(){
+			if(bar_locations.complete){
+				console.log('complete3');
+				clearInterval(timer_location);
+			}
+		}, 100);
+		pop_crnLocation("2015", "spring").then(function(res){
+			console.log("Done Locations!")	
+			connection.destroy();
+		});;
+	}, rej);
 }, rej);
-
 
