@@ -91,7 +91,7 @@ router.get('/class/:id', function(req, res){
   var userid = req.user.google.id;
 
   // Find out if user has taken that class
-  var query = 'SELECT 1 FROM UserClass WHERE google_id = ? AND class_id = ?;';
+  var query = 'SELECT hours FROM UserClass WHERE google_id = ? AND class_id = ?;';
   connection.query(query, [userid, classid], function(err, rows, fields){
     if(err){
       console.log(err);
@@ -100,6 +100,7 @@ router.get('/class/:id', function(req, res){
     }
 
     var taken = rows.length > 0;
+    var hours = taken ? rows[0].hours : '';
     var prospective = false; // TODO
 
     // Grab information about the class
@@ -115,7 +116,7 @@ router.get('/class/:id', function(req, res){
 
       // TODO: query location data and section data
       
-      res.render('WebPages/class', {google: req.user.google, prospective: prospective, taken: taken, course_data: course_data});
+      res.render('WebPages/class', {google: req.user.google, prospective: prospective, taken: taken, hours: hours, course_data: course_data});
 
     });
   });

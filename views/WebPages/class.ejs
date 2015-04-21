@@ -331,7 +331,7 @@ try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
               </div>
               <div class="col-md-4">
                 <p>Edit hours earned for class</p>
-                <input id="hours" type="text" <%= taken ? '' : 'disabled' %> ></input>
+                <input id="hours" type="text" <%= taken ? '' : 'disabled' %> value="<%=hours%>"></input>
                 <button type="button" onclick="javascript:updateHours(<%=course_data.id%>)" <%= taken ? '' : 'disabled'%> >Update Hours</button>
               </div>
             </div>
