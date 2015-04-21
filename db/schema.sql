@@ -16,6 +16,24 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `CRNLocation`
+--
+
+DROP TABLE IF EXISTS `CRNLocation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CRNLocation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_id` int(11) NOT NULL,
+  `crn` int(11) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  `location` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10516 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `Class`
 --
 
@@ -30,7 +48,7 @@ CREATE TABLE `Class` (
   `creditHours` varchar(45) DEFAULT NULL,
   `description` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8143 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +64,7 @@ CREATE TABLE `CourseOffering` (
   `course_id` int(11) DEFAULT NULL,
   `semester_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4071 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -81,7 +99,7 @@ CREATE TABLE `Requirement` (
   `occurence` int(11) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +117,7 @@ CREATE TABLE `Term` (
   `season` varchar(45) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,4 +143,4 @@ CREATE TABLE `UserClass` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-15 20:57:38
+-- Dump completed on 2015-04-21 15:40:48
