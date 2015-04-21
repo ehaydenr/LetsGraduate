@@ -1,4 +1,3 @@
-var GOOGLE_ID = "";
 // Modules
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -37,18 +36,14 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Middleware
 router.use(function (req, res, next) {
-	
-//   console.log(req.url);
-//   if(req.session && req.session.auth && req.session.auth.loggedIn){
-//     next();
-//   }else if(req.url == '/login'){
-//    next();
-//  }else{
-//   res.redirect('/login');
-// }
-
-next();
-
+  console.log(req.url);
+  if(req.session && req.session.auth && req.session.auth.loggedIn){
+    next();
+  }else if(req.url == '/login'){
+    next();
+  }else{
+    res.redirect('/login');
+  }
 });
 
 /* MySQL Setup */
@@ -63,18 +58,15 @@ var connection = mysql.createConnection({
 
 /* MySQL test connection */
 connection.connect(function(err){
-	if (err) {
-		console.error('error connecting: ' + err.stack);
-		return;
-	}
-	console.log('connected as id ' + connection.threadId);
+  if (err) {
+    console.error('error connecting: ' + err.stack);
+    return;
+  }
+  console.log('connected as id ' + connection.threadId);
 });
 
 router.get('/', function (req, res) {
-
-
   if(req.session && req.session.auth && req.session.auth.loggedIn){
-
     res.redirect('overview');
     return;
   }
@@ -92,20 +84,6 @@ router.get('/login', function(req, res){
 router.get('/logout', function(req, res){
   req.logout();
   res.redirect('/login');
-});
-
-router.get('/profile', function (req, res) {
-  var query = 'SELECT Class.* FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
-  console.log("Looking up for: " + req.user.google.id);
-  connection.query(query, [req.user.google.id], function (err, rows, fields) {
-    if(err){
-      console.log(err);
-      res.send(500);
-      return;
-    }
-
-    res.render('profile', {"rows": rows, "user" : req.user.google});
-  });
 });
 
 //get the building name of a class given its dept and number
@@ -136,61 +114,61 @@ router.get('/class/:dept/:num', function(req, res){
         var farray = [];
         for(var i = 0; i< classes.length; i++){
           farray.push(
-            function(callback) {
-              var res1;
-              var classURL = classes.pop();
-              request(classURL, function(err, response, body) {
+              function(callback) {
+                var res1;
+                var classURL = classes.pop();
+                request(classURL, function(err, response, body) {
 
-                // JSON body
-                if(err) { 
-                  console.log(err); 
-                  callback(true); 
-                  return; 
-                }
+                  // JSON body
+                  if(err) { 
+                    console.log(err); 
+                    callback(true); 
+                    return; 
+                  }
 
-                console.log("inside callback");
-                parseString(body, {async:false, trim: true} ,function (err, result1) {
-                  res1 = result1;
-                  callback(false,result1);
+                  console.log("inside callback");
+                  parseString(body, {async:false, trim: true} ,function (err, result1) {
+                    res1 = result1;
+                    callback(false,result1);
                   });
+                });
+
               });
-            
-          });
-          }
-           async.parallel(farray,
-          /*
-           * Collate results
-           */
-           function(err, results) {
-            if(err) { 
-              console.log(err); 
-              res.send(500,"Server Error"); 
-              return; 
-            }
-            var finalArray = [];
-
-            for(var i = 0; i<results.length; i++){
-              console.log(results[i]["ns2:section"]["parents"][0]["course"][0]["$"]["id"]);
-              baseOb = results[i]["ns2:section"]["meetings"][0]["meeting"][0];
-              if(baseOb["type"][0]["_"].toLowerCase().indexOf("lecture") != -1){
-                finOb = {};
-                finOb["start"] = baseOb["start"][0];
-                finOb["end"] = baseOb["end"][0];
-                finOb["days"] = baseOb["daysOfTheWeek"][0];
-                finOb["building"] = baseOb["buildingName"][0];
-                finOb["dept"] = results[i]["ns2:section"]["parents"][0]["subject"][0]["$"]["id"];
-                finOb["num"] = results[i]["ns2:section"]["parents"][0]["course"][0]["$"]["id"];
-
-                finalArray.push(finOb);
+        }
+        async.parallel(farray,
+            /*
+             * Collate results
+             */
+            function(err, results) {
+              if(err) { 
+                console.log(err); 
+                res.send(500,"Server Error"); 
+                return; 
               }
-            }
+              var finalArray = [];
 
-            res.send(finalArray);
-           }
-           );
-        });
+              for(var i = 0; i<results.length; i++){
+                console.log(results[i]["ns2:section"]["parents"][0]["course"][0]["$"]["id"]);
+                baseOb = results[i]["ns2:section"]["meetings"][0]["meeting"][0];
+                if(baseOb["type"][0]["_"].toLowerCase().indexOf("lecture") != -1){
+                  finOb = {};
+                  finOb["start"] = baseOb["start"][0];
+                  finOb["end"] = baseOb["end"][0];
+                  finOb["days"] = baseOb["daysOfTheWeek"][0];
+                  finOb["building"] = baseOb["buildingName"][0];
+                  finOb["dept"] = results[i]["ns2:section"]["parents"][0]["subject"][0]["$"]["id"];
+                  finOb["num"] = results[i]["ns2:section"]["parents"][0]["course"][0]["$"]["id"];
+
+                  finalArray.push(finOb);
+                }
+              }
+
+              res.send(finalArray);
+            }
+        );
       });
-});
+    });
+  });
 });
 
 
@@ -205,7 +183,6 @@ router.get('/overview', function (req, res) {
   console.log("Looking up for: " + id);
   var reqs = require('./public/json/grad_reqs.json');
   connection.query(query, [id], function (err, rows, fields) {
-    //console.log("queried");
     if(err){
       console.log(err);
       res.send(500);
@@ -213,26 +190,16 @@ router.get('/overview', function (req, res) {
     }
     var classes = new Array();
     for(var i=0; i<rows.length;i++){
-    	classes[i]=rows[i].department+rows[i].number;
-
+      classes[i]=rows[i].department+rows[i].number;
     }
 
     res.render('WebPages/Overview', {"rows": rows, "reqs": reqs, "classes": classes});
-    //console.log("rendered");
   });
-
-
-	// var data = require('./cs_requirements.json');
-  // res.render('WebPages/Overview', {"data":data});
-  // console.log(data);
 });
-
-
 
 router.get('/councillor', function (req, res) {
- res.render('WebPages/Councillor');
+  res.render('WebPages/Councillor');
 });
-
 
 //End of WebPage rendering
 
@@ -240,11 +207,11 @@ router.post('/import', function (req, res) {
   var id = req.user.google.id;
   var obj = JSON.parse(req.body.data)[0];
   var query = '';
-  var sql = "INSERT INTO UserClass (google_id, class_id, hours) SELECT ?, Class.id, ? FROM Class WHERE department = ? AND number = ?;";
+  var sql = "INSERT INTO UserClass (google_id, class_id, hours) SELECT ?, Class.id, ? FROM Class WHERE department = ? AND number = ? AND NOT EXISTS (SELECT 1 FROM UserClass WHERE google_id = ? AND class_id = Class.id);";
   for(var type in obj){
     for(var entry in obj[type]){
       var tuple = obj[type][entry];
-      query += mysql.format(sql, [id, tuple.hours, tuple.subject, tuple.number]);
+      query += mysql.format(sql, [id, tuple.hours, tuple.subject, tuple.number, id]);
     }
   }
   var ret = connection.query(query, function (err){
@@ -264,10 +231,11 @@ router.get('/updateClass', function (req, res) {
   var classid = req.query.id;
   var userid = req.user.google.id;
   var action = req.query.action; // Either delete or insert 
+  var hours = req.query.hours;
   console.log(req.query);
+  console.log("Action: " + action);
 
-
-  if(action != 'insert' && action != 'delete'){
+  if(action != 'insert' && action != 'delete' && action != 'update'){
     res.send(500);
     return;
   }
@@ -275,10 +243,18 @@ router.get('/updateClass', function (req, res) {
   // Run update
   var query_insert = 'INSERT INTO UserClass VALUES (?, ?);'; // userid, class_id
   var query_delete = 'DELETE FROM UserClass WHERE google_id = ? AND class_id = ?;';
-  var query = action == 'delete' ? query_delete : query_insert;
+  var query_update = 'UPDATE UserClass SET hours = ? WHERE google_id = ? AND class_id = ?;';
+
+  var query;
+
+  if(action == 'insert') query = query_insert;
+  else if(action == 'delete') query = query_delete;
+  else if(action == 'update') query = query_update;
+
   console.log(query);
   console.log(userid);
   console.log(classid);
+
   connection.query(query, [userid, classid], function(err, rows, fields) {
     if(err){
       console.log(err);
@@ -303,18 +279,15 @@ router.get('/class', function (req, res){
   });
 });
 
-
-
-
 router.get('/requirement', function(req, res){
   var data = require('./public/test_requirement.json');
   res.render('requirement', data);
 });
 
 var server = app.listen(3000, function () {
-	var host = server.address().address
-	var port = server.address().port
-	console.log('Listening at http://%s:%s', host, port)
+  var host = server.address().address
+    var port = server.address().port
+    console.log('Listening at http://%s:%s', host, port)
 
 });
 
@@ -328,11 +301,11 @@ function getClassById(id, callback){
 }
 
 function call_query(callback){
-	var query = "INSERT INTO Class (department, number, title, description) VALUES ?";
-	connection.query(query, [courseparse.values], function(err) {
-		if(err){
-			console.error('error querying: ' + err.stack);
-		}
+  var query = "INSERT INTO Class (department, number, title, description) VALUES ?";
+  connection.query(query, [courseparse.values], function(err) {
+    if(err){
+      console.error('error querying: ' + err.stack);
+    }
     callback();
   });
 }
