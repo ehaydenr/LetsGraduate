@@ -86,6 +86,42 @@ router.get('/logout', function(req, res){
   res.redirect('/login');
 });
 
+router.get('/class/:id', function(req, res){
+  var classid = req.params.id;
+  var userid = req.user.google.id;
+
+  // Find out if user has taken that class
+  var query = 'SELECT 1 FROM UserClass WHERE google_id = ? AND class_id = ?;';
+  connection.query(query, [userid, classid], function(err, rows, fields){
+    if(err){
+      console.log(err);
+      res.send(500);
+      return;
+    }
+
+    var taken = rows.length > 0;
+    var prospective = false; // TODO
+
+    // Grab information about the class
+    query = 'SELECT * FROM Class WHERE id = ?;';
+    connection.query(query, [classid], function(err, rows, fields){
+      if(err){
+        console.log(err);
+        res.send(500);
+        return;
+      }
+
+      var course_data = rows[0];
+
+      // TODO: query location data and section data
+      
+      res.render('WebPages/class', {google: req.user.google, prospective: prospective, taken: taken, course_data: course_data});
+
+    });
+  });
+});
+
+/*
 //get the building name of a class given its dept and number
 router.get('/class/:dept/:num', function(req, res){
   var options = {
@@ -136,9 +172,6 @@ router.get('/class/:dept/:num', function(req, res){
               });
         }
         async.parallel(farray,
-            /*
-             * Collate results
-             */
             function(err, results) {
               if(err) { 
                 console.log(err); 
@@ -171,6 +204,7 @@ router.get('/class/:dept/:num', function(req, res){
   });
 });
 
+*/
 
 
 //Begining of Webpage rendering
@@ -182,6 +216,7 @@ router.get('/overview', function (req, res) {
   var query = 'SELECT Class.*, hours FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
   console.log("Looking up for: " + id);
   var reqs = require('./public/json/grad_reqs.json');
+  var class_data = require('./public/class.json');
   connection.query(query, [id], function (err, rows, fields) {
     if(err){
       console.log(err);
@@ -192,8 +227,9 @@ router.get('/overview', function (req, res) {
     for(var i=0; i<rows.length;i++){
       classes[i]=rows[i].department+rows[i].number;
     }
+    console.log(rows);
 
-    res.render('WebPages/Overview', {"rows": rows, "reqs": reqs, "classes": classes});
+    res.render('WebPages/Overview', {"google": req.user.google, "class_data":class_data, "rows": rows, "reqs": reqs, "classes": classes});
   });
 });
 
@@ -263,19 +299,6 @@ router.get('/updateClass', function (req, res) {
     }
 
     res.send(200);
-  });
-});
-
-router.get('/class', function (req, res){
-  // Testing with premade json
-  var data = require('./public/test_class.json');
-  getClassById(req.query.id, function(err, data){
-    if(err) {
-      res.send(500);
-      return;
-    }
-
-    res.render('class', data);
   });
 });
 
