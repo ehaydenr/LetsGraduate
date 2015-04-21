@@ -210,7 +210,6 @@ router.get('/class/:dept/:num', function(req, res){
 //Begining of Webpage rendering
 
 router.get('/overview', function (req, res) {
-  console.log("on Overview");
   var id = req.user.google.id; //GOOGLE_ID; //later change to 'req.user.google.id';
 
   var query = 'SELECT Class.*, hours FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
@@ -227,7 +226,6 @@ router.get('/overview', function (req, res) {
     for(var i=0; i<rows.length;i++){
       classes[i]=rows[i].department+rows[i].number;
     }
-    console.log(rows);
 
     res.render('WebPages/Overview', {"google": req.user.google, "class_data":class_data, "rows": rows, "reqs": reqs, "classes": classes});
   });
@@ -277,21 +275,28 @@ router.get('/updateClass', function (req, res) {
   }
 
   // Run update
-  var query_insert = 'INSERT INTO UserClass VALUES (?, ?);'; // userid, class_id
+  var query_insert = 'INSERT INTO UserClass (google_id, class_id, hours) SELECT ? AS google_id, ? AS class_id, creditHours AS hours FROM Class WHERE id = ?;'; // userid, class_id, hours
   var query_delete = 'DELETE FROM UserClass WHERE google_id = ? AND class_id = ?;';
   var query_update = 'UPDATE UserClass SET hours = ? WHERE google_id = ? AND class_id = ?;';
 
   var query;
 
-  if(action == 'insert') query = query_insert;
-  else if(action == 'delete') query = query_delete;
-  else if(action == 'update') query = query_update;
+  if(action == 'insert'){ 
+    query = query_insert;
+    var params = [userid, classid, classid];
+  } else if(action == 'delete'){ 
+    query = query_delete;
+    var params = [userid, classid];
+  } else if(action == 'update'){
+    query = query_update;
+    var params = [hours, userid, classid];
+  }
 
   console.log(query);
-  console.log(userid);
-  console.log(classid);
 
-  connection.query(query, [userid, classid], function(err, rows, fields) {
+  console.log(params);
+
+  connection.query(query, params, function(err, rows, fields) {
     if(err){
       console.log(err);
       res.send(500);
@@ -317,8 +322,6 @@ var server = app.listen(3000, function () {
 function getClassById(id, callback){
   var query = 'SELECT * FROM Class WHERE id = ?;';
   connection.query(query, [id], function(err, rows, fields) {
-    console.log(rows[0]);
-
     callback(err, rows[0]);
   });
 }

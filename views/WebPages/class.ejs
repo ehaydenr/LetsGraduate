@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="/css/font-awesome.css">
     <link rel="stylesheet" href="/css/style.css">
 
+    <script src="/js/jquery.js"></script>
+    <script src="/js/class.js"></script>
     <!-- page specific plugin styles -->
 
     <!-- text fonts -->
@@ -21,7 +23,6 @@
     <!-- ace styles -->
     <link rel="stylesheet" href="/css/ace.css" class="ace-main-stylesheet" id="main-ace-style">
 
-    <script src="/js/class.js"></script>
 
     <!--[if lte IE 9]>
       <link rel="stylesheet" href="dist/css/ace-part2.min.css" class="ace-main-stylesheet" />
@@ -322,16 +323,16 @@ try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
             <div class="row">
               <div class="col-md-4">
                 <p>Class Tracker</p>
-                <button type="button" onclick="javascript:toggleClassTaken(<%=course_data.id%>)"><%= taken ? 'Remove Class' : 'Add Class' %></button>
+                <button type="button" onclick="javascript:toggleClassTaken(<%= (taken ? 'false' : 'true') + ', ' + course_data.id%>)"><%= taken ? 'Remove Class' : 'Add Class' %></button>
               </div>
               <div class="col-md-4">
                 <p>Prospective Class</p>
-                <button type="button" onclick="javascript:toggleClassProspective(<%=course_data.id%>)"><%= prospective ? 'Remove Class' : 'Add Class' %></button>
+                <button type="button" onclick="javascript:toggleClassProspective(<%= (prospective ? 'false' : 'true') + ', ' + course_data.id%>)"><%= prospective ? 'Remove Class' : 'Add Class' %></button>
               </div>
               <div class="col-md-4">
                 <p>Edit hours earned for class</p>
-                <input type="text" <%= taken ? 'disabled' : ' ' %> >
-                <button type="button" onclick="javascript:updateHours(<%=course_data.id%>)" <%= taken ? 'disabled' : ' '%> >Update Hours</button>
+                <input id="hours" type="text" <%= taken ? '' : 'disabled' %> ></input>
+                <button type="button" onclick="javascript:updateHours(<%=course_data.id%>)" <%= taken ? '' : 'disabled'%> >Update Hours</button>
               </div>
             </div>
             <div class="page-header">
@@ -419,7 +420,6 @@ if('ontouchstart' in document.documentElement) document.write("<script src='dist
 
   <!-- map scripts-->
   <script src="/js/mapSetter.js"></script>
-
 
 
 
