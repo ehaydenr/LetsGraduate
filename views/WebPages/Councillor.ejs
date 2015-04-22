@@ -13,8 +13,10 @@
     <link rel="stylesheet" href="/css/font-awesome.css">
     <link rel="stylesheet" href="/css/style.css">
 
-    <script src="/js/jquery.js"></script>
-    <script src="/js/class.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+    <script src="/js/councillor.js"></script>
     <!-- page specific plugin styles -->
 
     <!-- text fonts -->
@@ -322,6 +324,48 @@ try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
               &nbsp;
             </div>
 
+            <div class="ui-widget">
+              <label for="courses">Courses: </label>
+              <input id="courses">
+              <input id="id_holder" type="hidden">
+            </div>
+
+            <br>
+
+            <div>
+              <div class="col-md-6">
+                <%  for(var i = 0; i < rows.length; ++i) {      %>
+                  <!--greenBox-->
+                  <span style='cursor:pointer' title="<%=rows[i].description%>">
+                    <div class="alert alert-block alert-success" alt="kekles">										
+                      <a href="/class/<%=rows[i].id%>">
+                        <div tabindex="0" >
+                          <div align="center">
+                            <table>
+                              <td cellpadding="2">
+                                <i class="ace-icon fa fa-check green"></i>
+                              </td><td cellpadding="2">
+
+                                <p class="green_box_text">
+                                <%=rows[i].department+rows[i].number + ' (' + rows[i].hours + ')'%>
+                                </p>
+                              </td>
+
+                            </table>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </span>
+                  <!--endOfGreenBox-->
+                <%  }                                           %>
+              </div>
+              <div class="col-md-6">
+                <!-- MAP GOES HERE -->
+              </div>
+            </div>
+
+
           </div>
 
         </div><!-- /.main-content -->
@@ -359,52 +403,17 @@ try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
 
       <!-- basic scripts -->
 
-      <!--[if !IE]> -->
-      <script src="/js/jquery.js"></script>
+      <script src="/js/bootstrap.js"></script>
 
-      <!-- <![endif]-->
+      <!-- page specific plugin scripts -->
 
-      <!--[if IE]>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <![endif]-->
+      <!-- ace scripts -->
+      <script src="/js/ace-elements.js"></script>
+      <script src="/js/ace.js"></script>
 
-        <!--[if !IE]> -->
-        <script type="text/javascript">
-window.jQuery || document.write("<script src='dist/js/jquery.min.js'>"+"<"+"/script>");
-</script>
-
-<!-- <![endif]-->
-
-<!--[if IE]>
-  <script type="text/javascript">
-window.jQuery || document.write("<script src='dist/js/jquery1x.min.js'>"+"<"+"/script>");
-</script>
-<![endif]-->
-<script type="text/javascript">
-if('ontouchstart' in document.documentElement) document.write("<script src='dist/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-</script>
-<script src="/js/bootstrap.js"></script>
-
-<!-- page specific plugin scripts -->
-
-<!--[if lte IE 8]>
-  <script src="dist/js/excanvas.min.js"></script>
-  <![endif]-->
-  <script src="/js/jquery-ui.js"></script>
-  <script src="/js/jquery_005.js"></script>
-  <script src="/js/jquery_004.js"></script>
-  <script src="/js/jquery_002.js"></script>
-  <script src="/js/jquery_006.js"></script>
-  <script src="/js/jquery_003.js"></script>
-  <script src="/js/jquery_007.js"></script>
-
-  <!-- ace scripts -->
-  <script src="/js/ace-elements.js"></script>
-  <script src="/js/ace.js"></script>
-
-  <!-- map scripts-->
-  <script src="/js/mapSetter.js"></script>
+      <!-- map scripts-->
+      <script src="/js/mapSetter.js"></script>
 
 
 
-  <div style="display: none;" class="tooltip top in"><div class="tooltip-inner"></div></div></body></html>
+      <div style="display: none;" class="tooltip top in"><div class="tooltip-inner"></div></div></body></html>

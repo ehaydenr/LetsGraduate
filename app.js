@@ -213,7 +213,7 @@ router.get('/class/:dept/:num', function(req, res){
 router.get('/overview', function (req, res) {
   var id = req.user.google.id; //GOOGLE_ID; //later change to 'req.user.google.id';
 
-  var query = 'SELECT Class.*, hours FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
+  var query = 'SELECT Class.*, hours, type FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
   console.log("Looking up for: " + id);
   var reqs = require('./public/json/grad_reqs.json');
   var class_data = require('./public/class.json');
@@ -233,7 +233,19 @@ router.get('/overview', function (req, res) {
 });
 
 router.get('/councillor', function (req, res) {
-  res.render('WebPages/Councillor', {"google": req.user.google});
+  var id = req.user.google.id; 
+  var class_data = require('./public/class.json');
+  var query = 'SELECT Class.*, hours FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ? AND type = \'prospective\';';
+  connection.query(query, [id], function (err, rows, fields) {
+    if(err){
+      console.log(err);
+      res.send(500);
+      return;
+    }
+    console.log(rows);
+
+    res.render('WebPages/Councillor', {"google": req.user.google, "rows": rows});
+  });
 });
 
 //End of WebPage rendering
@@ -242,11 +254,11 @@ router.post('/import', function (req, res) {
   var id = req.user.google.id;
   var obj = JSON.parse(req.body.data)[0];
   var query = '';
-  var sql = "INSERT INTO UserClass (google_id, class_id, hours) SELECT ?, Class.id, ? FROM Class WHERE department = ? AND number = ? AND NOT EXISTS (SELECT 1 FROM UserClass WHERE google_id = ? AND class_id = Class.id);";
+  var sql = "INSERT INTO UserClass (google_id, class_id, hours, type) SELECT ?, Class.id, ? , ? FROM Class WHERE department = ? AND number = ? AND NOT EXISTS (SELECT 1 FROM UserClass WHERE google_id = ? AND class_id = Class.id);";
   for(var type in obj){
     for(var entry in obj[type]){
       var tuple = obj[type][entry];
-      query += mysql.format(sql, [id, tuple.hours, tuple.subject, tuple.number, id]);
+      query += mysql.format(sql, [id, tuple.hours, (tuple.prospective ? 'prospective' : 'taken'), tuple.subject, tuple.number, id]);
     }
   }
   var ret = connection.query(query, function (err){
