@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.22, for osx10.10 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.23, for osx10.10 (x86_64)
 --
 -- Host: localhost    Database: letsgraduate_dev
 -- ------------------------------------------------------
--- Server version	5.6.22
+-- Server version	5.6.23
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -68,20 +68,6 @@ CREATE TABLE `CourseOffering` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `Group`
---
-
-DROP TABLE IF EXISTS `Group`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Group` (
-  `id` int(11) NOT NULL,
-  `class_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `Requirement`
 --
 
@@ -117,7 +103,7 @@ CREATE TABLE `Term` (
   `season` varchar(45) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +116,8 @@ DROP TABLE IF EXISTS `UserClass`;
 CREATE TABLE `UserClass` (
   `google_id` char(22) DEFAULT NULL,
   `class_id` int(11) DEFAULT NULL,
-  `hours` varchar(8) DEFAULT '0'
+  `hours` varchar(8) DEFAULT '0',
+  `type` varchar(45) DEFAULT 'taken'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -143,4 +130,4 @@ CREATE TABLE `UserClass` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-21 15:40:48
+-- Dump completed on 2015-04-21 21:28:53
