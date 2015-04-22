@@ -21,7 +21,11 @@ $(document).ready(function () {
 
       name.innerHTML = types[key][i].name + ' - ' + types[key][i].crn;
       class_location.innerHTML = types[key][i].location;
-      dow.innerHTML = types[key][i].daysOfWeek + ' ' + types[key][i].beginTime.substring(0,5) + ' - ' + types[key][i].endTime.substring(0,5);
+      var beginTime = types[key][i].beginTime;
+      beginTime = beginTime == undefined ? '' : beginTime.substring(0,5);
+      var endTime = types[key][i].endTime;
+      endTime = endTime == undefined ? '' : endTime.substring(0,5);
+      dow.innerHTML = types[key][i].daysOfWeek + ' ' + beginTime + ' - ' + endTime;
 
       name.style.backgroundColor = '#EAECEB';
       class_location.style.backgroundColor = '#B0E2F9';

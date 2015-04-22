@@ -100,8 +100,6 @@ router.get('/class/:id/:json?', function(req, res){
       return;
     }
 
-    console.log(rows);
-
     var taken = rows.length > 0 && rows[0].type == 'taken';
     var hours = rows.length > 0 ? rows[0].hours : '';
     var prospective = rows.length > 0 && taken == false;
