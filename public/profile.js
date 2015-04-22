@@ -41,6 +41,7 @@ $(function() {
     ///updateClass?action=insert&id=100
     var id = $("input#id_holder")[0].value;
     console.log("ID: " + id);
+    alert(id);
     $.get( "/updateClass", {"action": "insert", "id": id}, function( data ) {
       console.log(data);
     });
