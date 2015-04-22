@@ -112,7 +112,7 @@ function get_desc_sch(year, sem, dep, number, title){
 					var crnMatches = xpath.find(result, "//section");
 					var crns = [];
 					for(var i = 0; i < crnMatches.length; i++){
-						crns.push(crnMatches[0].$.id);
+						crns.push(crnMatches[i].$.id);
 					}
 					var creditHours = 0;
 					if(err || matches.length == 0){
@@ -124,7 +124,7 @@ function get_desc_sch(year, sem, dep, number, title){
 						creditHours = creditHoursMatches[0];
 						creditHours = creditHours.split(' ')[0];
 					}
-
+					console.log(crns);
 					resolve({
 						year: year,
 						semester: sem,
@@ -197,7 +197,20 @@ function get_crn_info(year, sem, dep, number, crn){
 
 					var locMatches = xpath.find(result, "//buildingName")[0];
 					var loc = "";
-					if(typeof locMatches != "undefined" && locMatches[0] != "undefined") loc = locMatches;
+					if(typeof locMatches != "undefined" && typeof locMatches[0] != "undefined") loc = locMatches;
+					
+					var beginMatches = xpath.find(result, "//start");
+					var begin = "";
+					if(typeof beginMatches != "undefined" && typeof beginMatches[0] != "undefined") begin = beginMatches;
+
+					var endMatches = xpath.find(result, "//end");
+					var end = "";
+					if(typeof endMatches != "undefined" && typeof endMatches[0] != "undefined") end = endMatches;
+					
+					var daysOfWeekMatches= xpath.find(result, "//daysOfTheWeek");
+					var daysOfWeek= "";
+					if(typeof daysOfWeekMatches!= "undefined" && typeof daysOfWeekMatches[0] != "undefined") daysOfWeek = daysOfWeekMatches.trim();
+
 					resolve({
 						year: year,
 						semester: sem,
@@ -206,7 +219,10 @@ function get_crn_info(year, sem, dep, number, crn){
 						crn: crn,
 						name: name,
 						type: type,
-						loc: loc
+						loc: loc,
+						beginTime: begin,
+						endTime: end,
+						daysOfWeek: daysOfWeek
 					});
 				});
 			}
@@ -349,7 +365,6 @@ function pop_crnLocation(year, sem){
 						for(var j = 0; j < crns.length; j++){
 							var crn = crns[j];
 							var crn_promise = get_crn_info(year, sem, dep, num, crn);
-							//bar_locations.tick();
 							crn_promises.push(crn_promise);
 						}
 					}
@@ -362,13 +377,17 @@ function pop_crnLocation(year, sem){
 							var name = section.name;
 							var type = section.type;
 							var loc = section.loc;
-							var query = "INSERT INTO CRNLocation(class_id, crn, name, type, location) "+
-										"SELECT id, '"+crn+"', '"+name+"', '"+type+"', '"+loc+"' "+
+							var beginTime = section.beginTime;
+							var endTime = section.endTime;
+							var days = section.daysOfWeek;
+							var query = "INSERT INTO CRNLocation(class_id, crn, name, type, location, beginTime, endTime, daysOfWeek) "+
+										"SELECT id, '"+crn+"', '"+name+"', '"+type+"', '"+loc+"', STR_TO_DATE('"+beginTime+"', '%h:%i %p'), STR_TO_DATE('"+endTime+"', '%h:%i %p'), '"+days+"' "+
 										"FROM Class "+
 										"WHERE department = '"+dep+"' "+
 										"AND number = '"+num+"';\n";
 							loc_queries = loc_queries + query;
 						}
+						//console.log(loc_queries);
 						connection.query(loc_queries, function(err, rows, fields){
 							if(err) {
 								console.log(err.stack);
