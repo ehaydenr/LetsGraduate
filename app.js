@@ -42,7 +42,8 @@ router.use(function (req, res, next) {
   }else if(req.url == '/login'){
     next();
   }else{
-    res.redirect('/login');
+    // res.redirect('/login');
+    next();
   }
 });
 
@@ -283,6 +284,29 @@ router.get('/requirement', function(req, res){
   var data = require('./public/test_requirement.json');
   res.render('requirement', data);
 });
+
+router.get('/councillorStuff', function(req, res){
+  var id = req.user.google.id; //GOOGLE_ID; //later change to 'req.user.google.id';
+
+  var query = 'SELECT Class.*, hours FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
+  console.log("Looking up for: " + id);
+  var reqs = require('./public/json/grad_reqs.json');
+  connection.query(query, [id], function (err, rows, fields) {
+    if(err){
+      console.log(err);
+      res.send(500);
+      return;
+    }
+    var classes = new Array();
+    for(var i=0; i<rows.length;i++){
+      classes[i]=rows[i].department+rows[i].number;
+    }
+
+    res.json({"classRecs": require('./scripts/cs_req.json').concat(require('./scripts/eng_req.json')), "gradRecs": reqs, "classes": classes});
+  });
+})
+
+
 
 var server = app.listen(3000, function () {
   var host = server.address().address
