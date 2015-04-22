@@ -8,7 +8,7 @@ var xml2js= require('xml2js');
 var xpath = require("xml2js-xpath");	
 var ProgressBar = require('progress');
 var fs = require('fs');
-var DEPT_LIMIT = 1//Number.MAX_VALUE;
+var DEPT_LIMIT = Number.MAX_VALUE;
 var req_array = ['./scripts/eng_req.json' ,'./scripts/cs_req.json']
 /* MySQL Setup */
 var mysql      = require('mysql');
@@ -124,7 +124,6 @@ function get_desc_sch(year, sem, dep, number, title){
 						creditHours = creditHoursMatches[0];
 						creditHours = creditHours.split(' ')[0];
 					}
-					console.log(crns);
 					resolve({
 						year: year,
 						semester: sem,
@@ -209,7 +208,7 @@ function get_crn_info(year, sem, dep, number, crn){
 					
 					var daysOfWeekMatches= xpath.find(result, "//daysOfTheWeek");
 					var daysOfWeek= "";
-					if(typeof daysOfWeekMatches!= "undefined" && typeof daysOfWeekMatches[0] != "undefined") daysOfWeek = daysOfWeekMatches.trim();
+					if(typeof daysOfWeekMatches!= "undefined" && typeof daysOfWeekMatches[0] != "undefined") daysOfWeek = daysOfWeekMatches[0].trim();
 
 					resolve({
 						year: year,
@@ -387,7 +386,6 @@ function pop_crnLocation(year, sem){
 										"AND number = '"+num+"';\n";
 							loc_queries = loc_queries + query;
 						}
-						//console.log(loc_queries);
 						connection.query(loc_queries, function(err, rows, fields){
 							if(err) {
 								console.log(err.stack);
