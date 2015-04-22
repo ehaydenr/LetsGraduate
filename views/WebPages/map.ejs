@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
-    <script src="/js/class.js"></script>
+    <script src="/js/councillor.js"></script>
     <!-- page specific plugin styles -->
 
     <!-- text fonts -->
@@ -211,7 +211,7 @@ try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
       </div>
 
       <div class="main-content">
-        <div class="main-content-inner">
+        <div class="main-content-inner" style="margin-bottom: 100px;">
           <div class="breadcrumbs" id="breadcrumbs">
             <script type="text/javascript">
 try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
@@ -318,34 +318,19 @@ try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
             <!-- CONTENT GOES HERE -->
           </div>
 
-          <div style="margin-left: 100px;margin-right:100px;">
-            <h1><%=course_data.department + course_data.number + ' - ' + course_data.title%></h1>
-            <p><%=course_data.description%></p>
-            <br />
-            <div class="row">
-              <div class="col-md-4">
-                <p>Class Tracker</p>
-                <button type="button" onclick="toggleClass(<%= (taken ? 'false' : 'true') + ', ' + course_data.id%>, 'taken')"><%= taken ? 'Remove Class' : 'Add Class' %></button>
-              </div>
-              <div class="col-md-4">
-                <p>Prospective Class</p>
-                <button type="button" onclick="toggleClass(<%= (prospective ? 'false' : 'true') + ', ' + course_data.id%> , 'prospective')"><%= prospective ? 'Remove Class' : 'Add Class' %></button>
-              </div>
-              <div class="col-md-4">
-                <p>Edit hours earned for class</p>
-                <input id="hours" type="text" <%= taken ? '' : 'disabled' %> value="<%=hours%>"></input>
-                <button type="button" onclick="updateHours(<%=course_data.id%>)" <%= taken ? '' : 'disabled'%> >Update Hours</button>
-              </div>
-            </div>
+          <div style="margin-left: 25px;margin-right:25;">
+            <h1 style="text-align:center">Look Where Your Classes Are</h1>
             <div class="page-header">
               &nbsp;
             </div>
 
-            <div class="ui-widget">
-              <label for="courses">Courses: </label>
-              <input id="courses">
-              <input id="id_holder" type="hidden">
+            <br>
+
+            <div id="map-canvas">
+                <!-- MAP GOES HERE -->
+                Map here
             </div>
+
 
           </div>
 
@@ -384,30 +369,17 @@ try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
 
       <!-- basic scripts -->
 
-      <!--[if !IE]> -->
+      <script src="/js/bootstrap.js"></script>
 
-      <!-- <![endif]-->
+      <!-- page specific plugin scripts -->
 
-      <!--[if IE]>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <![endif]-->
+      <!-- ace scripts -->
+      <script src="/js/ace-elements.js"></script>
+      <script src="/js/ace.js"></script>
 
-        <!--[if !IE]> -->
-<!-- <![endif]-->
-
-<script type="text/javascript">
-if('ontouchstart' in document.documentElement) document.write("<script src='dist/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-</script>
-<script src="/js/bootstrap.js"></script>
-
-<!-- page specific plugin scripts -->
-  <!-- ace scripts -->
-  <script src="/js/ace-elements.js"></script>
-  <script src="/js/ace.js"></script>
-
-  <!-- map scripts-->
-  <script src="/js/mapSetter.js"></script>
+      <!-- map scripts-->
+      <script src="/js/mapSetter.js"></script>
 
 
 
-  <div style="display: none;" class="tooltip top in"><div class="tooltip-inner"></div></div></body></html>
+      <div style="display: none;" class="tooltip top in"><div class="tooltip-inner"></div></div></body></html>
