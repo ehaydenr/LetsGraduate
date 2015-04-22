@@ -8,7 +8,7 @@ var xml2js= require('xml2js');
 var xpath = require("xml2js-xpath");	
 var ProgressBar = require('progress');
 var fs = require('fs');
-var DEPT_LIMIT = Number.MAX_VALUE;
+var DEPT_LIMIT = 1//Number.MAX_VALUE;
 var req_array = ['./scripts/eng_req.json' ,'./scripts/cs_req.json']
 /* MySQL Setup */
 var mysql      = require('mysql');
@@ -811,7 +811,6 @@ var numCourses = getNumCourses("2015", "spring");
 var numCourseOfferings = getNumCourseOfferings("2015", "spring");
 var bar_courses = new ProgressBar(':bar', { total: numCourses}); 
 var bar_courseOfferings = new ProgressBar(':bar', {total: numCourseOfferings});
-var bar_locations = new ProgressBar(':bar', {total: numCourseOfferings});
 
 var timer_courses = setInterval(function () {
 	if (bar_courses.complete) {
@@ -830,8 +829,9 @@ pop_courses('2015', 'spring').then(function(res){
 	pop_course_offerings("2015", "spring").then(function(res) {
 		console.log("Done Course Offerings!");
 		populateReqTree(0, req_queries);
+		bar_courseOfferings= new ProgressBar(':bar', {total: numCourseOfferings});
 		var timer_location = setInterval(function(){
-			if(bar_locations.complete){
+			if(bar_courseOfferings.complete){
 				console.log('complete3');
 				clearInterval(timer_location);
 			}
