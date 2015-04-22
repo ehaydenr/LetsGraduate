@@ -103,7 +103,6 @@ router.get('/class/:id/:json?', function(req, res){
     console.log(rows);
 
     var taken = rows.length > 0 && rows[0].type == 'taken';
-    console.log(taken);
     var hours = rows.length > 0 ? rows[0].hours : '';
     var prospective = rows.length > 0 && taken == false;
 
@@ -127,7 +126,6 @@ router.get('/class/:id/:json?', function(req, res){
           return;
         }
         var section_data = rows;
-        console.log(section_data);
         if(json == undefined){ 
           res.render('WebPages/class', {google: req.user.google, prospective: prospective, taken: taken, hours: hours, course_data: course_data, section_data: section_data});
         }else{
@@ -258,7 +256,6 @@ router.get('/councillor', function (req, res) {
       res.send(500);
       return;
     }
-    console.log(rows);
 
     res.render('WebPages/Councillor', {"google": req.user.google, "rows": rows});
   });
@@ -313,7 +310,6 @@ router.get('/updateClass', function (req, res) {
 
   if(action == 'insert'){ 
     query = query_insert;
-    console.log("type: " + type);
     var params = [userid, classid, (type == 'taken' ? 'taken' : 'prospective'), classid];
   } else if(action == 'delete'){ 
     query = query_delete;
@@ -322,10 +318,6 @@ router.get('/updateClass', function (req, res) {
     query = query_update;
     var params = [hours, userid, classid];
   }
-
-  console.log(query);
-
-  console.log(params);
 
   connection.query(query, params, function(err, rows, fields) {
     if(err){
