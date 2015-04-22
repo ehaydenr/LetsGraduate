@@ -174,16 +174,7 @@ try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
               </li>
 
               <li class="">
-                <a href="/flowChar">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Graduation Flow Chart
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="/classCatalogue">
+                <a href="/class/1">
                   <i class="menu-icon fa fa-caret-right"></i>
                   Class Catologue
                 </a>
@@ -325,16 +316,16 @@ try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
             <div class="row">
               <div class="col-md-4">
                 <p>Class Tracker</p>
-                <button type="button" onclick="javascript:toggleClassTaken(<%= (taken ? 'false' : 'true') + ', ' + course_data.id%>)"><%= taken ? 'Remove Class' : 'Add Class' %></button>
+                <button type="button" onclick="toggleClass(<%= (taken ? 'false' : 'true') + ', ' + course_data.id%>, 'taken')"><%= taken ? 'Remove Class' : 'Add Class' %></button>
               </div>
               <div class="col-md-4">
                 <p>Prospective Class</p>
-                <button type="button" onclick="javascript:toggleClassProspective(<%= (prospective ? 'false' : 'true') + ', ' + course_data.id%>)"><%= prospective ? 'Remove Class' : 'Add Class' %></button>
+                <button type="button" onclick="toggleClass(<%= (prospective ? 'false' : 'true') + ', ' + course_data.id%> , 'prospective')"><%= prospective ? 'Remove Class' : 'Add Class' %></button>
               </div>
               <div class="col-md-4">
                 <p>Edit hours earned for class</p>
                 <input id="hours" type="text" <%= taken ? '' : 'disabled' %> value="<%=hours%>"></input>
-                <button type="button" onclick="javascript:updateHours(<%=course_data.id%>)" <%= taken ? '' : 'disabled'%> >Update Hours</button>
+                <button type="button" onclick="updateHours(<%=course_data.id%>)" <%= taken ? '' : 'disabled'%> >Update Hours</button>
               </div>
             </div>
             <div class="page-header">

@@ -1,16 +1,12 @@
 // class.ejs 
-function toggleClassTaken(add, id){
-  console.log("Toggle Class Taken: " + id);
-  console.log(add);
-  $.get( "/updateClass", {"action": (add ? "insert" : "delete"), "id": id}, function( data ) {
+function toggleClass(add, id, type){
+  var data = {"action": (add ? "insert" : "delete"), "id": id, "type": type};
+  console.log(data);
+  $.get( "/updateClass", data, function( data ) {
     console.log("Added");
     console.log(data);
     location.reload();
   });
-}
-
-function toggleClassProspective(add, id){
-  console.log("Toggle Class Prospective: " + id);
 }
 
 function updateHours(id){

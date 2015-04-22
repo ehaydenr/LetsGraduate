@@ -174,16 +174,7 @@ try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
               </li>
 
               <li class="">
-                <a href="/flowChar">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Graduation Flow Chart
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="/classCatalogue">
+                <a href="/class/1">
                   <i class="menu-icon fa fa-caret-right"></i>
                   Class Catologue
                 </a>
@@ -211,7 +202,7 @@ try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
       </div>
 
       <div class="main-content">
-        <div class="main-content-inner">
+        <div class="main-content-inner" style="margin-bottom: 100px;">
           <div class="breadcrumbs" id="breadcrumbs">
             <script type="text/javascript">
 try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
@@ -363,7 +354,9 @@ try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
                 <%  }                                           %>
               </div>
               <div class="col-md-6">
-                <div class="prospective_explorer" style="overflow-y: scroll; height: 400px;">
+                <div class="prospective_explorer" >
+                  <h3><div id="class_header"></div></h3>
+                  <div id="class_desc"></div>
                   <div>
                     <div class="col-md-4">
                       <h4><div id="header1"></div></h4>

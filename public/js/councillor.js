@@ -1,13 +1,20 @@
 $(document).ready(function () {
-  function addClassToProspective(id){
+  function toggleProspective(add, id){
     console.log("addClassToProspective: " + id);
+    var data = {"action": (add ? "insert" : "delete"), "id": id, "type": 'prospective'};
+    console.log(data);
+    $.get( "/updateClass", data, function( data ) {
+      console.log("Added");
+      console.log(data);
+      location.reload();
+    });
   }
   function populateColumns(types, key, id){
     $('#header' + (id + 1))[0].innerHTML = key;
     for(var i = 0; i < types[key].length; ++i){
       var div = document.createElement('div');
       div.className =  'col-md-12';
-      div.innerHTML = types[key][i].name;
+      div.innerHTML = types[key][i].name + ' - ' + types[key][i].location;
       document.getElementById('header' + (id + 1)).appendChild(div);
     }
   }
@@ -24,6 +31,8 @@ $(document).ready(function () {
         types[section_data[i].type].push(section_data[i]);
       }
       console.log(types);
+      document.getElementById('class_header').innerHTML = data.course_data.title;
+      document.getElementById('class_desc').innerHTML = data.course_data.description;
       document.getElementById('header1').innerHTML = '';
       document.getElementById('header2').innerHTML = '';
       document.getElementById('header3').innerHTML = '';
@@ -57,7 +66,7 @@ $(document).ready(function () {
       },
       select: function(event, ui){
         console.log(ui.item.total.id);
-        addClassToProspective(ui.item.total.id);
+        toggleProspective(true, ui.item.total.id);
         return true;
       } 
     });

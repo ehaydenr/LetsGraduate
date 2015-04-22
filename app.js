@@ -92,7 +92,7 @@ router.get('/class/:id/:json?', function(req, res){
   var json = req.params.json;
 
   // Find out if user has taken that class
-  var query = 'SELECT hours FROM UserClass WHERE google_id = ? AND class_id = ?;';
+  var query = 'SELECT hours, type FROM UserClass WHERE google_id = ? AND class_id = ?;';
   connection.query(query, [userid, classid], function(err, rows, fields){
     if(err){
       console.log(err);
@@ -100,9 +100,12 @@ router.get('/class/:id/:json?', function(req, res){
       return;
     }
 
-    var taken = rows.length > 0;
-    var hours = taken ? rows[0].hours : '';
-    var prospective = false; // TODO
+    console.log(rows);
+
+    var taken = rows.length > 0 && rows[0].type == 'taken';
+    console.log(taken);
+    var hours = rows.length > 0 ? rows[0].hours : '';
+    var prospective = rows.length > 0 && taken == false;
 
     // Grab information about the class
     query = 'SELECT * FROM Class WHERE id = ?;';
@@ -292,6 +295,7 @@ router.get('/updateClass', function (req, res) {
   var userid = req.user.google.id;
   var action = req.query.action; // Either delete or insert 
   var hours = req.query.hours;
+  var type = req.query.type;
   console.log(req.query);
   console.log("Action: " + action);
 
@@ -301,7 +305,7 @@ router.get('/updateClass', function (req, res) {
   }
 
   // Run update
-  var query_insert = 'INSERT INTO UserClass (google_id, class_id, hours) SELECT ? AS google_id, ? AS class_id, creditHours AS hours FROM Class WHERE id = ?;'; // userid, class_id, hours
+  var query_insert = 'INSERT INTO UserClass (google_id, class_id, hours, type) SELECT ? AS google_id, ? AS class_id, creditHours AS hours, ? FROM Class WHERE id = ?;'; // userid, class_id, hours
   var query_delete = 'DELETE FROM UserClass WHERE google_id = ? AND class_id = ?;';
   var query_update = 'UPDATE UserClass SET hours = ? WHERE google_id = ? AND class_id = ?;';
 
@@ -309,7 +313,8 @@ router.get('/updateClass', function (req, res) {
 
   if(action == 'insert'){ 
     query = query_insert;
-    var params = [userid, classid, classid];
+    console.log("type: " + type);
+    var params = [userid, classid, (type == 'taken' ? 'taken' : 'prospective'), classid];
   } else if(action == 'delete'){ 
     query = query_delete;
     var params = [userid, classid];
