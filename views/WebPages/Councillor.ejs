@@ -335,10 +335,11 @@ try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
             <div>
               <div class="col-md-6">
                 <%  for(var i = 0; i < rows.length; ++i) {      %>
+                <div>
                   <!--greenBox-->
                   <span style='cursor:pointer' title="<%=rows[i].description%>">
                     <div class="alert alert-block alert-success" alt="kekles">										
-                      <a href="/class/<%=rows[i].id%>">
+                      <span id="explorer" value="<%=rows[i].id%>">
                         <div tabindex="0" >
                           <div align="center">
                             <table>
@@ -354,15 +355,43 @@ try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
                             </table>
                           </div>
                         </div>
-                      </a>
+                      </span>
                     </div>
                   </span>
                   <!--endOfGreenBox-->
+                </div>
                 <%  }                                           %>
               </div>
               <div class="col-md-6">
-                <!-- MAP GOES HERE -->
+                <div class="prospective_explorer">
+                  <div>
+                    <div class="col-md-4">
+                      <h4><div id="header1">Header 1</div></h4>
+                      <div class="col-md-12">
+                        column
+                      </div>
+                      <div class="col-md-12">
+                        column
+                      </div>
+                      <div class="col-md-12">
+                        column
+                      </div>
+                      <div class="col-md-12">
+                        column
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <h4><div id="header2">Header 2</div></h4>
+                    </div>
+                    <div class="col-md-4">
+                      <h4><div id="header3">Header 3</div></h4>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
+            <div>
+                <!-- MAP GOES HERE -->
             </div>
 
 

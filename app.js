@@ -86,9 +86,10 @@ router.get('/logout', function(req, res){
   res.redirect('/login');
 });
 
-router.get('/class/:id', function(req, res){
+router.get('/class/:id/:json?', function(req, res){
   var classid = req.params.id;
   var userid = req.user.google.id;
+  var json = req.params.json;
 
   // Find out if user has taken that class
   var query = 'SELECT hours FROM UserClass WHERE google_id = ? AND class_id = ?;';
@@ -114,10 +115,22 @@ router.get('/class/:id', function(req, res){
 
       var course_data = rows[0];
 
-      // TODO: query location data and section data
-      
-      res.render('WebPages/class', {google: req.user.google, prospective: prospective, taken: taken, hours: hours, course_data: course_data});
-
+      // Get section and location data
+      query = 'SELECT * FROM CRNLocation WHERE class_id = ?;';
+      connection.query(query, [classid], function(err, rows, fields){
+        if(err){
+          console.log(err);
+          res.send(500);
+          return;
+        }
+        var section_data = rows;
+        console.log(section_data);
+        if(json == undefined){ 
+          res.render('WebPages/class', {google: req.user.google, prospective: prospective, taken: taken, hours: hours, course_data: course_data, section_data: section_data});
+        }else{
+          res.send({prospective: prospective, taken: taken, hours: hours, course_data: course_data, section_data: section_data});
+        }
+      });
     });
   });
 });
