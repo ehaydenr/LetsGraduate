@@ -36,7 +36,8 @@ $(document).ready(function () {
         return false;
       },
       select: function(event, ui){
-        previewClass(ui.item);
+        console.log(ui.item.total.id);
+        window.location.href = "/class/" + ui.item.total.id;
         return true;
       } 
     });

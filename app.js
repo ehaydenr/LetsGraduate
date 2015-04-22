@@ -233,7 +233,7 @@ router.get('/overview', function (req, res) {
 });
 
 router.get('/councillor', function (req, res) {
-  res.render('WebPages/Councillor');
+  res.render('WebPages/Councillor', {"google": req.user.google});
 });
 
 //End of WebPage rendering
