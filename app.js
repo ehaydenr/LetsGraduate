@@ -42,8 +42,7 @@ router.use(function (req, res, next) {
   }else if(req.url == '/login'){
     next();
   }else{
-    // res.redirect('/login');
-    next();
+    res.redirect('/login');
   }
 });
 
@@ -136,6 +135,7 @@ router.get('/class/:id/:json?', function(req, res){
 });
 
 //get the building name of a class given its dept and number
+/*
 router.get('/dave/:dept/:num', function(req, res){
   var query = 'SELECT DISTINCT beginTime as start, endTime as end, daysOfWeek as days, crn, location as building, department as dept, number as num FROM CRNLocation, Class WHERE CRNLocation.class_id = Class.id AND type = \'Lecture\' AND department = ? AND number = ?;';
   connection.query(query, [req.params.dept, req.params.num], function(err, rows, fields){
@@ -147,6 +147,109 @@ router.get('/dave/:dept/:num', function(req, res){
     res.send(rows);
   });
 
+});
+*/
+
+router.get('/dave/:dept/:num', function(req, res){
+  var options = {
+    host: 'courses.illinois.edu',
+    path: '/cisapp/explorer/schedule/2015/fall/'+req.params.dept.toUpperCase()+"/"+req.params.num + ".xml"
+  };
+
+  http.get(options, function(res2) {
+    console.log('STATUS: ' + res2.statusCode);
+    console.log('HEADERS: ' + JSON.stringify(res.headers));
+
+    // Buffer the body entirely for processing as a whole.
+    var xml = '';
+    res2.on('data', function(chunk) {
+
+      xml+=chunk;
+
+    }).on('end', function() {
+      parseString(xml, function(err, result){
+        // console.log(result);
+        if(result == null){
+          res.send({"found":"no", "dept":req.params.dept, "num":req.params.num});
+          return;
+        }
+        var arr = result["ns2:course"]["sections"][0]["section"];
+        var classes = [];
+        for(var i = 0; i<arr.length; i++){
+          classes.push(arr[i]["$"]["href"]);
+        }
+        var farray = [];
+        for(var i = 0; i< classes.length; i++){
+          farray.push(
+              function(callback) {
+                var res1;
+                var classURL = classes.pop();
+                request(classURL, function(err, response, body) {
+
+                  // JSON body
+                  if(err) { 
+                    console.log(err); 
+                    callback(true); 
+                    return; 
+                  }
+
+                  console.log("inside callback");
+                  parseString(body, {async:false, trim: true} ,function (err, result1) {
+                    res1 = result1;
+                    callback(false,result1);
+                  });
+                });
+
+              });
+        }
+        async.parallel(farray,
+            /*
+             * Collate results
+             */
+            function(err, results) {
+              if(err) { 
+                console.log(err); 
+                res.send(500,"Server Error"); 
+                return; 
+              }
+              var finalArray = [];
+
+              for(var i = 0; i<results.length; i++){
+                console.log(results[i]["ns2:section"]["parents"][0]["course"][0]["$"]["id"]);
+                baseOb = results[i]["ns2:section"]["meetings"][0]["meeting"][0];
+                if(baseOb["type"][0]["_"].toLowerCase().indexOf("lecture") != -1 && baseOb["end"] != null){
+                  finOb = {};
+                  finOb["start"] = baseOb["start"][0];
+                  console.log(baseOb);
+                  finOb["end"] = baseOb["end"][0];
+                  finOb["days"] = baseOb["daysOfTheWeek"][0];
+                  finOb["building"] = baseOb["buildingName"][0];
+                  finOb["dept"] = results[i]["ns2:section"]["parents"][0]["subject"][0]["$"]["id"];
+                  finOb["num"] = results[i]["ns2:section"]["parents"][0]["course"][0]["$"]["id"];
+                  finOb["crn"] = results[i]["ns2:section"]["$"]["id"];
+
+                  finalArray.push(finOb);
+                } else if(baseOb["type"][0]["_"].toLowerCase().indexOf("ind") != -1 || baseOb["end"] == null){
+                  finOb = {};
+                  finOb["dept"] = results[i]["ns2:section"]["parents"][0]["subject"][0]["$"]["id"];
+                  finOb["num"] = results[i]["ns2:section"]["parents"][0]["course"][0]["$"]["id"];
+                  finOb["crn"] = results[i]["ns2:section"]["$"]["id"];
+                  finalArray.push(finOb);
+                }
+              }
+               console.log("dept: "+ req.params.dept + " num: " +req.params.num);
+               console.log(finalArray)
+               if(finalArray.length == 0){
+                res.send([{"dept":req.params.dept, "num":req.params.num}])
+                return;
+               }
+
+              res.send(finalArray);
+            }
+        );
+      });
+    });
+  });
 });
 
 router.get('/prospective', function(req, res){

@@ -39,6 +39,10 @@ var buildingGeocoding = {
 	"Temple Hoyne Buell Hall": {
 		"lat":40.102331,
 		"long":-88.228119
+	}, 
+	"Henry Administration Bldg": {
+		"lat":40.108568,
+		"long":-88.228248
 	}
 }
 
@@ -46,41 +50,203 @@ var buildingGeocoding = {
 
 //get the classes
 
-var classes = [
-{"major":"cs", "num":210}, 
-{"major":"cs", "num":225}, 
-{"major":"cs", "num":411},
-{"major":"math", "num":241},
-{"major":"phys", "num":211},
-];
+var classes = [];
+var noClass = [];
 
 var classOptions = [];
 
 $(function() {
+	$.get( "/councillorStuff", function(data){
+		chooseClassesToSchedule(data);
+	});
+});
+
+function takenRecs(dept, num, classRecs, takenClasses){
+	for(var i =0; i<classRecs.length; i++){
+		if (classRecs[i].dep === dept && classRecs[i].num === num){
+			if(dept === "CS" && num==125){
+				console.log(classRecs[i]);
+			}
+			if(typeof classRecs[i].req === 'String'){
+				console.log("here");
+				if(classRecs[i].req === ""){
+					console.log("here");
+					return true;
+				}
+				return takenClass(classRecs[i].rec, takenClasses);
+			} else {
+				if(classRecs[i].req === ""){
+					console.log("here");
+					return true;
+				}
+				return recurseTakenRecs()
+			}
+		}
+	}
+	return true;
+}
+
+function recurseTakenRecs(classReq, classes){
+	return true;
+}
+
+function takenClass(className, takenClasses){
+	for(var i =0; i<takenClasses.length; i++){
+		if (takenClasses[i] == className){
+			return true;
+		}
+	}
+	return false;
+}
+
+function chooseClassesToSchedule(data){
+	var classRecs = data["classRecs"];
+	var gradRecs = data["gradRecs"]["grad_reqs"];
+	var takenClasses = data["classes"];
+	var myClasses = []
+	for(var i = 0; i<gradRecs.length; i++){
+		if(gradRecs[i]["type"] === "C"){
+			if(!takenClass(gradRecs[i]["department"]+gradRecs[i]["number"], takenClasses)) {
+				if(takenRecs(gradRecs[i]["department"], gradRecs[i]["number"], classRecs, takenClasses)){
+					myClasses.push({"major":gradRecs[i]["department"], "num":gradRecs[i]["number"]});
+				}
+			}
+		}else if(gradRecs[i]["type"] == "OR" || gradRecs[i]["type"] == "AND"){
+			recursiveCheckGrad(gradRecs[i], myClasses, takenClasses, classRecs);
+		}
+	}
+
+	classes = myClasses;
+	// [
+	// 	{"major":"cs", "num":210}, 
+	// 	{"major":"cs", "num":225}, 
+	// 	{"major":"cs", "num":411},
+	// 	{"major":"math", "num":241},
+	// 	{"major":"phys", "num":211},
+	// ];
+	scheduleClasses();
+}
+
+function recursiveCheckGrad(gradRec, myClasses, takenClasses, classRecs){
+	if(gradRec["type"] == "OR"){
+		for(var i = 0; i<gradRec["reqs"].length; i++){
+			if(recursiveCheckGrad(gradRec["reqs"][i], myClasses, takenClasses, classRecs)){
+				break;
+			}	
+		}
+	} else if(gradRec["type"] == "AND"){
+		for(var i = 0; i<gradRec["reqs"].length; i++){
+			recursiveCheckGrad(gradRec["reqs"][i], myClasses, takenClasses, classRecs);
+		}
+	} else if(gradRec["type"] == "C"){
+		return addGradReqIfPossible(gradRec, myClasses, takenClasses, classRecs);
+	}
+}
+function addGradReqIfPossible(gradRec, myClasses, takenClasses, classRecs){
+	if(!takenClass(gradRec["department"]+gradRec["number"], takenClasses)) {
+		if(takenRecs(gradRec["department"], gradRec["number"], classRecs)){
+			myClasses.push({"major":gradRec["department"], "num":gradRec["number"]});
+			return true;
+		}
+	}
+	return false
+}
+
+function scheduleClasses(){
+
+	if(classes.length > 7){
+		classes.splice(7, classes.length);
+	}
+
+
+	for(var i = 0; i<classes.length; i++){
+		for(var j = i+1; j<classes.length; j++){
+			if(classes[i].num == classes[j].num && classes[j].major == classes[i].major){
+				classes.splice(j, 1);
+				j--;
+			}
+		}
+	}
+
 	for(var i = 0; i<classes.length; i++){
 		$.ajax({
 			type: "get",
-			url: "/class/"+classes[i].major.toUpperCase() +"/"+classes[i].num + "",
+			url: "/dave/"+classes[i].major.toUpperCase() +"/"+classes[i].num + "",
 			dataType: "JSON",
 			success: function(data) {
 				/* handle data here */
 				var aClass = {}
-				aClass["dept"] = data[0].dept;
-				aClass["num"] = data[0].num;
-				aClass["options"] = data;
-				classOptions.push(aClass);
+				var shouldGo = true;
+				if(data["found"] == "no"){
+					for(var j = 0; j<classes.length; j++){
+						if(classes[j].major == data["dept"] && classes[j].num == data["num"]){
+							classes.splice(j, 1);
+							if(classOptions.length == classes.length){
+								classesCollected();
+							}
+							shouldGo = false;
+							return;
+						}
+					}
+				}
+				if(data["start"] == null){
+					for(var j = 0; j<classes.length; j++){
+						if(classes[j].major == data["dept"] && classes[j].num == data["num"]){
+							console.log("here");
+							shouldGo = false;
+							noClass.push(classes[j]);
+							classes.splice(j, 1);
+							if(classOptions.length == classes.length){
+								classesCollected();
+							}
+							return;
+						}
+					}
+				}
+				for(var k = 0; k<data.length; k++){
+					if(typeof data[k]["end"] === 'undefined' || typeof data[k]["start"] == 'undefined'){
+						for(var j = 0; j<classes.length; j++){
+							if(classes[j].major == data[k]["dept"] && classes[j].num == data[k]["num"]){
+								console.log("here");
+								shouldGo = false;
+								noClass.push(classes[j]);
+								classes.splice(j, 1);
+								if(classOptions.length == classes.length){
+									classesCollected();
+								}
+								return;
+							}
+						}
+					}
+				}
+
+				console.log(data);
+				if(shouldGo && typeof data[0] !== 'undefined'){
+					aClass["dept"] = data[0].dept;
+					aClass["num"] = data[0].num;
+					aClass["options"] = data;
+
+					classOptions.push(aClass);
+				// console.log(data);
+				console.log("classOptionsLength: " + classOptions.length);
+				console.log("classesLength: " + classes.length);
 
 				if(classOptions.length == classes.length){
 					classesCollected();
 				}
-			},
-			error: function(status) {
 			}
-		});
-	}
-});
+
+		},
+		error: function(status) {
+		}
+	});
+}
+}
+
 
 function classesCollected(){
+	console.log(noClass);
+	console.log(classes);
 	initialize(findScheduleFromClassOptions());
 }
 
@@ -132,6 +298,7 @@ function incrementOptionChoices(myArray, optionChoices){
 		} else {
 			return false;
 		}
+		console.log("in optionChoices");
 	}
 	return true;
 }
@@ -156,8 +323,9 @@ function findScheduleFromClassOptions(){
 		myArray.push(anOption);
 		optionChoices.push(0);
 	}
-	var currentClasses = [];
+	
 	while(true){
+		var currentClasses = [];
 		for(var i = 0; i<myArray.length; i++){
 			currentClasses.push(myArray[i][optionChoices[i]]);
 		}
@@ -189,6 +357,7 @@ function initialize(optionChoices) {
 
 
 	for(var i = 0; i<classOptions.length; i++){
+		console.log(classOptions[i]["options"][optionChoices[i]]["building"]);
 		classLat = buildingGeocoding[classOptions[i]["options"][optionChoices[i]]["building"]]["lat"]
 		classLong = buildingGeocoding[classOptions[i]["options"][optionChoices[i]]["building"]]["long"]
 		var bs = new google.maps.LatLng(classLat, classLong);
