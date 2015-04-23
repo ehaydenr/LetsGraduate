@@ -319,70 +319,16 @@ try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
           </div>
 
           <div style="margin-left: 25px;margin-right:25;">
-            <h1 style="text-align:center">Plan Out Your Schedule for Next Semester</h1>
+            <h1 style="text-align:center">Look Where Your Classes Are</h1>
             <div class="page-header">
               &nbsp;
             </div>
 
-            <div class="ui-widget">
-              <label for="courses">Courses: </label>
-              <input id="courses">
-              <input id="id_holder" type="hidden">
-            </div>
-
             <br>
 
-            <div>
-              <div class="col-md-6">
-                <%  for(var i = 0; i < rows.length; ++i) {      %>
-                <div>
-                  <!--greenBox-->
-                  <span style='cursor:pointer' title="<%=rows[i].description%>">
-                    <div class="alert alert-block alert-success" alt="kekles">										
-                      <span id="explorer" value="<%=rows[i].id%>">
-                        <div tabindex="0" >
-                          <div align="center">
-                            <table>
-                              <td cellpadding="2">
-                                <i class="ace-icon fa fa-check green"></i>
-                              </td><td cellpadding="2">
-
-                                <p class="green_box_text">
-                                <%=rows[i].department+rows[i].number + ' (' + rows[i].hours + ')'%>
-                                </p>
-                              </td>
-
-                            </table>
-                          </div>
-                        </div>
-                      </span>
-                    </div>
-                  </span>
-                  <!--endOfGreenBox-->
-                </div>
-                <%  }                                           %>
-              </div>
-              <div class="col-md-6">
-                <div class="prospective_explorer" >
-                  <h3><div id="class_header"></div></h3>
-                  <div id="remove_button"></div>
-                  <div id="class_desc"></div>
-                  <div>
-                    <div class="col-md-4">
-                      <div id="header1"></div>
-                    </div>
-                    <div class="col-md-4">
-                      <div id="header2"></div>
-                    </div>
-                    <div class="col-md-4">
-                      <div id="header3"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
+            <div id="map-canvas">
                 <!-- MAP GOES HERE -->
+                Map here
             </div>
 
 

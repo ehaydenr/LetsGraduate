@@ -2,13 +2,14 @@ var url_sch = "http://courses.illinois.edu/cisapp/explorer/schedule/";
 var url_cat = "http://courses.illinois.edu/cisapp/explorer/catalog/";
 var request = require('request');
 var Promise = require('promise');
-var x = require('XMLHttpRequest').XMLHttpRequest;
+var x = require('xmlhttprequest').XMLHttpRequest;
 var xhr = new x();
 var xml2js= require('xml2js');
 var xpath = require("xml2js-xpath");	
 var ProgressBar = require('progress');
 var fs = require('fs');
 var DEPT_LIMIT = Number.MAX_VALUE;
+var START = 0;
 var req_array = ['./scripts/eng_req.json' ,'./scripts/cs_req.json']
 /* MySQL Setup */
 var mysql      = require('mysql');
@@ -237,7 +238,7 @@ function pop_course_offerings(year, sem){
 		get_departments_sch(year, sem).then(function(res) {
 			var course_promises = [];
 			var departments = res.departments;
-			for(var i = 0; i < departments.length && i < DEPT_LIMIT; ++i){
+			for(var i = START; i < departments.length && i < DEPT_LIMIT; ++i){
 				var dep = departments[i].$.id;
 				var course_promise = get_courses_sch(year, sem, dep);
 				course_promises.push(course_promise);
@@ -292,7 +293,7 @@ function pop_courses(year, sem){
 		get_departments_cat(year, sem).then(function (res) {
 			var course_promises = [];
 			var departments = res.departments;
-			for(var i = 0; i < departments.length && i < DEPT_LIMIT; ++i){
+			for(var i = START; i < departments.length && i < DEPT_LIMIT; ++i){
 				var dep = departments[i].$.id;
 				var course_promise = get_courses_cat(year, sem, dep);
 				course_promises.push(course_promise);
@@ -337,7 +338,7 @@ function pop_crnLocation(year, sem){
 		get_departments_sch(year, sem).then(function(res) {
 			var course_promises = [];
 			var departments = res.departments;
-			for(var i = 0; i < departments.length && i < DEPT_LIMIT; ++i){
+			for(var i = START; i < departments.length && i < DEPT_LIMIT; ++i){
 				var dep = departments[i].$.id;
 				var course_promise = get_courses_sch(year, sem, dep);
 				course_promises.push(course_promise);
@@ -412,7 +413,7 @@ function getNumCourseOfferings(year, sem){
 	if(xhr.status==200){
 		xml2js.parseString(xhr.responseText, function(err, result){
 			var matches = xpath.find(result, "//subject");
-			for(var i = 0; i < matches.length && i < DEPT_LIMIT; i++){
+			for(var i = START; i < matches.length && i < DEPT_LIMIT; i++){
 				code = matches[i].$.id;
 				var url2 = url_sch+year+"/"+sem+"/"+code+".xml";
 				xhr.open('GET', url2, false);
@@ -437,7 +438,7 @@ function getNumCourses(year, sem){
 	if(xhr.status==200){
 		xml2js.parseString(xhr.responseText, function(err, result){
 			var matches = xpath.find(result, "//subject");
-			for(var i = 0; i < matches.length && i < DEPT_LIMIT; i++){
+			for(var i = START; i < matches.length && i < DEPT_LIMIT; i++){
 				code = matches[i].$.id;
 				var url2 = url_cat+year+"/"+sem+"/"+code+".xml";
 				xhr.open('GET', url2, false);
@@ -822,41 +823,70 @@ var loc_queries = "";
 //	connection.destroy();
 //});;
 
+var req_queries = "";
+var numCourses, numCourseOfferings, bar_courses, bar_courseOfferings;
 
-var req_queries = ""; 
-var numCourses = getNumCourses("2015", "spring"); 
-var numCourseOfferings = getNumCourseOfferings("2015", "spring");
-var bar_courses = new ProgressBar(':bar', { total: numCourses}); 
-var bar_courseOfferings = new ProgressBar(':bar', {total: numCourseOfferings});
+function runme(callback){
 
-var timer_courses = setInterval(function () {
-	if (bar_courses.complete) {
-		console.log('complete1');
-		clearInterval(timer_courses);
-	}
-}, 100);
-pop_courses('2015', 'spring').then(function(res){
-	console.log("Done Courses!");
-	var timer_offerings = setInterval(function(){
-		if(bar_courseOfferings.complete){
-			console.log('complete2');
-			clearInterval(timer_offerings);
-		}
-	}, 100);
-	pop_course_offerings("2015", "spring").then(function(res) {
-		console.log("Done Course Offerings!");
-		populateReqTree(0, req_queries);
-		bar_courseOfferings= new ProgressBar(':bar', {total: numCourseOfferings});
-		var timer_location = setInterval(function(){
-			if(bar_courseOfferings.complete){
-				console.log('complete3');
-				clearInterval(timer_location);
-			}
-		}, 100);
-		pop_crnLocation("2015", "spring").then(function(res){
-			console.log("Done Locations!")	
-			connection.destroy();
-		});;
-	}, rej);
-}, rej);
+  req_queries = ""; 
+  numCourses = getNumCourses("2015", "spring"); 
+  numCourseOfferings = getNumCourseOfferings("2015", "spring");
+  bar_courses = new ProgressBar(':bar', { total: numCourses}); 
+  bar_courseOfferings = new ProgressBar(':bar', {total: numCourseOfferings});
+
+  var timer_courses = setInterval(function () {
+    if (bar_courses.complete) {
+      console.log('complete1');
+      clearInterval(timer_courses);
+    }
+  }, 100);
+  pop_courses('2015', 'spring').then(function(res){
+    console.log("Done Courses!");
+    var timer_offerings = setInterval(function(){
+      if(bar_courseOfferings.complete){
+        console.log('complete2');
+        clearInterval(timer_offerings);
+      }
+    }, 100);
+    pop_course_offerings("2015", "spring").then(function(res) {
+      console.log("Done Course Offerings!");
+      populateReqTree(0, req_queries);
+      bar_courseOfferings= new ProgressBar(':bar', {total: numCourseOfferings});
+      var timer_location = setInterval(function(){
+        if(bar_courseOfferings.complete){
+          console.log('complete3');
+          clearInterval(timer_location);
+        }
+      }, 100);
+      pop_crnLocation("2015", "spring").then(function(res){
+        console.log("Done Locations!")	
+          callback();
+      });
+    }, rej);
+  }, rej);
+}
+
+START = 0;
+DEPT_LIMIT = 51;
+runme(function(){
+
+  START = 51;
+  DEPT_LIMIT = 101;
+  runme(function(){
+
+    START = 101;
+    DEPT_LIMIT = 151;
+    runme(function(){
+
+      START = 151;
+      DEPT_LIMIT = Number.MAX_VALUE;
+      runme(function(){
+        connection.destroy();
+      });
+    });
+
+  });
+
+});
+
 

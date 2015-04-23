@@ -87,102 +87,90 @@ router.get('/logout', function(req, res){
   res.redirect('/login');
 });
 
-//get the building name of a class given its dept and number
-router.get('/class/:dept/:num', function(req, res){
-  var options = {
-    host: 'courses.illinois.edu',
-    path: '/cisapp/explorer/schedule/2015/fall/'+req.params.dept.toUpperCase()+"/"+req.params.num + ".xml"
-  };
+router.get('/class/:id/:json?', function(req, res){
+  var classid = req.params.id;
+  var userid = req.user.google.id;
+  var json = req.params.json;
 
-  var req = http.get(options, function(res2) {
-    console.log('STATUS: ' + res2.statusCode);
-    console.log('HEADERS: ' + JSON.stringify(res.headers));
+  // Find out if user has taken that class
+  var query = 'SELECT hours, type FROM UserClass WHERE google_id = ? AND class_id = ?;';
+  connection.query(query, [userid, classid], function(err, rows, fields){
+    if(err){
+      console.log(err);
+      res.send(500);
+      return;
+    }
 
-    // Buffer the body entirely for processing as a whole.
-    var xml = '';
-    res2.on('data', function(chunk) {
+    var taken = rows.length > 0 && rows[0].type == 'taken';
+    var hours = rows.length > 0 ? rows[0].hours : '';
+    var prospective = rows.length > 0 && taken == false;
 
-      xml+=chunk;
+    // Grab information about the class
+    query = 'SELECT * FROM Class WHERE id = ?;';
+    connection.query(query, [classid], function(err, rows, fields){
+      if(err){
+        console.log(err);
+        res.send(500);
+        return;
+      }
 
-    }).on('end', function() {
-      parseString(xml, function(err, result){
-        // console.log(result);
-        var arr = result["ns2:course"]["sections"][0]["section"];
-        var classes = [];
-        for(var i = 0; i<arr.length; i++){
-          classes.push(arr[i]["$"]["href"]);
+      var course_data = rows[0];
+
+      // Get section and location data
+      query = 'SELECT * FROM CRNLocation WHERE class_id = ?;';
+      connection.query(query, [classid], function(err, rows, fields){
+        if(err){
+          console.log(err);
+          res.send(500);
+          return;
         }
-        var farray = [];
-        for(var i = 0; i< classes.length; i++){
-          farray.push(
-              function(callback) {
-                var res1;
-                var classURL = classes.pop();
-                request(classURL, function(err, response, body) {
-
-                  // JSON body
-                  if(err) { 
-                    console.log(err); 
-                    callback(true); 
-                    return; 
-                  }
-
-                  console.log("inside callback");
-                  parseString(body, {async:false, trim: true} ,function (err, result1) {
-                    res1 = result1;
-                    callback(false,result1);
-                  });
-                });
-
-              });
+        var section_data = rows;
+        if(json == undefined){ 
+          res.render('WebPages/class', {google: req.user.google, prospective: prospective, taken: taken, hours: hours, course_data: course_data, section_data: section_data});
+        }else{
+          res.send({prospective: prospective, taken: taken, hours: hours, course_data: course_data, section_data: section_data});
         }
-        async.parallel(farray,
-            /*
-             * Collate results
-             */
-            function(err, results) {
-              if(err) { 
-                console.log(err); 
-                res.send(500,"Server Error"); 
-                return; 
-              }
-              var finalArray = [];
-
-              for(var i = 0; i<results.length; i++){
-                console.log(results[i]["ns2:section"]["parents"][0]["course"][0]["$"]["id"]);
-                baseOb = results[i]["ns2:section"]["meetings"][0]["meeting"][0];
-                if(baseOb["type"][0]["_"].toLowerCase().indexOf("lecture") != -1){
-                  finOb = {};
-                  finOb["start"] = baseOb["start"][0];
-                  finOb["end"] = baseOb["end"][0];
-                  finOb["days"] = baseOb["daysOfTheWeek"][0];
-                  finOb["building"] = baseOb["buildingName"][0];
-                  finOb["dept"] = results[i]["ns2:section"]["parents"][0]["subject"][0]["$"]["id"];
-                  finOb["num"] = results[i]["ns2:section"]["parents"][0]["course"][0]["$"]["id"];
-
-                  finalArray.push(finOb);
-                }
-              }
-
-              res.send(finalArray);
-            }
-        );
       });
     });
   });
 });
 
+//get the building name of a class given its dept and number
+router.get('/dave/:dept/:num', function(req, res){
+  var query = 'SELECT DISTINCT beginTime as start, endTime as end, daysOfWeek as days, crn, location as building, department as dept, number as num FROM CRNLocation, Class WHERE CRNLocation.class_id = Class.id AND type = \'Lecture\' AND department = ? AND number = ?;';
+  connection.query(query, [req.params.dept, req.params.num], function(err, rows, fields){
+    if(err){
+      console.log(err);
+      res.send(500);
+      return;
+    }
+    res.send(rows);
+  });
+
+});
+
+router.get('/prospective', function(req, res){
+  var query = 'SELECT DISTINCT beginTime as start, endTime as end, daysOfWeek as days, crn, location as building, department as dept, number as num FROM CRNLocation, Class, UserClass WHERE CRNLocation.class_id = Class.id AND UserClass.class_id = Class.id AND CRNLocation.type = \'Lecture\' AND UserClass.type = \'prospective\';';
+  connection.query(query, [req.params.dept, req.params.num], function(err, rows, fields){
+    if(err){
+      console.log(err);
+      res.send(500);
+      return;
+    }
+    res.send(rows);
+  });
+});
 
 
 //Begining of Webpage rendering
 
 router.get('/overview', function (req, res) {
-  console.log("on Overview");
   var id = req.user.google.id; //GOOGLE_ID; //later change to 'req.user.google.id';
 
-  var query = 'SELECT Class.*, hours FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
+  var query = 'SELECT Class.*, hours, type FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ?;';
   console.log("Looking up for: " + id);
   var reqs = require('./public/json/grad_reqs.json');
+  var class_data = require('./public/class.json');
   connection.query(query, [id], function (err, rows, fields) {
     if(err){
       console.log(err);
@@ -194,12 +182,27 @@ router.get('/overview', function (req, res) {
       classes[i]=rows[i].department+rows[i].number;
     }
 
-    res.render('WebPages/Overview', {"rows": rows, "reqs": reqs, "classes": classes});
+    res.render('WebPages/Overview', {"google": req.user.google, "class_data":class_data, "rows": rows, "reqs": reqs, "classes": classes});
   });
 });
 
 router.get('/councillor', function (req, res) {
-  res.render('WebPages/Councillor');
+  var id = req.user.google.id; 
+  var class_data = require('./public/class.json');
+  var query = 'SELECT Class.*, hours FROM UserClass JOIN Class ON UserClass.class_id = Class.id WHERE google_id = ? AND type = \'prospective\';';
+  connection.query(query, [id], function (err, rows, fields) {
+    if(err){
+      console.log(err);
+      res.send(500);
+      return;
+    }
+
+    res.render('WebPages/Councillor', {"google": req.user.google, "rows": rows});
+  });
+});
+
+router.get('/map', function (req, res) {
+  res.render('WebPages/map', {"google": req.user.google});
 });
 
 //End of WebPage rendering
@@ -208,11 +211,11 @@ router.post('/import', function (req, res) {
   var id = req.user.google.id;
   var obj = JSON.parse(req.body.data)[0];
   var query = '';
-  var sql = "INSERT INTO UserClass (google_id, class_id, hours) SELECT ?, Class.id, ? FROM Class WHERE department = ? AND number = ? AND NOT EXISTS (SELECT 1 FROM UserClass WHERE google_id = ? AND class_id = Class.id);";
+  var sql = "INSERT INTO UserClass (google_id, class_id, hours, type) SELECT ?, Class.id, ? , ? FROM Class WHERE department = ? AND number = ? AND NOT EXISTS (SELECT 1 FROM UserClass WHERE google_id = ? AND class_id = Class.id);";
   for(var type in obj){
     for(var entry in obj[type]){
       var tuple = obj[type][entry];
-      query += mysql.format(sql, [id, tuple.hours, tuple.subject, tuple.number, id]);
+      query += mysql.format(sql, [id, tuple.hours, (tuple.prospective ? 'prospective' : 'taken'), tuple.subject, tuple.number, id]);
     }
   }
   var ret = connection.query(query, function (err){
@@ -233,6 +236,7 @@ router.get('/updateClass', function (req, res) {
   var userid = req.user.google.id;
   var action = req.query.action; // Either delete or insert 
   var hours = req.query.hours;
+  var type = req.query.type;
   console.log(req.query);
   console.log("Action: " + action);
 
@@ -242,21 +246,24 @@ router.get('/updateClass', function (req, res) {
   }
 
   // Run update
-  var query_insert = 'INSERT INTO UserClass VALUES (?, ?);'; // userid, class_id
+  var query_insert = 'INSERT INTO UserClass (google_id, class_id, hours, type) SELECT ? AS google_id, ? AS class_id, creditHours AS hours, ? FROM Class WHERE id = ?;'; // userid, class_id, hours
   var query_delete = 'DELETE FROM UserClass WHERE google_id = ? AND class_id = ?;';
   var query_update = 'UPDATE UserClass SET hours = ? WHERE google_id = ? AND class_id = ?;';
 
   var query;
 
-  if(action == 'insert') query = query_insert;
-  else if(action == 'delete') query = query_delete;
-  else if(action == 'update') query = query_update;
+  if(action == 'insert'){ 
+    query = query_insert;
+    var params = [userid, classid, (type == 'taken' ? 'taken' : 'prospective'), classid];
+  } else if(action == 'delete'){ 
+    query = query_delete;
+    var params = [userid, classid];
+  } else if(action == 'update'){
+    query = query_update;
+    var params = [hours, userid, classid];
+  }
 
-  console.log(query);
-  console.log(userid);
-  console.log(classid);
-
-  connection.query(query, [userid, classid], function(err, rows, fields) {
+  connection.query(query, params, function(err, rows, fields) {
     if(err){
       console.log(err);
       res.send(500);
@@ -264,19 +271,6 @@ router.get('/updateClass', function (req, res) {
     }
 
     res.send(200);
-  });
-});
-
-router.get('/class', function (req, res){
-  // Testing with premade json
-  var data = require('./public/test_class.json');
-  getClassById(req.query.id, function(err, data){
-    if(err) {
-      res.send(500);
-      return;
-    }
-
-    res.render('class', data);
   });
 });
 
@@ -318,8 +312,6 @@ var server = app.listen(3000, function () {
 function getClassById(id, callback){
   var query = 'SELECT * FROM Class WHERE id = ?;';
   connection.query(query, [id], function(err, rows, fields) {
-    console.log(rows[0]);
-
     callback(err, rows[0]);
   });
 }

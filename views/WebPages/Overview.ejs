@@ -1,1360 +1,1203 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta charset="utf-8">
-		<title>Dashboard - Ace Admin</title>
-
-		<meta name="description" content="overview &amp; stats">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-
-		<!-- bootstrap & fontawesome -->
-		<link rel="stylesheet" href="css/bootstrap.css">
-		<link rel="stylesheet" href="css/font-awesome.css">
-		<link rel="stylesheet" href="css/style.css">
-
-		<!-- page specific plugin styles -->
-
-		<!-- text fonts -->
-		<link rel="stylesheet" href="css/css.css">
-
-		<!-- ace styles -->
-		<link rel="stylesheet" href="css/ace.css" class="ace-main-stylesheet" id="main-ace-style">
-
-		<!--[if lte IE 9]>
-			<link rel="stylesheet" href="dist/css/ace-part2.min.css" class="ace-main-stylesheet" />
-		<![endif]-->
-
-		<!--[if lte IE 9]>
-		  <link rel="stylesheet" href="dist/css/ace-ie.min.css" />
-		<![endif]-->
-
-		<!-- inline styles related to this page -->
-
-		<!-- ace settings handler -->
-		<script src="js/ace-extra.js"></script>
-		<script src="/profile.js" ></script>
-		
-		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
-
-		<!--[if lte IE 8]>
-		<script src="dist/js/html5shiv.min.js"></script>
-		<script src="dist/js/respond.min.js"></script>
-		<![endif]-->
-	<style type="text/css">.jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}</style></head>
-
-	<body class="no-skin">
-		<div id="navbar" class="navbar navbar-default">
-			<script type="text/javascript">
-				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
-			</script>
-
-			<div class="navbar-container" id="navbar-container">
-				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
-					<span class="sr-only">Toggle sidebar</span>
-
-					<span class="icon-bar"></span>
-
-					<span class="icon-bar"></span>
-
-					<span class="icon-bar"></span>
-				</button>
-
-				<div class="navbar-header pull-left">
-					<a href="#" class="navbar-brand">
-						<small>
-							<i class="fa fa-leaf"></i>
-							Project Name
-						</small>
-					</a>
-				</div>
-
-				<div class="navbar-buttons navbar-header pull-right" role="navigation">
-					<ul class="nav ace-nav">
-						
-
-						<li class="light-blue">
-							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="images/user.png" alt="Jason's Photo">
-								<span class="user-info">
-									<small>Welcome,</small>
-									Jason
-								</span>
-
-								<i class="ace-icon fa fa-caret-down"></i>
-							</a>
-
-							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-								<li>
-									<a href="#">
-										<i class="ace-icon fa fa-cog"></i>
-										Settings
-									</a>
-								</li>
-
-								<li>
-									<a href="Profile">
-										<i class="ace-icon fa fa-user"></i>
-										Profile
-									</a>
-								</li>
-
-								<li class="divider"></li>
-
-								<li>
-									<a href="#">
-										<i class="ace-icon fa fa-power-off"></i>
-										Logout
-									</a>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div><!-- /.navbar-container -->
-		</div>
-
-		<div class="main-container" id="main-container">
-			<script type="text/javascript">
-				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
-			</script>
-
-			<div data-sidebar-hover="true" data-sidebar-scroll="true" data-sidebar="true" id="sidebar" class="sidebar                  responsive">
-				<script type="text/javascript">
-					try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
-				</script>
-
-				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
-					<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-					<div align="center">
-						<img class="major_icon" src="images/cs_icon.jpg"/><br>
-						<p class="major_title">
-						Computer Science
-						</p>
-						</div>
-					</div>
-
-					<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-						<span class="btn btn-success"></span>
-
-						<span class="btn btn-info"></span>
-
-						<span class="btn btn-warning"></span>
-
-						<span class="btn btn-danger"></span>
-					</div>
-				</div><!-- /.sidebar-shortcuts -->
-
-				<ul style="top: 0px;" class="nav nav-list">
-					<li class="active">
-						<a href="overview">
-							<i class="menu-icon fa fa-desktop"></i>
-							<span class="menu-text"> Overview</span>
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-
-					<li class="">
-						<a href="#" class="dropdown-toggle">
-							<i class="menu-icon fa fa-calendar"></i>
-							<span class="menu-text">
-								Councillor
-							</span>
-
-							<b class="arrow fa fa-angle-down"></b>
-						</a>
-
-						<b class="arrow"></b>
-
-						<ul style="display: none;" class="submenu nav-hide">
-							
-							<li class="">
-								<a href="Councillor">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Plan Next Semester
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							<li class="">
-								<a href="flowChart">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Graduation Flow Chart
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							<li class="">
-								<a href="Class Catalogue">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Class Catologue
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							
-								<b class="arrow"></b>
-
-								<ul class="submenu">
-									<li class="">
-										<a href="#">
-											<i class="menu-icon fa fa-leaf green"></i>
-											Item #1
-										</a>
-
-										<b class="arrow"></b>
-									</li>
-
-									<li class="">
-										<a href="#" class="dropdown-toggle">
-											<i class="menu-icon fa fa-pencil orange"></i>
-
-											4th level
-											<b class="arrow fa fa-angle-down"></b>
-										</a>
-
-										<b class="arrow"></b>
-
-										<ul class="submenu">
-											<li class="">
-												<a href="#">
-													<i class="menu-icon fa fa-plus purple"></i>
-													Add Product
-												</a>
-
-												<b class="arrow"></b>
-											</li>
-
-											<li class="">
-												<a href="#">
-													<i class="menu-icon fa fa-eye pink"></i>
-													View Products
-												</a>
-
-												<b class="arrow"></b>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</li>
-
-					
-					<li class="">
-						<a href="EditAccount">
-							<i class="menu-icon fa fa-pencil-square-o"></i>
-							<span class="menu-text"> Edit Account </span>
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-
-					
-
-					<li class="">
-						<a href="UploadDars">
-							<i class="menu-icon fa fa-upload"></i>
-							<span class="menu-text"> Upload DARS </span>
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-
-					
-					
-				</ul><!-- /.nav-list -->
-
-				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-					<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-				</div>
-
-				<script type="text/javascript">
-					try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
-				</script>
-			</div>
-
-			<div class="main-content">
-				<div class="main-content-inner">
-					<div class="breadcrumbs" id="breadcrumbs">
-						<script type="text/javascript">
-							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
-						</script>
-
-						<ul class="breadcrumb">
-							<li>
-								<i class="ace-icon fa fa-home home-icon"></i>
-								<a href="#">Home</a>
-							</li>
-							<li class="active">Dashboard</li>
-						</ul><!-- /.breadcrumb -->
-
-						<div class="nav-search" id="nav-search">
-							<form class="form-search">
-								<span class="input-icon">
-									<input placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text">
-									<i class="ace-icon fa fa-search nav-search-icon"></i>
-								</span>
-							</form>
-						</div><!-- /.nav-search -->
-					</div>
-
-					<div class="page-content">
-						<div class="ace-settings-container" id="ace-settings-container">
-							<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
-								<i class="ace-icon fa fa-cog bigger-130"></i>
-							</div>
-
-							<div class="ace-settings-box clearfix" id="ace-settings-box">
-								<div class="pull-left width-50">
-									<div class="ace-settings-item">
-										<div class="pull-left">
-											<select id="skin-colorpicker" class="hide">
-												<option selected="selected" data-skin="no-skin" value="#438EB9">#438EB9</option>
-												<option data-skin="skin-1" value="#222A2D">#222A2D</option>
-												<option data-skin="skin-2" value="#C6487E">#C6487E</option>
-												<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
-											</select><div class="dropdown dropdown-colorpicker">		<a data-toggle="dropdown" class="dropdown-toggle" href="#"><span class="btn-colorpicker" style="background-color:#438EB9"></span></a><ul class="dropdown-menu dropdown-caret"><li><a class="colorpick-btn selected" href="#" style="background-color:#438EB9;" data-color="#438EB9"></a></li><li><a class="colorpick-btn" href="#" style="background-color:#222A2D;" data-color="#222A2D"></a></li><li><a class="colorpick-btn" href="#" style="background-color:#C6487E;" data-color="#C6487E"></a></li><li><a class="colorpick-btn" href="#" style="background-color:#D0D0D0;" data-color="#D0D0D0"></a></li></ul></div>
-										</div>
-										<span>&nbsp; Choose Skin</span>
-									</div>
-
-									<div class="ace-settings-item">
-										<input class="ace ace-checkbox-2" id="ace-settings-navbar" type="checkbox">
-										<label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input class="ace ace-checkbox-2" id="ace-settings-sidebar" type="checkbox">
-										<label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" type="checkbox">
-										<label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input class="ace ace-checkbox-2" id="ace-settings-rtl" type="checkbox">
-										<label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input class="ace ace-checkbox-2" id="ace-settings-add-container" type="checkbox">
-										<label class="lbl" for="ace-settings-add-container">
-											Inside
-											<b>.container</b>
-										</label>
-									</div>
-								</div><!-- /.pull-left -->
-
-								<div class="pull-left width-50">
-									<div class="ace-settings-item">
-										<input class="ace ace-checkbox-2" id="ace-settings-hover" type="checkbox">
-										<label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input class="ace ace-checkbox-2" id="ace-settings-compact" type="checkbox">
-										<label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input class="ace ace-checkbox-2" id="ace-settings-highlight" type="checkbox">
-										<label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
-									</div>
-								</div><!-- /.pull-left -->
-							</div><!-- /.ace-settings-box -->
-						</div><!-- /.ace-settings-container -->
-
-						<div class="page-header">
-							<h1>
-								Dashboard
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									overview &amp; stats
-								</small>
-							</h1>
-						</div><!-- /.page-header -->
-
-						
-						<div class="alerty alert-block alert-success">
-									<button type="button" class="close" data-dismiss="alert">
-										<i class="ace-icon fa fa-times"></i>
-									</button>
-
-									<i class="ace-icon fa fa-check green"></i>
-
-									Successfully uploaded
-									<strong class="green">
-										DARS
-										
-									</strong>,
-	You can now view all your accredited  classes below.
-								</div>
-								<br>
-						<!-- CONTENT GOES HERE -->
-						<% function notSatisfied(classes,dep,num){  %>
-						<%	if(classes.indexOf(dep+num)>-1){  		%>
-						<%		return false;						%>
-						<%	}										%>
-						<%  return true;				    		%>
-						<%											%>
-						<%}                                 		%>
-
-
-						<% function notSatisfiedOf(classes,list){ 			%>
-						<%	for(var i=0; i<list.length; i++){				%>
-						<%		if(classes.indexOf(list[i])>-1){  			%>
-						<%			return false;							%>
-						<%		}											%>
-						<%	}												%>
-						<%  return true;				    				%>
-						<%													%>
-						<%}                                 				%>
-
-
-						<% var creds=0; for(var i=0; i<rows.length;i++){ creds+=parseInt(rows[i].hours)}%>
-						
-
-						<input type="text" id="AddClass" placeholder="Add Class" class="AddClass">
-						<input type="text" id="RemoveClass" placeholder="Remove Class" class="RemoveClass">
-						<p id="credits">
-						&nbsp;&nbsp;&nbsp;&nbsp;Credits: <%=creds%>/120
-						</p>
-						 <div align = "center">
-						
-						<div class = "col-md-10">
-						  
-
-							 <div class="col-md-3">
-							<p class="level_disp">
-								300 Level
-							</p>
-							
-								<%for(var i=0; i<rows.length;i++){%>
-								<%if(rows[i].number>99 && rows[i].number<200){%>
-									
-							
-							<!--greenBox-->
-							<span style='cursor:pointer' title="<%=rows[i].description%>">
-							
-							<div class="alert alert-block alert-success" alt="kekles">										
-										<div tabindex="0" class="onclick-menu">
-										<div align="center">
-											 <table>
-											 <td cellpadding="2">
-											<i class="ace-icon fa fa-check green"></i>
-											</td><td cellpadding="2">
-											
-												<p class="green_box_text">
-													<%=rows[i].department+rows[i].number%>
-												</p>
-												</td>
-
-												</table>
-												</div>
-											<div class="onclick-menu-content">
-											Extra information about the class.
-											</div>
-										</div>
-								</div>
-								</span>
-							<!--endOfGreenBox-->
-							<%}}%>
-								<%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
-								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number>99 && reqs["grad_reqs"][i].number<200 && notSatisfied(classes, reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
-									<!--redBox-->
-									<span style='cursor:pointer' title="desc comming soon">
-									<div class="alert alert-block alert-danger" alt="kekles">										
-										<div tabindex="0" class="onclick-menu">
-										<div align="center">
-											 <table>
-											 <td cellpadding="2">
-											<i class="ace-icon fa fa-close red"></i>
-											</td><td cellpadding="2">
-											
-												<p class="red_box_text">
-													<%=reqs["grad_reqs"][i].department+reqs["grad_reqs"][i].number%>
-												</p>
-												</td>
-
-												</table>
-												</div>
-											<div class="onclick-menu-content">
-											Extra information about the class.
-											</div>
-										</div>
-									</div>
-									</span>
-									<!--endOfRedBox-->
-								<%}%>
-								<!-- CLASS OR level 100 -->
-								<%if(reqs["grad_reqs"][i].type=="OR" && reqs["grad_reqs"][i].number==100){%>
-								<%		var sub_classes = new Array();									  %>
-								<% 		for(var q=0; q<reqs["grad_reqs"][i]["reqs"].length;q++){          %> 
-								<%		if(reqs["grad_reqs"][i]["reqs"][q].type=="C"){         		      %> 
-								<%			sub_classes[q]=reqs["grad_reqs"][i]["reqs"][q].department+                  reqs["grad_reqs"][i]["reqs"][q].number;				%>
-								<%		}																  %>
-								<%	}																	  %>
-								<%	if(notSatisfiedOf(classes,sub_classes)){                              %> 
-
-
-									<!--redBox-->
-									<span style='cursor:pointer' title="desc comming soon">
-									<div class="alert alert-block alert-danger" alt="kekles">				
-										<div tabindex="0" class="onclick-menu">
-										<div align="center">
-											 <table>
-											 <td cellpadding="2">
-											<i class="ace-icon fa fa-close red"></i>
-											</td><td cellpadding="2">
-											<div align="center">
-												
-												<b>
-													<%=reqs["grad_reqs"][i].genName%>
-												</b>
-
-												<%for(var j=0; j<reqs["grad_reqs"][i]["reqs"].length ;j++){%>
-
-													<%if(reqs["grad_reqs"][i]["reqs"][j].type=="AND"){%>
-														
-														<table width='100%'>
-														<td width='100%' bgcolor="#D99D9B"><div align="center">
-															
-														<%for(var k=0; k<reqs["grad_reqs"][i]["reqs"][j]["reqs"].length; k++){%>
-
-															<%if(reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].type=="OR"){%>
-
-																<table width='100%'>
-
-																<td width='100%' bgcolor="#C78987"><div align="center">
-
-																
-																	<%for(var l=0; l<reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length; l++){%>
-																	
-																		
-																		<p class="red_box_text_smaller">
-																		<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].number%>
-																		</p>
-																		<%if (l < reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length -1){%>
-																		<p> or </p>
-																		<%}%>
-																		
-																		
-																	<%}%>
-																	</div>
-																	</td>
-																
-																</table>
-															<%}else{%>
-
-															<p class="red_box_text_small">
-															<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].number%>
-															</p>
-															<%if (k< reqs["grad_reqs"][i]["reqs"][j]["reqs"].length -1){%>
-															<p> and </p>
-															<%}%>
-															<%}%>
-														<%}%>
-
-															</div>
-														</td>
-														</table>
-
-
-														<%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
-															<p> or </p>
-														<%}%>
-													<%}else{%>
-														<p class="red_box_text">
-														<%=reqs["grad_reqs"][i]["reqs"][j].department+reqs["grad_reqs"][i]["reqs"][j].number%>
-														</p>
-														<%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
-															<p> or </p>
-														<%}%>
-													<%}%>
-												<%}%>
-														
-												
-												</div>
-												</td>
-
-												</table>
-												</div>
-											<div class="onclick-menu-content">
-											Extra information about the classes.
-											</div>
-										</div>
-									</div>
-									</span>
-									<!--endOfRedBox-->
-									<%}%>
-								<%}%>
-							<%}%>	
-						  </div>
-
-
-						
-
-						   <div class="col-md-3">
-							<p class="level_disp">
-								200 Level
-							</p>
-							
-								<%for(var i=0; i<rows.length;i++){%>
-								<%if(rows[i].number>199 && rows[i].number<300){%>
-									
-							
-							<!--greenBox-->
-							<span style='cursor:pointer' title="<%=rows[i].description%>">
-							
-							<div class="alert alert-block alert-success" alt="kekles">										
-										<div tabindex="0" class="onclick-menu">
-										<div align="center">
-											 <table>
-											 <td cellpadding="2">
-											<i class="ace-icon fa fa-check green"></i>
-											</td><td cellpadding="2">
-											
-												<p class="green_box_text">
-													<%=rows[i].department+rows[i].number%>
-												</p>
-												</td>
-
-												</table>
-												</div>
-											<div class="onclick-menu-content">
-											Extra information about the class.
-											</div>
-										</div>
-								</div>
-								</span>
-							<!--endOfGreenBox-->
-							<%}}%>
-								<%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
-								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number>199 && reqs["grad_reqs"][i].number<300 && notSatisfied(classes, reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
-									<!--redBox-->
-									<span style='cursor:pointer' title="desc comming soon">
-									<div class="alert alert-block alert-danger" alt="kekles">										
-										<div tabindex="0" class="onclick-menu">
-										<div align="center">
-											 <table>
-											 <td cellpadding="2">
-											<i class="ace-icon fa fa-close red"></i>
-											</td><td cellpadding="2">
-											
-												<p class="red_box_text">
-													<%=reqs["grad_reqs"][i].department+reqs["grad_reqs"][i].number%>
-												</p>
-												</td>
-
-												</table>
-												</div>
-											<div class="onclick-menu-content">
-											Extra information about the class.
-											</div>
-										</div>
-									</div>
-									</span>
-									<!--endOfRedBox-->
-								<%}%>
-								<!-- CLASS OR level 400 -->
-								<%if(reqs["grad_reqs"][i].type=="OR" && reqs["grad_reqs"][i].number==200){%>
-								<%		var sub_classes = new Array();									  %>
-								<% 		for(var q=0; q<reqs["grad_reqs"][i]["reqs"].length;q++){          %> 
-								<%		if(reqs["grad_reqs"][i]["reqs"][q].type=="C"){         		      %> 
-								<%			sub_classes[q]=reqs["grad_reqs"][i]["reqs"][q].department+                  reqs["grad_reqs"][i]["reqs"][q].number;				%>
-								<%		}																  %>
-								<%	}																	  %>
-								<%	if(notSatisfiedOf(classes,sub_classes)){                              %> 
-
-
-									<!--redBox-->
-									<span style='cursor:pointer' title="desc comming soon">
-									<div class="alert alert-block alert-danger" alt="kekles">				
-										<div tabindex="0" class="onclick-menu">
-										<div align="center">
-											 <table>
-											 <td cellpadding="2">
-											<i class="ace-icon fa fa-close red"></i>
-											</td><td cellpadding="2">
-											<div align="center">
-												
-												<b>
-													<%=reqs["grad_reqs"][i].genName%>
-												</b>
-
-												<%for(var j=0; j<reqs["grad_reqs"][i]["reqs"].length ;j++){%>
-
-													<%if(reqs["grad_reqs"][i]["reqs"][j].type=="AND"){%>
-														
-														<table width='100%'>
-														<td width='100%' bgcolor="#D99D9B"><div align="center">
-															
-														<%for(var k=0; k<reqs["grad_reqs"][i]["reqs"][j]["reqs"].length; k++){%>
-
-															<%if(reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].type=="OR"){%>
-
-																<table width='100%'>
-
-																<td width='100%' bgcolor="#C78987"><div align="center">
-
-																
-																	<%for(var l=0; l<reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length; l++){%>
-																	
-																		
-																		<p class="red_box_text_smaller">
-																		<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].number%>
-																		</p>
-																		<%if (l < reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length -1){%>
-																		<p> or </p>
-																		<%}%>
-																		
-																		
-																	<%}%>
-																	</div>
-																	</td>
-																
-																</table>
-															<%}else{%>
-
-															<p class="red_box_text_small">
-															<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].number%>
-															</p>
-															<%if (k< reqs["grad_reqs"][i]["reqs"][j]["reqs"].length -1){%>
-															<p> and </p>
-															<%}%>
-															<%}%>
-														<%}%>
-
-															</div>
-														</td>
-														</table>
-
-
-														<%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
-															<p> or </p>
-														<%}%>
-													<%}else{%>
-														<p class="red_box_text">
-														<%=reqs["grad_reqs"][i]["reqs"][j].department+reqs["grad_reqs"][i]["reqs"][j].number%>
-														</p>
-														<%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
-															<p> or </p>
-														<%}%>
-													<%}%>
-												<%}%>
-														
-												
-												</div>
-												</td>
-
-												</table>
-												</div>
-											<div class="onclick-menu-content">
-											Extra information about the classes.
-											</div>
-										</div>
-									</div>
-									</span>
-									<!--endOfRedBox-->
-									<%}%>
-								<%}%>
-							<%}%>	
-						  </div>
-
-
-
-						  
-						 <div class="col-md-3">
-							<p class="level_disp">
-								300 Level
-							</p>
-							
-								<%for(var i=0; i<rows.length;i++){%>
-								<%if(rows[i].number>299 && rows[i].number<400){%>
-									
-							
-							<!--greenBox-->
-							<span style='cursor:pointer' title="<%=rows[i].description%>">
-							
-							<div class="alert alert-block alert-success" alt="kekles">										
-										<div tabindex="0" class="onclick-menu">
-										<div align="center">
-											 <table>
-											 <td cellpadding="2">
-											<i class="ace-icon fa fa-check green"></i>
-											</td><td cellpadding="2">
-											
-												<p class="green_box_text">
-													<%=rows[i].department+rows[i].number%>
-												</p>
-												</td>
-
-												</table>
-												</div>
-											<div class="onclick-menu-content">
-											Extra information about the class.
-											</div>
-										</div>
-								</div>
-								</span>
-							<!--endOfGreenBox-->
-							<%}}%>
-								<%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
-								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number>299 && reqs["grad_reqs"][i].number<400 && notSatisfied(classes, reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
-									<!--redBox-->
-									<span style='cursor:pointer' title="desc comming soon">
-									<div class="alert alert-block alert-danger" alt="kekles">										
-										<div tabindex="0" class="onclick-menu">
-										<div align="center">
-											 <table>
-											 <td cellpadding="2">
-											<i class="ace-icon fa fa-close red"></i>
-											</td><td cellpadding="2">
-											
-												<p class="red_box_text">
-													<%=reqs["grad_reqs"][i].department+reqs["grad_reqs"][i].number%>
-												</p>
-												</td>
-
-												</table>
-												</div>
-											<div class="onclick-menu-content">
-											Extra information about the class.
-											</div>
-										</div>
-									</div>
-									</span>
-									<!--endOfRedBox-->
-								<%}%>
-								<!-- CLASS OR level 400 -->
-								<%if(reqs["grad_reqs"][i].type=="OR" && reqs["grad_reqs"][i].number==300){%>
-								<%		var sub_classes = new Array();									  %>
-								<% 		for(var q=0; q<reqs["grad_reqs"][i]["reqs"].length;q++){          %> 
-								<%		if(reqs["grad_reqs"][i]["reqs"][q].type=="C"){         		      %> 
-								<%			sub_classes[q]=reqs["grad_reqs"][i]["reqs"][q].department+                  reqs["grad_reqs"][i]["reqs"][q].number;				%>
-								<%		}																  %>
-								<%	}																	  %>
-								<%	if(notSatisfiedOf(classes,sub_classes)){                              %> 
-
-
-									<!--redBox-->
-									<span style='cursor:pointer' title="desc comming soon">
-									<div class="alert alert-block alert-danger" alt="kekles">				
-										<div tabindex="0" class="onclick-menu">
-										<div align="center">
-											 <table>
-											 <td cellpadding="2">
-											<i class="ace-icon fa fa-close red"></i>
-											</td><td cellpadding="2">
-											<div align="center">
-												
-												<b>
-													<%=reqs["grad_reqs"][i].genName%>
-												</b>
-
-												<%for(var j=0; j<reqs["grad_reqs"][i]["reqs"].length ;j++){%>
-
-													<%if(reqs["grad_reqs"][i]["reqs"][j].type=="AND"){%>
-														
-														<table width='100%'>
-														<td width='100%' bgcolor="#D99D9B"><div align="center">
-															
-														<%for(var k=0; k<reqs["grad_reqs"][i]["reqs"][j]["reqs"].length; k++){%>
-
-															<%if(reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].type=="OR"){%>
-
-																<table width='100%'>
-
-																<td width='100%' bgcolor="#C78987"><div align="center">
-
-																
-																	<%for(var l=0; l<reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length; l++){%>
-																	
-																		
-																		<p class="red_box_text_smaller">
-																		<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].number%>
-																		</p>
-																		<%if (l < reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length -1){%>
-																		<p> or </p>
-																		<%}%>
-																		
-																		
-																	<%}%>
-																	</div>
-																	</td>
-																
-																</table>
-															<%}else{%>
-
-															<p class="red_box_text_small">
-															<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].number%>
-															</p>
-															<%if (k< reqs["grad_reqs"][i]["reqs"][j]["reqs"].length -1){%>
-															<p> and </p>
-															<%}%>
-															<%}%>
-														<%}%>
-
-															</div>
-														</td>
-														</table>
-
-
-														<%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
-															<p> or </p>
-														<%}%>
-													<%}else{%>
-														<p class="red_box_text">
-														<%=reqs["grad_reqs"][i]["reqs"][j].department+reqs["grad_reqs"][i]["reqs"][j].number%>
-														</p>
-														<%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
-															<p> or </p>
-														<%}%>
-													<%}%>
-												<%}%>
-														
-												
-												</div>
-												</td>
-
-												</table>
-												</div>
-											<div class="onclick-menu-content">
-											Extra information about the classes.
-											</div>
-										</div>
-									</div>
-									</span>
-									<!--endOfRedBox-->
-									<%}%>
-								<%}%>
-							<%}%>	
-						  </div>
-
-
-
-						  <div class="col-md-3">
-							<p class="level_disp">
-								400 Level
-							</p>
-							
-								<%for(var i=0; i<rows.length;i++){%>
-								<%if(rows[i].number>399){%>
-									
-							
-							<!--greenBox-->
-							<span style='cursor:pointer' title="<%=rows[i].description%>">
-							
-							<div class="alert alert-block alert-success" alt="kekles">										
-										<div tabindex="0" class="onclick-menu">
-										<div align="center">
-											 <table>
-											 <td cellpadding="2">
-											<i class="ace-icon fa fa-check green"></i>
-											</td><td cellpadding="2">
-											
-												<p class="green_box_text">
-													<%=rows[i].department+rows[i].number%>
-												</p>
-												</td>
-
-												</table>
-												</div>
-											<div class="onclick-menu-content">
-											Extra information about the class.
-											</div>
-										</div>
-								</div>
-								</span>
-							<!--endOfGreenBox-->
-							<%}}%>
-
-
-								
-							
-								<%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
-								<%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number>399 && notSatisfied(classes, reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
-
-
-									<!--redBox-->
-									<span style='cursor:pointer' title="desc comming soon">
-									<div class="alert alert-block alert-danger" alt="kekles">										
-										<div tabindex="0" class="onclick-menu">
-										<div align="center">
-											 <table>
-											 <td cellpadding="2">
-											<i class="ace-icon fa fa-close red"></i>
-											</td><td cellpadding="2">
-											
-												<p class="red_box_text">
-													<%=reqs["grad_reqs"][i].department+reqs["grad_reqs"][i].number%>
-												</p>
-												</td>
-
-												</table>
-												</div>
-											<div class="onclick-menu-content">
-											Extra information about the class.
-											</div>
-										</div>
-									</div>
-									</span>
-									<!--endOfRedBox-->
-
-
-
-
-								<%}%>
-
-
-
-
-								<!-- CLASS OR level 400 -->
-								<%if(reqs["grad_reqs"][i].type=="OR" && reqs["grad_reqs"][i].number==400){%>
-								<%		var sub_classes = new Array();									  %>
-								<% 		for(var q=0; q<reqs["grad_reqs"][i]["reqs"].length;q++){          %> 
-								<%		if(reqs["grad_reqs"][i]["reqs"][q].type=="C"){         		      %> 
-								<%			sub_classes[q]=reqs["grad_reqs"][i]["reqs"][q].department+                  reqs["grad_reqs"][i]["reqs"][q].number;				%>
-								<%		}																  %>
-								<%	}																	  %>
-								<%	if(notSatisfiedOf(classes,sub_classes)){                              %> 
-
-
-									<!--redBox-->
-									<span style='cursor:pointer' title="desc comming soon">
-									<div class="alert alert-block alert-danger" alt="kekles">				
-										<div tabindex="0" class="onclick-menu">
-										<div align="center">
-											 <table>
-											 <td cellpadding="2">
-											<i class="ace-icon fa fa-close red"></i>
-											</td><td cellpadding="2">
-											<div align="center">
-												
-												<b>
-													<%=reqs["grad_reqs"][i].genName%>
-												</b>
-
-												<%for(var j=0; j<reqs["grad_reqs"][i]["reqs"].length ;j++){%>
-
-													<%if(reqs["grad_reqs"][i]["reqs"][j].type=="AND"){%>
-														
-														<table width='100%'>
-														<td width='100%' bgcolor="#D99D9B"><div align="center">
-															
-														<%for(var k=0; k<reqs["grad_reqs"][i]["reqs"][j]["reqs"].length; k++){%>
-
-															<%if(reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].type=="OR"){%>
-
-																<table width='100%'>
-
-																<td width='100%' bgcolor="#C78987"><div align="center">
-
-																
-																	<%for(var l=0; l<reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length; l++){%>
-																	
-																		
-																		<p class="red_box_text_smaller">
-																		<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].number%>
-																		</p>
-																		<%if (l < reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length -1){%>
-																		<p> or </p>
-																		<%}%>
-																		
-																		
-																	<%}%>
-																	</div>
-																	</td>
-																
-																</table>
-															<%}else{%>
-
-															<p class="red_box_text_small">
-															<%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].number%>
-															</p>
-															<%if (k< reqs["grad_reqs"][i]["reqs"][j]["reqs"].length -1){%>
-															<p> and </p>
-															<%}%>
-															<%}%>
-														<%}%>
-
-															</div>
-														</td>
-														</table>
-
-
-														<%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
-															<p> or </p>
-														<%}%>
-													<%}else{%>
-														<p class="red_box_text">
-														<%=reqs["grad_reqs"][i]["reqs"][j].department+reqs["grad_reqs"][i]["reqs"][j].number%>
-														</p>
-														<%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
-															<p> or </p>
-														<%}%>
-													<%}%>
-												<%}%>
-														
-												
-												</div>
-												</td>
-
-												</table>
-												</div>
-											<div class="onclick-menu-content">
-											Extra information about the classes.
-											</div>
-										</div>
-									</div>
-									</span>
-									<!--endOfRedBox-->
-									<%}%>
-
-								<%}%>
-
-
-
-
-							<%}%>	
-							
-							
-								
-
-
-
-
-
-							
-						
-							
-						  </div>
-						  </div>
-							</div>
-						 
-						  <div class="col-md-2">
-							<p class="filter">
-								Filter:
-							</p>
-							<button class="btn btn-success">
-										
-								CS Classes
-							</button>
-							
-							<button class="btn btn-info">
-								Math Classes
-							</button>
-
-							<button class="btn btn-warning">
-								Gen Eds
-							</button>
-
-							<button class="btn btn-danger">
-								Unsatisfied
-							</button>
-						
-						
-						  </div>
-						  
-						</div>
-						
-						</div>
-						<div align = 'center'>
-
-							  <div class="col-md-3">
-							 		
-							
-										<div class="alert alert-block alert-success">										
-										<div tabindex="0" class="onclick-menu">
-										<div align="center">
-											 <table>
-											 <td cellpadding="2">
-											<i class="ace-icon fa fa-check green"></i>
-											</td><td cellpadding="2">
-											
-												<p class="green_box_text">
-													CS125
-												</p>
-												</td>
-
-												</table>
-												</div>
-											</div>
-										</div>
-						
-							  </div>
-
-							  <div class="col-md-3">
-							  	<!--blueBox-->
-							<div class="alert alert-block alert-info">
-							  <div class="col-md-1">
-									<i class="ace-icon fa fa-circle blue"></i>
-							</div>
-									<p class="blue_box_text">
-									CS242
-									</p>
-								</div>
-							<!--endOfBlueBox-->
-							  </div>
-							  <div class="col-md-3">
-									<!--redBox-->
-									<div class="alert alert-block alert-danger">
-									  <div class="col-md-1">
-											<i class="ace-icon fa fa-close red"></i>
-									</div>
-											<p class="red_box_text">
-											CS374
-											</p>
-										</div>
-							<!--endOfRedBox-->
-							  </div>
-							  <div class="col-md-3">
-							  		<!--yellowBox-->
-								<div class="alert alert-block alert-warning">
-								  <div class="col-md-1">
-										<i class="ace-icon fa fa-stop yellow"></i>
-								</div>
-										<p class="yellow_box_text">
-										CS411
-										</p>
-									</div>
-							<!--endOfYellowBox-->
-							  </div></div>
-							  </try{ace.settings.check('breadcrumbs'></script></div>
-							  <br>
-							  <div align="center">
-						<font color='gray'>Green boxes are required classes that you already completed.</font> <br>
-
-						<font color='gray'>Red boxes are required uncompleted classes.</font> <br>
-						<font color='gray'>Blue boxes are additional non-required classes you've taken. </font><br>
-						<font color='gray'>Yellow Boxes are what you are currently taking.</font>
-						</div>
-				</div>
-				
-			</div><!-- /.main-content -->
-
-			
-			
-			
-			<div class="footer">
-				<div class="footer-inner">
-					<div class="footer-content">
-						<span class="bigger-120">
-							<span class="blue bolder">Database Bros</span>
-							Application 
-						</span>
-
-						&nbsp; &nbsp;
-						<span class="action-buttons">
-							<a href="#">
-								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-							</a>
-
-							<a href="#">
-								<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
-							</a>
-
-							<a href="#">
-								<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
-							</a>
-						</span>
-					</div>
-				</div>
-			</div>
-
-			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-			</a>
-		</div><!-- /.main-container -->
-
-		<!-- basic scripts -->
-
-		<!--[if !IE]> -->
-		<script src="js/jquery.js"></script>
-
-		<!-- <![endif]-->
-
-		<!--[if IE]>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<![endif]-->
-
-		<!--[if !IE]> -->
-		<script type="text/javascript">
-			window.jQuery || document.write("<script src='dist/js/jquery.min.js'>"+"<"+"/script>");
-		</script>
-
-		<!-- <![endif]-->
-
-		<!--[if IE]>
-<script type="text/javascript">
- window.jQuery || document.write("<script src='dist/js/jquery1x.min.js'>"+"<"+"/script>");
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="utf-8">
+    <title>Dashboard - Ace Admin</title>
+
+    <meta name="description" content="overview &amp; stats">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- page specific plugin styles -->
+
+    <!-- text fonts -->
+    <link rel="stylesheet" href="css/css.css">
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="css/ace.css" class="ace-main-stylesheet" id="main-ace-style">
+
+    <!--[if lte IE 9]>
+      <link rel="stylesheet" href="dist/css/ace-part2.min.css" class="ace-main-stylesheet" />
+      <![endif]-->
+
+      <!--[if lte IE 9]>
+        <link rel="stylesheet" href="dist/css/ace-ie.min.css" />
+        <![endif]-->
+
+        <!-- inline styles related to this page -->
+
+        <!-- ace settings handler -->
+        <script src="/js/ace-extra.js"></script>
+
+
+
+        <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+        <!--[if lte IE 8]>
+          <script src="dist/js/html5shiv.min.js"></script>
+          <script src="dist/js/respond.min.js"></script>
+          <![endif]-->
+          <style type="text/css">.jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}</style></head>
+
+          <body class="no-skin">
+            <div id="navbar" class="navbar navbar-default">
+              <script type="text/javascript">
+try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+              </script>
+
+              <div class="navbar-container" id="navbar-container">
+                <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+                  <span class="sr-only">Toggle sidebar</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+
+                <div class="navbar-header pull-left">
+                  <a href="#" class="navbar-brand">
+                    <small>
+                      <i class="fa fa-leaf"></i>
+                      Lets Graduate
+                    </small>
+                  </a>
+                </div>
+
+                <div class="navbar-buttons navbar-header pull-right" role="navigation">
+                  <ul class="nav ace-nav">
+
+
+                    <li class="light-blue">
+                      <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        <img class="nav-user-photo" src="<%= google.picture %>" alt="<%= google.given_name %>'s Photo">
+                        <span class="user-info">
+                          <small>Welcome,</small>
+                          <%= google.given_name %>
+                        </span>
+
+                        <i class="ace-icon fa fa-caret-down"></i>
+                      </a>
+
+                      <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <li>
+                          <a href="/overview">
+                            <i class="ace-icon fa fa-user"></i>
+                            Profile
+                          </a>
+                        </li>
+
+                        <li class="divider"></li>
+
+                        <li>
+                          <a href="/logout">
+                            <i class="ace-icon fa fa-power-off"></i>
+                            Logout
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div><!-- /.navbar-container -->
+            </div>
+
+            <div class="main-container" id="main-container">
+              <script type="text/javascript">
+try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+              </script>
+
+              <div data-sidebar-hover="true" data-sidebar-scroll="true" data-sidebar="true" id="sidebar" class="sidebar                  responsive">
+                <script type="text/javascript">
+try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+                </script>
+
+                <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+                  <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                    <div align="center">
+                      <img class="major_icon" src="images/cs_icon.jpg"/><br>
+                      <p class="major_title">
+                      Computer Science
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                    <span class="btn btn-success"></span>
+
+                    <span class="btn btn-info"></span>
+
+                    <span class="btn btn-warning"></span>
+
+                    <span class="btn btn-danger"></span>
+                  </div>
+                </div><!-- /.sidebar-shortcuts -->
+
+                <ul style="top: 0px;" class="nav nav-list">
+                  <li class="active">
+                    <a href="overview">
+                      <i class="menu-icon fa fa-desktop"></i>
+                      <span class="menu-text"> Overview</span>
+                    </a>
+
+                    <b class="arrow"></b>
+                  </li>
+
+                  <li class="">
+                    <a href="#" class="dropdown-toggle">
+                      <i class="menu-icon fa fa-calendar"></i>
+                      <span class="menu-text">
+                        Councillor
+                      </span>
+
+                      <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul style="display: none;" class="submenu nav-hide">
+
+                      <li class="">
+                        <a href="/Councillor">
+                          <i class="menu-icon fa fa-caret-right"></i>
+                          Plan Next Semester
+                        </a>
+
+                        <b class="arrow"></b>
+                      </li>
+
+                      <li class="">
+                        <a href="/map">
+                          <i class="menu-icon fa fa-caret-right"></i>
+                          Map
+                        </a>
+
+                        <b class="arrow"></b>
+                      </li>
+
+                      <li class="">
+                        <a href="/class/1">
+                          <i class="menu-icon fa fa-caret-right"></i>
+                          Class Catologue
+                        </a>
+
+                        <b class="arrow"></b>
+                      </li>
+                      <b class="arrow"></b>
+
+                      <ul class="submenu">
+                        <li class="">
+                          <a href="#">
+                            <i class="menu-icon fa fa-leaf green"></i>
+                            Item #1
+                          </a>
+
+                          <b class="arrow"></b>
+                        </li>
+
+                        <li class="">
+                          <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-pencil orange"></i>
+
+                            4th level
+                            <b class="arrow fa fa-angle-down"></b>
+                          </a>
+
+                          <b class="arrow"></b>
+
+                          <ul class="submenu">
+                            <li class="">
+                              <a href="#">
+                                <i class="menu-icon fa fa-plus purple"></i>
+                                Add Product
+                              </a>
+
+                              <b class="arrow"></b>
+                            </li>
+
+                            <li class="">
+                              <a href="#">
+                                <i class="menu-icon fa fa-eye pink"></i>
+                                View Products
+                              </a>
+
+                              <b class="arrow"></b>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                  </li>
+                    </ul>
+                    </li>
+
+                </ul><!-- /.nav-list -->
+
+                <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                  <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+                </div>
+
+                <script type="text/javascript">
+try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+                </script>
+              </div>
+
+              <div class="main-content">
+                <div class="main-content-inner">
+                  <div class="breadcrumbs" id="breadcrumbs">
+                    <script type="text/javascript">
+try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+                    </script>
+
+                    <ul class="breadcrumb">
+                      <li>
+                        <i class="ace-icon fa fa-home home-icon"></i>
+                        <a href="#">Home</a>
+                      </li>
+                      <li class="active">Dashboard</li>
+                    </ul><!-- /.breadcrumb -->
+
+                    <div class="nav-search" id="nav-search">
+                      <form class="form-search">
+                        <span class="input-icon">
+                          <input placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text">
+                          <i class="ace-icon fa fa-search nav-search-icon"></i>
+                        </span>
+                      </form>
+                    </div><!-- /.nav-search -->
+                  </div>
+
+                  <div class="page-content">
+                    <div class="ace-settings-container" id="ace-settings-container">
+                      <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+                        <i class="ace-icon fa fa-cog bigger-130"></i>
+                      </div>
+
+                      <div class="ace-settings-box clearfix" id="ace-settings-box">
+                        <div class="pull-left width-50">
+                          <div class="ace-settings-item">
+                            <div class="pull-left">
+                              <select id="skin-colorpicker" class="hide">
+                                <option selected="selected" data-skin="no-skin" value="#438EB9">#438EB9</option>
+                                <option data-skin="skin-1" value="#222A2D">#222A2D</option>
+                                <option data-skin="skin-2" value="#C6487E">#C6487E</option>
+                                <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+                              </select><div class="dropdown dropdown-colorpicker">		<a data-toggle="dropdown" class="dropdown-toggle" href="#"><span class="btn-colorpicker" style="background-color:#438EB9"></span></a><ul class="dropdown-menu dropdown-caret"><li><a class="colorpick-btn selected" href="#" style="background-color:#438EB9;" data-color="#438EB9"></a></li><li><a class="colorpick-btn" href="#" style="background-color:#222A2D;" data-color="#222A2D"></a></li><li><a class="colorpick-btn" href="#" style="background-color:#C6487E;" data-color="#C6487E"></a></li><li><a class="colorpick-btn" href="#" style="background-color:#D0D0D0;" data-color="#D0D0D0"></a></li></ul></div>
+                            </div>
+                            <span>&nbsp; Choose Skin</span>
+                          </div>
+
+                          <div class="ace-settings-item">
+                            <input class="ace ace-checkbox-2" id="ace-settings-navbar" type="checkbox">
+                            <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+                          </div>
+
+                          <div class="ace-settings-item">
+                            <input class="ace ace-checkbox-2" id="ace-settings-sidebar" type="checkbox">
+                            <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+                          </div>
+
+                          <div class="ace-settings-item">
+                            <input class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" type="checkbox">
+                            <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+                          </div>
+
+                          <div class="ace-settings-item">
+                            <input class="ace ace-checkbox-2" id="ace-settings-rtl" type="checkbox">
+                            <label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+                          </div>
+
+                          <div class="ace-settings-item">
+                            <input class="ace ace-checkbox-2" id="ace-settings-add-container" type="checkbox">
+                            <label class="lbl" for="ace-settings-add-container">
+                              Inside
+                              <b>.container</b>
+                            </label>
+                          </div>
+                        </div><!-- /.pull-left -->
+
+                        <div class="pull-left width-50">
+                          <div class="ace-settings-item">
+                            <input class="ace ace-checkbox-2" id="ace-settings-hover" type="checkbox">
+                            <label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
+                          </div>
+
+                          <div class="ace-settings-item">
+                            <input class="ace ace-checkbox-2" id="ace-settings-compact" type="checkbox">
+                            <label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
+                          </div>
+
+                          <div class="ace-settings-item">
+                            <input class="ace ace-checkbox-2" id="ace-settings-highlight" type="checkbox">
+                            <label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
+                          </div>
+                        </div><!-- /.pull-left -->
+                      </div><!-- /.ace-settings-box -->
+                    </div><!-- /.ace-settings-container -->
+
+                    <div class="page-header">
+                      <h1>
+                        Dashboard
+                        <small>
+                          <i class="ace-icon fa fa-angle-double-right"></i>
+                          overview &amp; stats
+                        </small>
+                      </h1>
+                    </div><!-- /.page-header -->
+
+                    <!-- CONTENT GOES HERE -->
+
+                    <% function reqToClassId(class_data, req){  %>
+                    <%   console.log(req.department); %>
+                    <%   console.log(req.number); %>
+                    <%   for(var i = 0; i < class_data.length; ++i){  %>
+                    <%     if(class_data[i].department == req.department && class_data[i].number == req.number){ %>
+                    <%       console.log("Returning: " + class_data[i].id); %>
+                    <%       return class_data[i].id == undefined ? "" : "" + class_data[i].id; %>
+                    <%     }  %>
+                    <%   }  %>
+                    <%   return 'unknown'; %>
+                    <% }  %>
+
+
+                    <% function notSatisfied(classes,dep,num){  %>
+                    <%	if(classes.indexOf(dep+num)>-1){  		%>
+                    <%		return false;						%>
+                    <%	}										%>
+                    <%  return true;				    		%>
+                    <%											%>
+                    <%}                                 		%>
+
+
+                    <% function notSatisfiedOf(classes,list){ 			%>
+                    <%	for(var i=0; i<list.length; i++){				%>
+                    <%		if(classes.indexOf(list[i])>-1){  			%>
+                    <%			return false;							%>
+                    <%		}											%>
+                    <%	}												%>
+                    <%  return true;				    				%>
+                    <%													%>
+                    <%}                                 				%>
+
+
+                    <% var creds=0; for(var i=0; i<rows.length;i++){ creds+=parseInt(rows[i].hours)}%>
+
+                    <p id="credits">
+                    &nbsp;&nbsp;&nbsp;&nbsp;Credits: <%=creds%>/120
+                    </p>
+                    <div align = "center">
+
+                      <div class = "col-md-10">
+
+
+                        <div class="col-md-3">
+                          <p class="level_disp">
+                          300 Level
+                          </p>
+
+                          <%for(var i=0; i<rows.length;i++){%>
+                          <%if(rows[i].number>99 && rows[i].number<200){%>
+
+
+                          <!--greenBox-->
+                          <span style='cursor:pointer' title="<%=rows[i].description%>">
+                            <div class="alert alert-block alert-success" alt="kekles">										
+                              <a href="/class/<%=rows[i].id%>">
+                                <div tabindex="0" >
+                                  <div align="center">
+                                    <table>
+                                      <td cellpadding="2">
+                                        <i class="ace-icon fa fa-check green"></i>
+                                      </td><td cellpadding="2">
+
+                                        <p class="green_box_text">
+                                        <%=rows[i].department+rows[i].number + ' (' + rows[i].hours + ')'%>
+                                        </p>
+                                      </td>
+
+                                    </table>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </span>
+                          <!--endOfGreenBox-->
+                          <%}}%>
+                          <%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
+                          <%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number>99 && reqs["grad_reqs"][i].number<200 && notSatisfied(classes, reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
+                          <!--redBox-->
+                          <span style='cursor:pointer' title="desc comming soon">
+                            <div class="alert alert-block alert-danger" alt="kekles">										
+                              <% var id = reqToClassId(class_data, reqs["grad_reqs"][i]); %>
+                              <a href="/class/<%= id %>">
+                                <div tabindex="0" >
+                                  <div align="center">
+                                    <table>
+                                      <td cellpadding="2">
+                                        <i class="ace-icon fa fa-close red"></i>
+                                      </td><td cellpadding="2">
+
+                                        <p class="red_box_text">
+                                        <%=reqs["grad_reqs"][i].department+reqs["grad_reqs"][i].number%>
+                                        </p>
+                                      </td>
+
+                                    </table>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </span>
+                          <!--endOfRedBox-->
+                          <%}%>
+                          <!-- CLASS OR level 100 -->
+                          <%if(reqs["grad_reqs"][i].type=="OR" && reqs["grad_reqs"][i].number==100){%>
+                          <%		var sub_classes = new Array();									  %>
+                          <% 		for(var q=0; q<reqs["grad_reqs"][i]["reqs"].length;q++){          %> 
+                          <%		if(reqs["grad_reqs"][i]["reqs"][q].type=="C"){         		      %> 
+                          <%			sub_classes[q]=reqs["grad_reqs"][i]["reqs"][q].department+                  reqs["grad_reqs"][i]["reqs"][q].number;				%>
+                          <%		}																  %>
+                          <%	}																	  %>
+                          <%	if(notSatisfiedOf(classes,sub_classes)){                              %> 
+
+
+                          <!--redBox-->
+                          <span style='cursor:pointer' title="desc comming soon">
+                            <div class="alert alert-block alert-danger" alt="kekles">				
+                              <a href="/class/<%=rows[i].id%>">
+                                <div tabindex="0" >
+                                  <div align="center">
+                                    <table>
+                                      <td cellpadding="2">
+                                        <i class="ace-icon fa fa-close red"></i>
+                                      </td><td cellpadding="2">
+                                        <div align="center">
+
+                                          <b>
+                                            <%=reqs["grad_reqs"][i].genName%>
+                                          </b>
+
+                                          <%for(var j=0; j<reqs["grad_reqs"][i]["reqs"].length ;j++){%>
+
+                                          <%if(reqs["grad_reqs"][i]["reqs"][j].type=="AND"){%>
+
+                                          <table width='100%'>
+                                            <td width='100%' bgcolor="#D99D9B"><div align="center">
+
+                                                <%for(var k=0; k<reqs["grad_reqs"][i]["reqs"][j]["reqs"].length; k++){%>
+
+                                                <%if(reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].type=="OR"){%>
+
+                                                <table width='100%'>
+
+                                                  <td width='100%' bgcolor="#C78987"><div align="center">
+
+
+                                                      <%for(var l=0; l<reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length; l++){%>
+
+
+                                                      <p class="red_box_text_smaller">
+                                                      <%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].number%>
+                                                      </p>
+                                                      <%if (l < reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length -1){%>
+                                                      <p> or </p>
+                                                      <%}%>
+
+
+                                                      <%}%>
+                                                    </div>
+                                                  </td>
+
+                                                </table>
+                                                <%}else{%>
+
+                                                <p class="red_box_text_small">
+                                                <%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].number%>
+                                                </p>
+                                                <%if (k< reqs["grad_reqs"][i]["reqs"][j]["reqs"].length -1){%>
+                                                <p> and </p>
+                                                <%}%>
+                                                <%}%>
+                                                <%}%>
+
+                                              </div>
+                                            </td>
+                                          </table>
+
+
+                                          <%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
+                                          <p> or </p>
+                                          <%}%>
+                                          <%}else{%>
+                                          <p class="red_box_text">
+                                          <%=reqs["grad_reqs"][i]["reqs"][j].department+reqs["grad_reqs"][i]["reqs"][j].number%>
+                                          </p>
+                                          <%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
+                                          <p> or </p>
+                                          <%}%>
+                                          <%}%>
+                                          <%}%>
+
+
+                                        </div>
+                                      </td>
+
+                                    </table>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </span>
+                          <!--endOfRedBox-->
+                          <%}%>
+                          <%}%>
+                          <%}%>	
+                        </div>
+
+                        <div class="col-md-3">
+                          <p class="level_disp">
+                          200 Level
+                          </p>
+
+                          <%for(var i=0; i<rows.length;i++){%>
+                          <%if(rows[i].number>199 && rows[i].number<300){%>
+
+
+                          <!--greenBox-->
+                          <span style='cursor:pointer' title="<%=rows[i].description%>">
+
+                            <div class="alert alert-block alert-success" alt="kekles">										
+                              <a href="/class/<%=rows[i].id%>">
+                                <div tabindex="0"> 
+                                  <div align="center">
+                                    <table>
+                                      <td cellpadding="2">
+                                        <i class="ace-icon fa fa-check green"></i>
+                                      </td><td cellpadding="2">
+
+                                        <p class="green_box_text">
+                                        <%=rows[i].department+rows[i].number + ' (' + rows[i].hours + ')'%>
+                                        </p>
+                                      </td>
+
+                                    </table>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </span>
+                          <!--endOfGreenBox-->
+                          <%}}%>
+                          <%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
+                          <%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number>199 && reqs["grad_reqs"][i].number<300 && notSatisfied(classes, reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
+                          <!--redBox-->
+                          <span style='cursor:pointer' title="desc comming soon">
+                            <div class="alert alert-block alert-danger" alt="kekles">										
+                              <% var id = reqToClassId(class_data, reqs["grad_reqs"][i]); %>
+                              <a href="/class/<%= id %>">
+                                <div tabindex="0">
+                                  <div align="center">
+                                    <table>
+                                      <td cellpadding="2">
+                                        <i class="ace-icon fa fa-close red"></i>
+                                      </td><td cellpadding="2">
+
+                                        <p class="red_box_text">
+                                        <%=reqs["grad_reqs"][i].department+reqs["grad_reqs"][i].number%>
+                                        </p>
+                                      </td>
+
+                                    </table>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </span>
+                          <!--endOfRedBox-->
+                          <%}%>
+                          <!-- CLASS OR level 400 -->
+                          <%if(reqs["grad_reqs"][i].type=="OR" && reqs["grad_reqs"][i].number==200){%>
+                          <%		var sub_classes = new Array();									  %>
+                          <% 		for(var q=0; q<reqs["grad_reqs"][i]["reqs"].length;q++){          %> 
+                          <%		if(reqs["grad_reqs"][i]["reqs"][q].type=="C"){         		      %> 
+                          <%			sub_classes[q]=reqs["grad_reqs"][i]["reqs"][q].department+                  reqs["grad_reqs"][i]["reqs"][q].number;				%>
+                          <%		}																  %>
+                          <%	}																	  %>
+                          <%	if(notSatisfiedOf(classes,sub_classes)){                              %> 
+
+
+                          <!--redBox-->
+                          <span style='cursor:pointer' title="desc comming soon">
+                            <div class="alert alert-block alert-danger" alt="kekles">				
+                              <% var id = reqToClassId(class_data, reqs["grad_reqs"][i]); %>
+                              <a href="/class/<%= id %>">
+                                <div tabindex="0">
+                                  <div align="center">
+                                    <table>
+                                      <td cellpadding="2">
+                                        <i class="ace-icon fa fa-close red"></i>
+                                      </td><td cellpadding="2">
+                                        <div align="center">
+
+                                          <b>
+                                            <%=reqs["grad_reqs"][i].genName%>
+                                          </b>
+
+                                          <%for(var j=0; j<reqs["grad_reqs"][i]["reqs"].length ;j++){%>
+
+                                          <%if(reqs["grad_reqs"][i]["reqs"][j].type=="AND"){%>
+
+                                          <table width='100%'>
+                                            <td width='100%' bgcolor="#D99D9B"><div align="center">
+
+                                                <%for(var k=0; k<reqs["grad_reqs"][i]["reqs"][j]["reqs"].length; k++){%>
+
+                                                <%if(reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].type=="OR"){%>
+
+                                                <table width='100%'>
+
+                                                  <td width='100%' bgcolor="#C78987"><div align="center">
+
+
+                                                      <%for(var l=0; l<reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length; l++){%>
+
+
+                                                      <p class="red_box_text_smaller">
+                                                      <%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].number%>
+                                                      </p>
+                                                      <%if (l < reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length -1){%>
+                                                      <p> or </p>
+                                                      <%}%>
+
+
+                                                      <%}%>
+                                                    </div>
+                                                  </td>
+
+                                                </table>
+                                                <%}else{%>
+
+                                                <p class="red_box_text_small">
+                                                <%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].number%>
+                                                </p>
+                                                <%if (k< reqs["grad_reqs"][i]["reqs"][j]["reqs"].length -1){%>
+                                                <p> and </p>
+                                                <%}%>
+                                                <%}%>
+                                                <%}%>
+
+                                              </div>
+                                            </td>
+                                          </table>
+
+
+                                          <%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
+                                          <p> or </p>
+                                          <%}%>
+                                          <%}else{%>
+                                          <p class="red_box_text">
+                                          <%=reqs["grad_reqs"][i]["reqs"][j].department+reqs["grad_reqs"][i]["reqs"][j].number%>
+                                          </p>
+                                          <%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
+                                          <p> or </p>
+                                          <%}%>
+                                          <%}%>
+                                          <%}%>
+
+
+                                        </div>
+                                      </td>
+
+                                    </table>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </span>
+                          <!--endOfRedBox-->
+                          <%}%>
+                          <%}%>
+                          <%}%>	
+                        </div>
+
+                        <div class="col-md-3">
+                          <p class="level_disp">
+                          300 Level
+                          </p>
+
+                          <%for(var i=0; i<rows.length;i++){%>
+                          <%if(rows[i].number>299 && rows[i].number<400){%>
+
+
+                          <!--greenBox-->
+                          <span style='cursor:pointer' title="<%=rows[i].description%>">
+
+                            <div class="alert alert-block alert-success" alt="kekles">										
+                              <a href="/class/<%=rows[i].id%>">
+                                <div tabindex="0"> 
+                                  <div align="center">
+                                    <table>
+                                      <td cellpadding="2">
+                                        <i class="ace-icon fa fa-check green"></i>
+                                      </td><td cellpadding="2">
+
+                                        <p class="green_box_text">
+                                        <%=rows[i].department+rows[i].number + ' (' + rows[i].hours + ')' %>
+                                        </p>
+                                      </td>
+
+                                    </table>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </span>
+                          <!--endOfGreenBox-->
+                          <%}}%>
+                          <%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
+                          <%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number>299 && reqs["grad_reqs"][i].number<400 && notSatisfied(classes, reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
+                          <!--redBox-->
+                          <span style='cursor:pointer' title="desc comming soon">
+                            <div class="alert alert-block alert-danger" alt="kekles">										
+                              <% var id = reqToClassId(class_data, reqs["grad_reqs"][i]); %>
+                              <a href="/class/<%= id %>">
+                                <div tabindex="0">
+                                  <div align="center">
+                                    <table>
+                                      <td cellpadding="2">
+                                        <i class="ace-icon fa fa-close red"></i>
+                                      </td><td cellpadding="2">
+
+                                        <p class="red_box_text">
+                                        <%=reqs["grad_reqs"][i].department+reqs["grad_reqs"][i].number%>
+                                        </p>
+                                      </td>
+
+                                    </table>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </span>
+                          <!--endOfRedBox-->
+                          <%}%>
+                          <!-- CLASS OR level 400 -->
+                          <%if(reqs["grad_reqs"][i].type=="OR" && reqs["grad_reqs"][i].number==300){%>
+                          <%		var sub_classes = new Array();									  %>
+                          <% 		for(var q=0; q<reqs["grad_reqs"][i]["reqs"].length;q++){          %> 
+                          <%		if(reqs["grad_reqs"][i]["reqs"][q].type=="C"){         		      %> 
+                          <%			sub_classes[q]=reqs["grad_reqs"][i]["reqs"][q].department+                  reqs["grad_reqs"][i]["reqs"][q].number;				%>
+                          <%		}																  %>
+                          <%	}																	  %>
+                          <%	if(notSatisfiedOf(classes,sub_classes)){                              %> 
+
+
+                          <!--redBox-->
+                          <span style='cursor:pointer' title="desc comming soon">
+                            <div class="alert alert-block alert-danger" alt="kekles">				
+                              <a href="/class/<%=rows[i].id%>">
+                                <div tabindex="0"> 
+                                  <div align="center">
+                                    <table>
+                                      <td cellpadding="2">
+                                        <i class="ace-icon fa fa-close red"></i>
+                                      </td><td cellpadding="2">
+                                        <div align="center">
+
+                                          <b>
+                                            <%=reqs["grad_reqs"][i].genName%>
+                                          </b>
+
+                                          <%for(var j=0; j<reqs["grad_reqs"][i]["reqs"].length ;j++){%>
+
+                                          <%if(reqs["grad_reqs"][i]["reqs"][j].type=="AND"){%>
+
+                                          <table width='100%'>
+                                            <td width='100%' bgcolor="#D99D9B"><div align="center">
+
+                                                <%for(var k=0; k<reqs["grad_reqs"][i]["reqs"][j]["reqs"].length; k++){%>
+
+                                                <%if(reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].type=="OR"){%>
+
+                                                <table width='100%'>
+
+                                                  <td width='100%' bgcolor="#C78987"><div align="center">
+
+
+                                                      <%for(var l=0; l<reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length; l++){%>
+
+
+                                                      <p class="red_box_text_smaller">
+                                                      <%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].number%>
+                                                      </p>
+                                                      <%if (l < reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length -1){%>
+                                                      <p> or </p>
+                                                      <%}%>
+
+
+                                                      <%}%>
+                                                    </div>
+                                                  </td>
+
+                                                </table>
+                                                <%}else{%>
+
+                                                <p class="red_box_text_small">
+                                                <%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].number%>
+                                                </p>
+                                                <%if (k< reqs["grad_reqs"][i]["reqs"][j]["reqs"].length -1){%>
+                                                <p> and </p>
+                                                <%}%>
+                                                <%}%>
+                                                <%}%>
+
+                                              </div>
+                                            </td>
+                                          </table>
+
+
+                                          <%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
+                                          <p> or </p>
+                                          <%}%>
+                                          <%}else{%>
+                                          <p class="red_box_text">
+                                          <%=reqs["grad_reqs"][i]["reqs"][j].department+reqs["grad_reqs"][i]["reqs"][j].number%>
+                                          </p>
+                                          <%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
+                                          <p> or </p>
+                                          <%}%>
+                                          <%}%>
+                                          <%}%>
+
+
+                                        </div>
+                                      </td>
+
+                                    </table>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </span>
+                          <!--endOfRedBox-->
+                          <%}%>
+                          <%}%>
+                          <%}%>	
+                        </div>
+
+
+
+                        <div class="col-md-3">
+                          <p class="level_disp">
+                          400 Level
+                          </p>
+
+                          <%for(var i=0; i<rows.length;i++){%>
+                          <%if(rows[i].number>399){%>
+
+
+                          <!--greenBox-->
+                          <span style='cursor:pointer' title="<%=rows[i].description%>">
+
+                            <div class="alert alert-block alert-success" alt="kekles">										
+                              <a href="/class/<%=rows[i].id%>">
+                                <div tabindex="0">
+                                  <div align="center">
+                                    <table>
+                                      <td cellpadding="2">
+                                        <i class="ace-icon fa fa-check green"></i>
+                                      </td><td cellpadding="2">
+
+                                        <p class="green_box_text">
+                                        <%=rows[i].department+rows[i].number + ' (' + rows[i].hours + ')'%>
+                                        </p>
+                                      </td>
+
+                                    </table>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </span>
+                          <!--endOfGreenBox-->
+                          <%}}%>
+
+
+
+
+                          <%for(var i=0; i<reqs["grad_reqs"].length;i++){%>
+                          <%if(reqs["grad_reqs"][i].type=="C" && reqs["grad_reqs"][i].number>399 && notSatisfied(classes, reqs["grad_reqs"][i].department,reqs["grad_reqs"][i].number)){%>
+
+
+                          <!--redBox-->
+                          <span style='cursor:pointer' title="desc comming soon">
+                            <div class="alert alert-block alert-danger" alt="kekles">										
+                              <% var id = reqToClassId(class_data, reqs["grad_reqs"][i]); %>
+                              <a href="/class/<%= id %>">
+                                <div tabindex="0">
+                                  <div align="center">
+                                    <table>
+                                      <td cellpadding="2">
+                                        <i class="ace-icon fa fa-close red"></i>
+                                      </td><td cellpadding="2">
+
+                                        <p class="red_box_text">
+                                        <%=reqs["grad_reqs"][i].department+reqs["grad_reqs"][i].number%>
+                                        </p>
+                                      </td>
+
+                                    </table>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </span>
+                          <!--endOfRedBox-->
+
+
+
+
+                          <%}%>
+
+
+
+
+                          <!-- CLASS OR level 400 -->
+                          <%if(reqs["grad_reqs"][i].type=="OR" && reqs["grad_reqs"][i].number==400){%>
+                          <%		var sub_classes = new Array();									  %>
+                          <% 		for(var q=0; q<reqs["grad_reqs"][i]["reqs"].length;q++){          %> 
+                          <%		if(reqs["grad_reqs"][i]["reqs"][q].type=="C"){         		      %> 
+                          <%			sub_classes[q]=reqs["grad_reqs"][i]["reqs"][q].department+                  reqs["grad_reqs"][i]["reqs"][q].number;				%>
+                          <%		}																  %>
+                          <%	}																	  %>
+                          <%	if(notSatisfiedOf(classes,sub_classes)){                              %> 
+
+
+                          <!--redBox-->
+                          <span style='cursor:pointer' title="desc comming soon">
+                            <div class="alert alert-block alert-danger" alt="kekles">				
+                              <% var id = reqToClassId(class_data, reqs["grad_reqs"][i]); %>
+                              <a href="/class/<%= id %>">
+                                <div tabindex="0">
+                                  <div align="center">
+                                    <table>
+                                      <td cellpadding="2">
+                                        <i class="ace-icon fa fa-close red"></i>
+                                      </td><td cellpadding="2">
+                                        <div align="center">
+
+                                          <b>
+                                            <%=reqs["grad_reqs"][i].genName%>
+                                          </b>
+
+                                          <%for(var j=0; j<reqs["grad_reqs"][i]["reqs"].length ;j++){%>
+
+                                          <%if(reqs["grad_reqs"][i]["reqs"][j].type=="AND"){%>
+
+                                          <table width='100%'>
+                                            <td width='100%' bgcolor="#D99D9B"><div align="center">
+
+                                                <%for(var k=0; k<reqs["grad_reqs"][i]["reqs"][j]["reqs"].length; k++){%>
+
+                                                <%if(reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].type=="OR"){%>
+
+                                                <table width='100%'>
+
+                                                  <td width='100%' bgcolor="#C78987"><div align="center">
+
+
+                                                      <%for(var l=0; l<reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length; l++){%>
+
+
+                                                      <p class="red_box_text_smaller">
+                                                      <%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"][l].number%>
+                                                      </p>
+                                                      <%if (l < reqs["grad_reqs"][i]["reqs"][j]["reqs"][k]["reqs"].length -1){%>
+                                                      <p> or </p>
+                                                      <%}%>
+
+
+                                                      <%}%>
+                                                    </div>
+                                                  </td>
+
+                                                </table>
+                                                <%}else{%>
+
+                                                <p class="red_box_text_small">
+                                                <%=reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].department+reqs["grad_reqs"][i]["reqs"][j]["reqs"][k].number%>
+                                                </p>
+                                                <%if (k< reqs["grad_reqs"][i]["reqs"][j]["reqs"].length -1){%>
+                                                <p> and </p>
+                                                <%}%>
+                                                <%}%>
+                                                <%}%>
+
+                                              </div>
+                                            </td>
+                                          </table>
+
+
+                                          <%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
+                                          <p> or </p>
+                                          <%}%>
+                                          <%}else{%>
+                                          <p class="red_box_text">
+                                          <%=reqs["grad_reqs"][i]["reqs"][j].department+reqs["grad_reqs"][i]["reqs"][j].number%>
+                                          </p>
+                                          <%if (j< reqs["grad_reqs"][i]["reqs"].length -1){%>
+                                          <p> or </p>
+                                          <%}%>
+                                          <%}%>
+                                          <%}%>
+
+
+                                        </div>
+                                      </td>
+
+                                    </table>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          </span>
+                          <!--endOfRedBox-->
+                          <%}%>
+
+                          <%}%>
+
+
+
+
+                          <%}%>	
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2">
+                      <p class="filter">
+                      Filter:
+                      </p>
+                      <button class="btn btn-success">
+
+                        CS Classes
+                      </button>
+
+                      <button class="btn btn-info">
+                        Math Classes
+                      </button>
+
+                      <button class="btn btn-warning">
+                        Gen Eds
+                      </button>
+
+                      <button class="btn btn-danger">
+                        Unsatisfied
+                      </button>
+
+
+                    </div>
+
+                  </div>
+
+                </div>
+                <div align = 'center'>
+
+
+                </div>
+                </try{ace.settings.check('breadcrumbs'></script></div>
+                <br>
+                <div align="center">
+                  <font color='gray'>Green boxes are required classes that you already completed.</font> <br>
+
+                  <font color='gray'>Red boxes are required uncompleted classes.</font> <br>
+                  <font color='gray'>Blue boxes are additional non-required classes you've taken. </font><br>
+                  <font color='gray'>Yellow Boxes are what you are currently taking.</font>
+                </div>
+            </div>
+
+            </div><!-- /.main-content -->
+
+
+
+
+            <div class="footer">
+              <div class="footer-inner">
+                <div class="footer-content">
+                  <span class="bigger-120">
+                    <span class="blue bolder">Database Bros</span>
+                    Application 
+                  </span>
+
+                  &nbsp; &nbsp;
+                  <span class="action-buttons">
+                    <a href="#">
+                      <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+                    </a>
+
+                    <a href="#">
+                      <i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+                    </a>
+
+                    <a href="#">
+                      <i class="ace-icon fa fa-rss-square orange bigger-150"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+              <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+            </a>
+            </div><!-- /.main-container -->
+
+            <!-- basic scripts -->
+
+            <!--[if !IE]> -->
+            <script src="js/jquery.js"></script>
+
+            <!-- <![endif]-->
+
+            <!--[if IE]>
+              <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+              <![endif]-->
+
+              <!--[if !IE]> -->
+              <script type="text/javascript">
+window.jQuery || document.write("<script src='dist/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+  <script type="text/javascript">
+window.jQuery || document.write("<script src='dist/js/jquery1x.min.js'>"+"<"+"/script>");
 </script>
 <![endif]-->
-		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='dist/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-		</script>
-		<script src="js/bootstrap.js"></script>
+<script type="text/javascript">
+if('ontouchstart' in document.documentElement) document.write("<script src='dist/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="js/bootstrap.js"></script>
 
-		<!-- page specific plugin scripts -->
+<!-- page specific plugin scripts -->
 
-		<!--[if lte IE 8]>
-		  <script src="dist/js/excanvas.min.js"></script>
-		<![endif]-->
-		<script src="js/jquery-ui.js"></script>
-		<script src="js/jquery_005.js"></script>
-		<script src="js/jquery_004.js"></script>
-		<script src="js/jquery_002.js"></script>
-		<script src="js/jquery_006.js"></script>
-		<script src="js/jquery_003.js"></script>
-		<script src="js/jquery_007.js"></script>
+<!--[if lte IE 8]>
+  <script src="dist/js/excanvas.min.js"></script>
+  <![endif]-->
+  <script src="js/jquery-ui.js"></script>
+  <script src="js/jquery_005.js"></script>
+  <script src="js/jquery_004.js"></script>
+  <script src="js/jquery_002.js"></script>
+  <script src="js/jquery_006.js"></script>
+  <script src="js/jquery_003.js"></script>
+  <script src="js/jquery_007.js"></script>
 
-		<!-- ace scripts -->
-		<script src="js/ace-elements.js"></script>
-		<script src="js/ace.js"></script>
-		<script>
+  <!-- ace scripts -->
+  <script src="js/ace-elements.js"></script>
+  <script src="js/ace.js"></script>
 
-				var HttpClient = function() {
-				    this.get = function(aUrl, aCallback) {
-				        var anHttpRequest = new XMLHttpRequest();
-				        anHttpRequest.onreadystatechange = function() { 
-				            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-				                aCallback(anHttpRequest.responseText);
-				        }
-
-				        anHttpRequest.open( "GET", aUrl, true );            
-				        anHttpRequest.send( null );
-				    }
-				}
-
-
-				$("#AddClass").keyup(function(event){
-
-				  if(event.which == 13){
-				   	var id = $('#AddClass').val();
-					$.get( "/updateClass", {"action": "insert", "id": id}, function( data ) {
-      					alert("Sent ID: "+id+"Recieved: "+data);
-    				});
-
-				    }
-				});
-
-				$("#RemoveClass").keyup(function(event){
-				
-				  if(event.which == 13){
-				    	var id = $('#RemoveClass').val();
-						$.get( "/updateClass", {"action": "delete", "id": id}, function( data ) {
-	      					alert("Sent ID: "+id+"Recieved: "+data);
-	    				});
-				    }
-				});
-
-		</script>
-
-<div style="display: none;" class="tooltip top in"><div class="tooltip-inner"></div></div></body></html>
+  <div style="display: none;" class="tooltip top in"><div class="tooltip-inner"></div></div></body></html>

@@ -28,7 +28,7 @@ var loose = false;
 var countdown = false;
 
 var imageObj = new Image();
-imageObj.src = 'Calendar/Munchkins/images/Calandar.png';
+imageObj.src = '/Calendar/Munchkins/images/Calandar.png';
 
 
 
