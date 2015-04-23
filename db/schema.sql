@@ -29,8 +29,8 @@ CREATE TABLE `CRNLocation` (
   `name` varchar(45) DEFAULT NULL,
   `type` varchar(45) DEFAULT NULL,
   `location` varchar(45) DEFAULT NULL,
-  `beginTime` time(3) DEFAULT NULL,
-  `endTime` time(3) DEFAULT NULL,
+  `beginTime` time DEFAULT NULL,
+  `endTime` time DEFAULT NULL,
   `daysOfWeek` char(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
