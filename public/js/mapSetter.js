@@ -64,35 +64,53 @@ $(function() {
 function takenRecs(dept, num, classRecs, takenClasses){
 	for(var i =0; i<classRecs.length; i++){
 		if (classRecs[i].dep === dept && classRecs[i].num === num){
-			if(dept === "CS" && num==125){
-				console.log(classRecs[i]);
-			}
-			if(typeof classRecs[i].req === 'String'){
-				console.log("here");
+			if(typeof classRecs[i].req === 'string'){
 				if(classRecs[i].req === ""){
-					console.log("here");
 					return true;
 				}
-				return takenClass(classRecs[i].rec, takenClasses);
+				return takenClass(classRecs[i].req, takenClasses);
 			} else {
-				if(classRecs[i].req === ""){
-					console.log("here");
-					return true;
-				}
-				return recurseTakenRecs()
+				return recurseTakenRecs(classRecs[i].req, takenClasses)
 			}
 		}
 	}
 	return true;
 }
 
-function recurseTakenRecs(classReq, classes){
-	return true;
+function recurseTakenRecs(classReq, takenClasses){
+	
+	//and
+	if(classReq.operation === "*"){
+		var returner;
+		if(typeof classReq.term1 === 'string'){
+			returner = takenClass(classReq.term1, takenClasses)
+		} else {
+			returner = recurseTakenRecs(classReq.term1, takenClasses);
+		}
+		if(typeof classReq.term2 === 'string'){
+			return (takenClass(classReq.term2, takenClasses) && returner)
+		} else {
+			return (recurseTakenRecs(classReq.term2, takenClasses) && returner);
+		}
+	} else { 
+		//or
+		if(typeof classReq.term1 === 'string'){
+			returner = takenClass(classReq.term1, takenClasses)
+		} else {
+			returner = recurseTakenRecs(classReq.term1, takenClasses);
+		}
+		if(typeof classReq.term2 === 'string'){
+			return (takenClass(classReq.term2, takenClasses) || returner)
+		} else {
+			return (recurseTakenRecs(classReq.term2, takenClasses) || returner);
+		}
+
+	}
 }
 
 function takenClass(className, takenClasses){
 	for(var i =0; i<takenClasses.length; i++){
-		if (takenClasses[i] == className){
+		if (takenClasses[i] === className){
 			return true;
 		}
 	}
@@ -103,6 +121,8 @@ function chooseClassesToSchedule(data){
 	var classRecs = data["classRecs"];
 	var gradRecs = data["gradRecs"]["grad_reqs"];
 	var takenClasses = data["classes"];
+
+
 	var myClasses = []
 	for(var i = 0; i<gradRecs.length; i++){
 		if(gradRecs[i]["type"] === "C"){
@@ -117,56 +137,76 @@ function chooseClassesToSchedule(data){
 	}
 
 	classes = myClasses;
-	// [
-	// 	{"major":"cs", "num":210}, 
-	// 	{"major":"cs", "num":225}, 
-	// 	{"major":"cs", "num":411},
-	// 	{"major":"math", "num":241},
-	// 	{"major":"phys", "num":211},
-	// ];
 	scheduleClasses();
 }
 
 function recursiveCheckGrad(gradRec, myClasses, takenClasses, classRecs){
 	if(gradRec["type"] == "OR"){
+		var done = false;
 		for(var i = 0; i<gradRec["reqs"].length; i++){
-			if(recursiveCheckGrad(gradRec["reqs"][i], myClasses, takenClasses, classRecs)){
-				break;
-			}	
-		}
-	} else if(gradRec["type"] == "AND"){
-		for(var i = 0; i<gradRec["reqs"].length; i++){
-			recursiveCheckGrad(gradRec["reqs"][i], myClasses, takenClasses, classRecs);
-		}
-	} else if(gradRec["type"] == "C"){
-		return addGradReqIfPossible(gradRec, myClasses, takenClasses, classRecs);
+			var recGradVal = recursiveCheckGrad(gradRec["reqs"][i], myClasses, takenClasses, classRecs);
+			if( recGradVal== 2){
+				console.log(myClasses[myClasses.length-1]); //["major"] + " " + myClasses[myClasses.length-1]["num"])
+myClasses.splice(myClasses.length-1, 1);
+console.log(myClasses[myClasses.length-1]);
+}
+if(recGradVal == 1){
+	done = true;
+	break;
+}		
+}
+if(done){
+	console.log("ended early");
+	return 1;
+}
+else {
+	for(var i = 0; i<gradRec["reqs"].length; i++){
+		if(recursiveCheckGrad(gradRec["reqs"][i], myClasses, takenClasses, classRecs) == 2){
+			return 1;
+		}	
 	}
+}
+} else if(gradRec["type"] == "AND"){
+	var valid = true;
+	for(var i = 0; i<gradRec["reqs"].length; i++){
+		if(recursiveCheckGrad(gradRec["reqs"][i], myClasses, takenClasses, classRecs) == 0)
+			valid = false
+	}
+	if(valid)
+		return 1
+	return 0;
+} else if(gradRec["type"] == "C"){
+	return addGradReqIfPossible(gradRec, myClasses, takenClasses, classRecs);
+}
 }
 function addGradReqIfPossible(gradRec, myClasses, takenClasses, classRecs){
 	if(!takenClass(gradRec["department"]+gradRec["number"], takenClasses)) {
-		if(takenRecs(gradRec["department"], gradRec["number"], classRecs)){
+		if(takenRecs(gradRec["department"], gradRec["number"], classRecs, takenClasses)){
 			myClasses.push({"major":gradRec["department"], "num":gradRec["number"]});
-			return true;
+			return 2;
+		}else {
+			return 0;
 		}
 	}
-	return false
+	return 1;
 }
 
 function scheduleClasses(){
 
-	if(classes.length > 7){
-		classes.splice(7, classes.length);
-	}
-
-
 	for(var i = 0; i<classes.length; i++){
 		for(var j = i+1; j<classes.length; j++){
-			if(classes[i].num == classes[j].num && classes[j].major == classes[i].major){
+			if(classes[i].num == classes[j].num && classes[i].major == classes[j].major){
 				classes.splice(j, 1);
 				j--;
 			}
 		}
 	}
+
+	if(classes.length > 7){
+		classes.splice(7, classes.length);
+	}
+
+	
 
 	for(var i = 0; i<classes.length; i++){
 		$.ajax({
@@ -192,7 +232,6 @@ function scheduleClasses(){
 				if(data["start"] == null){
 					for(var j = 0; j<classes.length; j++){
 						if(classes[j].major == data["dept"] && classes[j].num == data["num"]){
-							console.log("here");
 							shouldGo = false;
 							noClass.push(classes[j]);
 							classes.splice(j, 1);
@@ -207,7 +246,6 @@ function scheduleClasses(){
 					if(typeof data[k]["end"] === 'undefined' || typeof data[k]["start"] == 'undefined'){
 						for(var j = 0; j<classes.length; j++){
 							if(classes[j].major == data[k]["dept"] && classes[j].num == data[k]["num"]){
-								console.log("here");
 								shouldGo = false;
 								noClass.push(classes[j]);
 								classes.splice(j, 1);
@@ -220,26 +258,22 @@ function scheduleClasses(){
 					}
 				}
 
-				console.log(data);
 				if(shouldGo && typeof data[0] !== 'undefined'){
 					aClass["dept"] = data[0].dept;
 					aClass["num"] = data[0].num;
 					aClass["options"] = data;
 
 					classOptions.push(aClass);
-				// console.log(data);
-				console.log("classOptionsLength: " + classOptions.length);
-				console.log("classesLength: " + classes.length);
 
-				if(classOptions.length == classes.length){
-					classesCollected();
+					if(classOptions.length == classes.length){
+						classesCollected();
+					}
 				}
-			}
 
-		},
-		error: function(status) {
-		}
-	});
+			},
+			error: function(status) {
+			}
+		});
 }
 }
 
@@ -298,7 +332,6 @@ function incrementOptionChoices(myArray, optionChoices){
 		} else {
 			return false;
 		}
-		console.log("in optionChoices");
 	}
 	return true;
 }
@@ -357,9 +390,10 @@ function initialize(optionChoices) {
 
 
 	for(var i = 0; i<classOptions.length; i++){
-		console.log(classOptions[i]["options"][optionChoices[i]]["building"]);
-		classLat = buildingGeocoding[classOptions[i]["options"][optionChoices[i]]["building"]]["lat"]
-		classLong = buildingGeocoding[classOptions[i]["options"][optionChoices[i]]["building"]]["long"]
+		var myOption = classOptions[i]["options"][optionChoices[i]];
+		classLat = buildingGeocoding[myOption["building"]]["lat"]
+		classLong = buildingGeocoding[myOption["building"]]["long"]
+
 		var bs = new google.maps.LatLng(classLat, classLong);
 		markerBounds.extend(bs);
 		var marker = new google.maps.Marker({
@@ -367,6 +401,11 @@ function initialize(optionChoices) {
 			map: map,
 			title: 'Hello World!'
 		});
+		$('#class-table-body').append("<tr><td>"+ myOption["dept"] + myOption["num"] + "</td><td>" + myOption["crn"] + "</td><td>" + myOption["start"] + "</td><td>" + myOption["end"] + "</td><td>" + myOption["building"] + "</td><td>" + myOption["days"] + "</td></tr>");
+	}
+
+	for(var i = 0; i<noClass.length; i++){
+		$('#class-table-body').append("<tr><td>"+ noClass[i]["major"] + noClass[i]["num"] + "</td></tr>");
 	}
 	map.fitBounds(markerBounds);
 }

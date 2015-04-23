@@ -97,10 +97,23 @@
 		]
 	},
 	{
-		"type":"C", 
-		"department":"MATH",
-		"number":221
-	},
+		"type":"OR",
+		"genName":"lower calc",
+		"number":200, 
+		"reqs":[
+			{
+				"type":"C", 
+				"department":"MATH",
+				"number":221
+			},
+			{
+				"type":"C", 
+				"department":"MATH",
+				"number":220
+			}
+			]
+		},
+	
 	{
 		"type":"C", 
 		"department":"MATH",
@@ -155,9 +168,21 @@
 		"number":225
 	},
 	{
-		"type":"C", 
+		"type":"OR", 
 		"department":"CS",
-		"number":233
+		"number":200,
+		"reqs":[
+		{
+			"type":"C", 
+			"department":"CS",
+			"number":233
+		},
+		{
+			"type":"C", 
+			"department":"CS",
+			"number":398
+		}
+		]
 	},
 	{
 		"type":"C", 

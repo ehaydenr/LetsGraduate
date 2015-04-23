@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta charset="utf-8">
-    <title>Councillor - DatabaseBros</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta charset="utf-8">
+<title>Councillor - DatabaseBros</title>
 
-    <meta name="description" content="overview &amp; stats">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="description" content="overview &amp; stats">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-    <!-- bootstrap & fontawesome -->
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <link rel="stylesheet" href="/css/font-awesome.css">
-    <link rel="stylesheet" href="/css/style.css">
+<!-- bootstrap & fontawesome -->
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/font-awesome.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/mapPage.css">
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
-    <script src="/js/councillor.js"></script>
-    <!-- page specific plugin styles -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+<script src="/js/councillor.js"></script>
+<!-- page specific plugin styles -->
 
-    <!-- text fonts -->
-    <link rel="stylesheet" href="/css/css.css">
+<!-- text fonts -->
+<link rel="stylesheet" href="/css/css.css">
 
-    <!-- ace styles -->
-    <link rel="stylesheet" href="/css/ace.css" class="ace-main-stylesheet" id="main-ace-style">
+<!-- ace styles -->
+<link rel="stylesheet" href="/css/ace.css" class="ace-main-stylesheet" id="main-ace-style">
 
 
     <!--[if lte IE 9]>
@@ -52,331 +53,351 @@
           <script src='/Calendar/Munchkins/js/GameLoopManager.js'></script>
           <script src='/Calendar/Munchkins/code.js'></script>
 
-  </head>
+        </head>
 
-  <body class="no-skin">
-    <div id="navbar" class="navbar navbar-default">
-      <script type="text/javascript">
-try{ace.settings.check('navbar' , 'fixed')}catch(e){}
-      </script>
-
-      <div class="navbar-container" id="navbar-container">
-
-        <div class="navbar-header pull-left">
-          <a href="#" class="navbar-brand">
-            <small>
-              <i class="fa fa-leaf"></i>
-              Lets Graduate
-            </small>
-          </a>
-        </div>
-
-        <div class="navbar-buttons navbar-header pull-right" role="navigation">
-          <ul class="nav ace-nav">
-
-
-            <li class="light-blue">
-              <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                <img class="nav-user-photo" src="<%= google.picture %>" alt="<%= google.given_name %>'s Photo">
-                <span class="user-info">
-                  <small>Welcome,</small>
-                  <%= google.given_name %>
-                </span>
-
-                <i class="ace-icon fa fa-caret-down"></i>
-              </a>
-
-              <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-                <li>
-                  <a href="/Overview">
-                    <i class="ace-icon fa fa-user"></i>
-                    Overview
-                  </a>
-                </li>
-
-                <li class="divider"></li>
-
-                <li>
-                  <a href="/logout">
-                    <i class="ace-icon fa fa-power-off"></i>
-                    Logout
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div><!-- /.navbar-container -->
-    </div>
-
-    <div class="main-container" id="main-container">
-      <script type="text/javascript">
-try{ace.settings.check('main-container' , 'fixed')}catch(e){}
-      </script>
-
-      <div data-sidebar-hover="true" data-sidebar-scroll="true" data-sidebar="true" id="sidebar" class="sidebar                  responsive">
-        <script type="text/javascript">
-try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
-        </script>
-
-        <div class="sidebar-shortcuts" id="sidebar-shortcuts">
-          <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-            <div align="center">
-              <img class="major_icon" src="/images/cs_icon.jpg"/><br>
-              <p class="major_title">
-              Computer Science
-              </p>
-            </div>
-          </div>
-
-          <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-            <span class="btn btn-success"></span>
-
-            <span class="btn btn-info"></span>
-
-            <span class="btn btn-warning"></span>
-
-            <span class="btn btn-danger"></span>
-          </div>
-        </div><!-- /.sidebar-shortcuts -->
-
-        <ul style="top: 0px;" class="nav nav-list">
-          <li class="">
-            <a href="/overview">
-              <i class="menu-icon fa fa-desktop"></i>
-              <span class="menu-text"> Overview </span>
-            </a>
-
-            <b class="arrow"></b>
-          </li>
-
-          <li class="active">
-            <a href="#" class="dropdown-toggle">
-              <i class="menu-icon fa fa-calendar"></i>
-              <span class="menu-text">
-                Councillor
-              </span>
-
-              <b class="arrow fa fa-angle-down"></b>
-            </a>
-
-            <b class="arrow"></b>
-
-            <ul style="display: block;" class="submenu nav-show">
-
-              <li class="active">
-                <a href="/Councillor">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Plan Next Semester
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="/map">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Map
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="/class/1">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Class Catologue
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-
-              <b class="arrow"></b>
-
-
-          </li>
-            </ul>
-            </li>
-
-        </ul><!-- /.nav-list -->
-
-        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-          <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-        </div>
-
-        <script type="text/javascript">
-try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
-        </script>
-      </div>
-
-      <div class="main-content">
-        <div class="main-content-inner" style="margin-bottom: 100px;">
-          <div class="breadcrumbs" id="breadcrumbs">
+        <body class="no-skin">
+          <div id="navbar" class="navbar navbar-default">
             <script type="text/javascript">
-try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+              try{ace.settings.check('navbar' , 'fixed')}catch(e){}
             </script>
 
-            <ul class="breadcrumb">
-              <li>
-                <i class="ace-icon fa fa-home home-icon"></i>
-                <a href="#">Home</a>
-              </li>
-              <li class="active">Councillor</li>
-              <li class="active">Plan Next Semester</li>
-            </ul><!-- /.breadcrumb -->
+            <div class="navbar-container" id="navbar-container">
 
-            <div class="nav-search" id="nav-search">
-              <form class="form-search">
-                <span class="input-icon">
-                  <input placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text">
-                  <i class="ace-icon fa fa-search nav-search-icon"></i>
-                </span>
-              </form>
-            </div><!-- /.nav-search -->
-          </div>
-
-          <div class="page-content">
-            <div class="ace-settings-container" id="ace-settings-container">
-              <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
-                <i class="ace-icon fa fa-cog bigger-130"></i>
+              <div class="navbar-header pull-left">
+                <a href="#" class="navbar-brand">
+                  <small>
+                    <i class="fa fa-leaf"></i>
+                    Lets Graduate
+                  </small>
+                </a>
               </div>
 
-              <div class="ace-settings-box clearfix" id="ace-settings-box">
-                <div class="pull-left width-50">
-                  <div class="ace-settings-item">
-                    <div class="pull-left">
-                      <select id="skin-colorpicker" class="hide">
-                        <option selected="selected" data-skin="no-skin" value="#438EB9">#438EB9</option>
-                        <option data-skin="skin-1" value="#222A2D">#222A2D</option>
-                        <option data-skin="skin-2" value="#C6487E">#C6487E</option>
-                        <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
-                      </select><div class="dropdown dropdown-colorpicker">		<a data-toggle="dropdown" class="dropdown-toggle" href="#"><span class="btn-colorpicker" style="background-color:#438EB9"></span></a><ul class="dropdown-menu dropdown-caret"><li><a class="colorpick-btn selected" href="#" style="background-color:#438EB9;" data-color="#438EB9"></a></li><li><a class="colorpick-btn" href="#" style="background-color:#222A2D;" data-color="#222A2D"></a></li><li><a class="colorpick-btn" href="#" style="background-color:#C6487E;" data-color="#C6487E"></a></li><li><a class="colorpick-btn" href="#" style="background-color:#D0D0D0;" data-color="#D0D0D0"></a></li></ul></div>
+              <div class="navbar-buttons navbar-header pull-right" role="navigation">
+                <ul class="nav ace-nav">
+
+
+                  <li class="light-blue">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                      <img class="nav-user-photo" src="<%= google.picture %>" alt="<%= google.given_name %>'s Photo">
+                      <span class="user-info">
+                        <small>Welcome,</small>
+                        <%= google.given_name %>
+                      </span>
+
+                      <i class="ace-icon fa fa-caret-down"></i>
+                    </a>
+
+                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                      <li>
+                        <a href="/Overview">
+                          <i class="ace-icon fa fa-user"></i>
+                          Overview
+                        </a>
+                      </li>
+
+                      <li class="divider"></li>
+
+                      <li>
+                        <a href="/logout">
+                          <i class="ace-icon fa fa-power-off"></i>
+                          Logout
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div><!-- /.navbar-container -->
+          </div>
+
+          <div class="main-container" id="main-container">
+            <script type="text/javascript">
+              try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+            </script>
+
+            <div data-sidebar-hover="true" data-sidebar-scroll="true" data-sidebar="true" id="sidebar" class="sidebar                  responsive">
+              <script type="text/javascript">
+                try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+              </script>
+
+              <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+                <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                  <div align="center">
+                    <img class="major_icon" src="/images/cs_icon.jpg"/><br>
+                    <p class="major_title">
+                      Computer Science
+                    </p>
+                  </div>
+                </div>
+
+                <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                  <span class="btn btn-success"></span>
+
+                  <span class="btn btn-info"></span>
+
+                  <span class="btn btn-warning"></span>
+
+                  <span class="btn btn-danger"></span>
+                </div>
+              </div><!-- /.sidebar-shortcuts -->
+
+              <ul style="top: 0px;" class="nav nav-list">
+                <li class="">
+                  <a href="/overview">
+                    <i class="menu-icon fa fa-desktop"></i>
+                    <span class="menu-text"> Overview </span>
+                  </a>
+
+                  <b class="arrow"></b>
+                </li>
+
+                <li class="active">
+                  <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-calendar"></i>
+                    <span class="menu-text">
+                      Councillor
+                    </span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                  </a>
+
+                  <b class="arrow"></b>
+
+                  <ul style="display: block;" class="submenu nav-show">
+
+                    <li class="active">
+                      <a href="/Councillor">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Plan Next Semester
+                      </a>
+
+                      <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                      <a href="/map">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Map
+                      </a>
+
+                      <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                      <a href="/class/1">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Class Catologue
+                      </a>
+
+                      <b class="arrow"></b>
+                    </li>
+
+
+                    <b class="arrow"></b>
+
+
+                  </li>
+                </ul>
+              </li>
+
+            </ul><!-- /.nav-list -->
+
+            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+              <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+            </div>
+
+            <script type="text/javascript">
+              try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+            </script>
+          </div>
+
+          <div class="main-content">
+            <div class="main-content-inner" style="margin-bottom: 100px;">
+              <div class="breadcrumbs" id="breadcrumbs">
+                <script type="text/javascript">
+                  try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+                </script>
+
+                <ul class="breadcrumb">
+                  <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">Home</a>
+                  </li>
+                  <li class="active">Councillor</li>
+                  <li class="active">Plan Next Semester</li>
+                </ul><!-- /.breadcrumb -->
+
+                <div class="nav-search" id="nav-search">
+                  <form class="form-search">
+                    <span class="input-icon">
+                      <input placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" type="text">
+                      <i class="ace-icon fa fa-search nav-search-icon"></i>
+                    </span>
+                  </form>
+                </div><!-- /.nav-search -->
+              </div>
+
+              <div class="page-content">
+                <div class="ace-settings-container" id="ace-settings-container">
+                  <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+                    <i class="ace-icon fa fa-cog bigger-130"></i>
+                  </div>
+
+                  <div class="ace-settings-box clearfix" id="ace-settings-box">
+                    <div class="pull-left width-50">
+                      <div class="ace-settings-item">
+                        <div class="pull-left">
+                          <select id="skin-colorpicker" class="hide">
+                            <option selected="selected" data-skin="no-skin" value="#438EB9">#438EB9</option>
+                            <option data-skin="skin-1" value="#222A2D">#222A2D</option>
+                            <option data-skin="skin-2" value="#C6487E">#C6487E</option>
+                            <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+                          </select><div class="dropdown dropdown-colorpicker">		<a data-toggle="dropdown" class="dropdown-toggle" href="#"><span class="btn-colorpicker" style="background-color:#438EB9"></span></a><ul class="dropdown-menu dropdown-caret"><li><a class="colorpick-btn selected" href="#" style="background-color:#438EB9;" data-color="#438EB9"></a></li><li><a class="colorpick-btn" href="#" style="background-color:#222A2D;" data-color="#222A2D"></a></li><li><a class="colorpick-btn" href="#" style="background-color:#C6487E;" data-color="#C6487E"></a></li><li><a class="colorpick-btn" href="#" style="background-color:#D0D0D0;" data-color="#D0D0D0"></a></li></ul></div>
+                        </div>
+                        <span>&nbsp; Choose Skin</span>
+                      </div>
+
+                      <div class="ace-settings-item">
+                        <input class="ace ace-checkbox-2" id="ace-settings-navbar" type="checkbox">
+                        <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+                      </div>
+
+                      <div class="ace-settings-item">
+                        <input class="ace ace-checkbox-2" id="ace-settings-sidebar" type="checkbox">
+                        <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+                      </div>
+
+                      <div class="ace-settings-item">
+                        <input class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" type="checkbox">
+                        <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+                      </div>
+
+                      <div class="ace-settings-item">
+                        <input class="ace ace-checkbox-2" id="ace-settings-rtl" type="checkbox">
+                        <label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+                      </div>
+
+                      <div class="ace-settings-item">
+                        <input class="ace ace-checkbox-2" id="ace-settings-add-container" type="checkbox">
+                        <label class="lbl" for="ace-settings-add-container">
+                          Inside
+                          <b>.container</b>
+                        </label>
+                      </div>
+                    </div><!-- /.pull-left -->
+
+                    <div class="pull-left width-50">
+                      <div class="ace-settings-item">
+                        <input class="ace ace-checkbox-2" id="ace-settings-hover" type="checkbox">
+                        <label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
+                      </div>
+
+                      <div class="ace-settings-item">
+                        <input class="ace ace-checkbox-2" id="ace-settings-compact" type="checkbox">
+                        <label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
+                      </div>
+
+                      <div class="ace-settings-item">
+                        <input class="ace ace-checkbox-2" id="ace-settings-highlight" type="checkbox">
+                        <label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
+                      </div>
+                    </div><!-- /.pull-left -->
+                  </div><!-- /.ace-settings-box -->
+                </div><!-- /.ace-settings-container -->
+
+                <div class="page-header">
+                  <h1>
+                    Councillor
+                    <small>
+                      <i class="ace-icon fa fa-angle-double-right"></i>
+                      Plan &amp; Next &amp; Semester
+                    </small>
+                  </h1>
+                </div><!-- /.page-header -->
+
+
+                <!-- CONTENT GOES HERE -->
+              </div>
+
+              <div style="margin-left: 25px;margin-right:25;">
+                <h1 style="text-align:center">Look Where Your Classes Are</h1>
+                <div class="page-header">
+                  &nbsp;
+                </div>
+
+                <br>
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-md-5">
+                      <div style=" border:0; width:400px; height:400px;" align="center" width="600" height="450" frameborder="0" id="map-canvas"></div>
                     </div>
-                    <span>&nbsp; Choose Skin</span>
+                    <div class="col-md-7">
+                     <table class="table-striped">
+                      <thead>
+                        <tr>
+                          <th>Class Name</th>
+                          <th>CRN</th>
+                          <th>Start</th>
+                          <th>End</th>
+                          <th>building</th>
+                          <th>days</th>
+                        </tr>
+                      </thead>
+                      <tbody id="class-table-body">
+                      </tbody>
+                    </table>
                   </div>
-
-                  <div class="ace-settings-item">
-                    <input class="ace ace-checkbox-2" id="ace-settings-navbar" type="checkbox">
-                    <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
-                  </div>
-
-                  <div class="ace-settings-item">
-                    <input class="ace ace-checkbox-2" id="ace-settings-sidebar" type="checkbox">
-                    <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
-                  </div>
-
-                  <div class="ace-settings-item">
-                    <input class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" type="checkbox">
-                    <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
-                  </div>
-
-                  <div class="ace-settings-item">
-                    <input class="ace ace-checkbox-2" id="ace-settings-rtl" type="checkbox">
-                    <label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
-                  </div>
-
-                  <div class="ace-settings-item">
-                    <input class="ace ace-checkbox-2" id="ace-settings-add-container" type="checkbox">
-                    <label class="lbl" for="ace-settings-add-container">
-                      Inside
-                      <b>.container</b>
-                    </label>
-                  </div>
-                </div><!-- /.pull-left -->
-
-                <div class="pull-left width-50">
-                  <div class="ace-settings-item">
-                    <input class="ace ace-checkbox-2" id="ace-settings-hover" type="checkbox">
-                    <label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
-                  </div>
-
-                  <div class="ace-settings-item">
-                    <input class="ace ace-checkbox-2" id="ace-settings-compact" type="checkbox">
-                    <label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
-                  </div>
-
-                  <div class="ace-settings-item">
-                    <input class="ace ace-checkbox-2" id="ace-settings-highlight" type="checkbox">
-                    <label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
-                  </div>
-                </div><!-- /.pull-left -->
-              </div><!-- /.ace-settings-box -->
-            </div><!-- /.ace-settings-container -->
-
-            <div class="page-header">
-              <h1>
-                Councillor
-                <small>
-                  <i class="ace-icon fa fa-angle-double-right"></i>
-                  Plan &amp; Next &amp; Semester
-                </small>
-              </h1>
-            </div><!-- /.page-header -->
-
-
-            <!-- CONTENT GOES HERE -->
-          </div>
-
-          <div style="margin-left: 25px;margin-right:25;">
-            <h1 style="text-align:center">Look Where Your Classes Are</h1>
-            <div class="page-header">
-              &nbsp;
+                </div>
+              </div>
+              <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYeefXRwd0FMD6gp16jl824mTKQZ2dFL4"></script>
             </div>
 
-            <br>
+          </div><!-- /.main-content -->
 
-	    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYeefXRwd0FMD6gp16jl824mTKQZ2dFL4"></script>
-	    <div style="margin-top:150px; border:0; width:500px; height:500px;" align="center" width="600" height="450" frameborder="0" id="map-canvas"></div>
+          <div class="footer">
+            <div class="footer-inner">
+              <div class="footer-content">
+                <span class="bigger-120">
+                  <span class="blue bolder">Database Bros</span>
+                  Application 
+                </span>
 
-          </div>
+                &nbsp; &nbsp;
+                <span class="action-buttons">
+                  <a href="#">
+                    <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+                  </a>
 
-        </div><!-- /.main-content -->
+                  <a href="#">
+                    <i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+                  </a>
 
-        <div class="footer">
-          <div class="footer-inner">
-            <div class="footer-content">
-              <span class="bigger-120">
-                <span class="blue bolder">Database Bros</span>
-                Application 
-              </span>
-
-              &nbsp; &nbsp;
-              <span class="action-buttons">
-                <a href="#">
-                  <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
-                </a>
-
-                <a href="#">
-                  <i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
-                </a>
-
-                <a href="#">
-                  <i class="ace-icon fa fa-rss-square orange bigger-150"></i>
-                </a>
-              </span>
+                  <a href="#">
+                    <i class="ace-icon fa fa-rss-square orange bigger-150"></i>
+                  </a>
+                </span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-          <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-        </a>
-      </div><!-- /.main-container -->
+          <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+            <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+          </a>
+        </div><!-- /.main-container -->
 
-      <!-- basic scripts -->
+        <!-- basic scripts -->
 
-      <script src="/js/bootstrap.js"></script>
+        <script src="/js/bootstrap.js"></script>
 
-      <!-- page specific plugin scripts -->
+        <!-- page specific plugin scripts -->
 
-      <!-- ace scripts -->
-      <script src="/js/ace-elements.js"></script>
-      <script src="/js/ace.js"></script>
+        <!-- ace scripts -->
+        <script src="/js/ace-elements.js"></script>
+        <script src="/js/ace.js"></script>
 
-      <!-- map scripts-->
-      <script src="/js/mapSetter.js"></script>
-
+        <!-- map scripts-->
+        <script src="/js/mapSetter.js"></script>
 
 
-      <div style="display: none;" class="tooltip top in"><div class="tooltip-inner"></div></div></body></html>
+
+        <div style="display: none;" class="tooltip top in"><div class="tooltip-inner"></div></div></body></html>
