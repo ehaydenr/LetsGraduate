@@ -148,6 +148,18 @@ router.get('/dave/:dept/:num', function(req, res){
 
 });
 
+router.get('/prospective', function(req, res){
+  var query = 'SELECT DISTINCT beginTime as start, endTime as end, daysOfWeek as days, crn, location as building, department as dept, number as num FROM CRNLocation, Class, UserClass WHERE CRNLocation.class_id = Class.id AND UserClass.class_id = Class.id AND CRNLocation.type = \'Lecture\' AND UserClass.type = \'prospective\';';
+  connection.query(query, [req.params.dept, req.params.num], function(err, rows, fields){
+    if(err){
+      console.log(err);
+      res.send(500);
+      return;
+    }
+    res.send(rows);
+  });
+});
+
 
 //Begining of Webpage rendering
 
@@ -189,7 +201,7 @@ router.get('/councillor', function (req, res) {
 });
 
 router.get('/map', function (req, res) {
-  res.render('Webpages/map', {"google": req.user.google});
+  res.render('WebPages/map', {"google": req.user.google});
 });
 
 //End of WebPage rendering
