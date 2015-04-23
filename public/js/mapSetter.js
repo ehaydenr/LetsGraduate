@@ -146,38 +146,38 @@ function recursiveCheckGrad(gradRec, myClasses, takenClasses, classRecs){
 		for(var i = 0; i<gradRec["reqs"].length; i++){
 			var recGradVal = recursiveCheckGrad(gradRec["reqs"][i], myClasses, takenClasses, classRecs);
 			if( recGradVal== 2){
-				console.log(myClasses[myClasses.length-1]); //["major"] + " " + myClasses[myClasses.length-1]["num"])
-myClasses.splice(myClasses.length-1, 1);
-console.log(myClasses[myClasses.length-1]);
-}
-if(recGradVal == 1){
-	done = true;
-	break;
-}		
-}
-if(done){
-	console.log("ended early");
-	return 1;
-}
-else {
-	for(var i = 0; i<gradRec["reqs"].length; i++){
-		if(recursiveCheckGrad(gradRec["reqs"][i], myClasses, takenClasses, classRecs) == 2){
+				console.log(myClasses[myClasses.length-1]);
+				myClasses.splice(myClasses.length-1, 1);
+				console.log(myClasses[myClasses.length-1]);
+			}
+			if(recGradVal == 1){
+				done = true;
+				break;
+			}		
+		}
+		if(done){
+			console.log("ended early");
 			return 1;
-		}	
+		}
+		else {
+			for(var i = 0; i<gradRec["reqs"].length; i++){
+				if(recursiveCheckGrad(gradRec["reqs"][i], myClasses, takenClasses, classRecs) == 2){
+					return 1;
+				}	
+			}
+		}
+	} else if(gradRec["type"] == "AND"){
+		var valid = true;
+		for(var i = 0; i<gradRec["reqs"].length; i++){
+			if(recursiveCheckGrad(gradRec["reqs"][i], myClasses, takenClasses, classRecs) == 0)
+				valid = false
+		}
+		if(valid)
+			return 1
+		return 0;
+	} else if(gradRec["type"] == "C"){
+		return addGradReqIfPossible(gradRec, myClasses, takenClasses, classRecs);
 	}
-}
-} else if(gradRec["type"] == "AND"){
-	var valid = true;
-	for(var i = 0; i<gradRec["reqs"].length; i++){
-		if(recursiveCheckGrad(gradRec["reqs"][i], myClasses, takenClasses, classRecs) == 0)
-			valid = false
-	}
-	if(valid)
-		return 1
-	return 0;
-} else if(gradRec["type"] == "C"){
-	return addGradReqIfPossible(gradRec, myClasses, takenClasses, classRecs);
-}
 }
 function addGradReqIfPossible(gradRec, myClasses, takenClasses, classRecs){
 	if(!takenClass(gradRec["department"]+gradRec["number"], takenClasses)) {
@@ -229,30 +229,39 @@ function scheduleClasses(){
 						}
 					}
 				}
-				if(data["start"] == null){
-					for(var j = 0; j<classes.length; j++){
-						if(classes[j].major == data["dept"] && classes[j].num == data["num"]){
-							shouldGo = false;
-							noClass.push(classes[j]);
-							classes.splice(j, 1);
-							if(classOptions.length == classes.length){
-								classesCollected();
-							}
-							return;
-						}
-					}
-				}
+				// if(data["start"] == null){
+				// 	for(var j = 0; j<classes.length; j++){
+				// 		if(classes[j].major == data["dept"] && classes[j].num == data["num"]){
+				// 			shouldGo = false;
+				// 			noClass.push(classes[j]);
+				// 			classes.splice(j, 1);
+				// 			if(classOptions.length == classes.length){
+				// 				classesCollected();
+				// 			}
+				// 			return;
+				// 		}
+				// 	}
+				// }
 				for(var k = 0; k<data.length; k++){
 					if(typeof data[k]["end"] === 'undefined' || typeof data[k]["start"] == 'undefined'){
 						for(var j = 0; j<classes.length; j++){
 							if(classes[j].major == data[k]["dept"] && classes[j].num == data[k]["num"]){
-								shouldGo = false;
-								noClass.push(classes[j]);
-								classes.splice(j, 1);
-								if(classOptions.length == classes.length){
-									classesCollected();
+								if(classes[j].major == "CHEM"){
+									console.log("chembreak");
+									console.log(data);
 								}
-								return;
+								data.splice(k, 1);
+								
+								if(data.length <= 0){
+									shouldGo = false;
+									noClass.push(classes[j]);
+									var temp = classes.splice(j, 1);
+									if(classOptions.length == classes.length){
+										classesCollected();
+									}
+									return;
+								}
+								
 							}
 						}
 					}
